@@ -10,8 +10,15 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="bg-pattern"></div>
-    <div class="grid-bg"></div>
+    <canvas id="particles"></canvas>
+    <div class="floating-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+        <div class="shape shape-4"></div>
+        <div class="shape shape-5"></div>
+        <div class="shape shape-6"></div>
+    </div>
     <nav class="navbar">
         <div class="nav-container">
             <a href="#home" class="nav-brand">
@@ -34,7 +41,7 @@
         <div class="hero-content">
             <div class="hero-badge"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0L10 6L16 8L10 10L8 16L6 10L0 8L6 6Z"/></svg>V1.0 正式发布</div>
             <h1>开悟个体增智智能办公套件</h1>
-            <p class="hero-subtitle">面向 Windows 7 办公环境的下一代智能办公解决方案</p>
+            <p class="hero-subtitle">面向 Windows 7 办公环境的下一代<span class="typewriter" id="typewriter">智能办公解决方案</span></p>
             <p class="hero-desc">整合 AionUI、Hermes Desktop、OpenCode、WPS 插件、本地搜索、OCR、知识库和思维导图等工具，打造可离线交付、一键安装的智能办公套件。</p>
             <div class="hero-stats">
                 <div class="stat-item"><div class="stat-value"><span class="stat-number" data-target="15">0</span><span class="stat-suffix">+</span></div><span class="stat-label">组件工具</span></div>
@@ -55,8 +62,8 @@
                 <h2 class="section-title">六大智能办公功能</h2>
                 <p class="section-desc">全面覆盖办公场景，让 AI 成为你的得力助手</p>
             </div>
-            <div class="features-grid">
-                <div class="feature-card">
+<div class="features-grid">
+                <div class="feature-card scroll-reveal">
                     <div class="feature-icon purple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg></div>
                     <h3>WPS 智能写作</h3>
                     <p>AI 辅助写作，让文档创作更高效</p>
