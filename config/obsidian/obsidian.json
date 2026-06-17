@@ -1,0 +1,22 @@
+{
+  "obsidian": {
+    "version": "1.4.16",
+    "vault_path": "%USERPROFILE%\\Documents\\KaiwuVault",
+    "vault_name": "KaiwuVault",
+    "folders": [
+      "00_Inbox",
+      "01_项目资料",
+      "02_会议纪要",
+      "03_OCR识别",
+      "04_个人知识",
+      "05_模板库",
+      "99_归档"
+    ],
+    "log_path": "logs\\obsidian.log",
+    "auto_start": false,
+    "templates": {
+      "path": "05_模板库",
+      "auto_apply": false
+    }
+  }
+}

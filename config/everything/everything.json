@@ -1,0 +1,16 @@
+{
+  "everything": {
+    "version": "1.4.1.1024",
+    "service_name": "Everything",
+    "service_port": 10900,
+    "index_path": "C:\\ProgramData\\Everything",
+    "log_path": "logs\\everything.log",
+    "auto_start": true,
+    "search_defaults": {
+      "max_results": 1000,
+      "case_sensitive": false,
+      "match_path": false,
+      "regex": false
+    }
+  }
+}

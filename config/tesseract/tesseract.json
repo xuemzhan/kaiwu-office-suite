@@ -1,0 +1,15 @@
+{
+  "tesseract": {
+    "version": "5.3.1",
+    "install_path": "C:\\Program Files\\Tesseract-OCR",
+    "tessdata_path": "C:\\Program Files\\Tesseract-OCR\\tessdata",
+    "languages": ["chi_sim", "eng"],
+    "default_language": "chi_sim+eng",
+    "log_path": "logs\\tesseract.log",
+    "output_formats": ["txt", "md", "json"],
+    "ocr_settings": {
+      "page_segmentation_mode": 3,
+      "ocr_engine_mode": 3
+    }
+  }
+}

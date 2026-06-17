@@ -1,0 +1,19 @@
+{
+  "hermes": {
+    "version": "Win7验证版",
+    "name": "Hermes Desktop",
+    "description": "Agent底座",
+    "log_path": "logs\\hermes.log",
+    "settings": {
+      "auto_start": true,
+      "enable_plugins": true,
+      "plugin_path": "plugins"
+    },
+    "features": [
+      "插件管理",
+      "配置管理",
+      "日志管理",
+      "工具集成"
+    ]
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "opencode": {
+    "version": "内网版",
+    "name": "OpenCode",
+    "description": "Agent能力",
+    "log_path": "logs\\opencode.log",
+    "settings": {
+      "auto_start": true,
+      "enable_local_tools": true,
+      "tool_registry_path": "scripts/integration/tool_registry.json"
+    },
+    "features": [
+      "本地脚本辅助",
+      "配置检查",
+      "简单代码生成",
+      "日志分析",
+      "安装异常诊断",
+      "插件调用示例生成"
+    ],
+    "permissions": {
+      "file_access": true,
+      "network_access": false,
+      "admin_required": false
+    }
+  }
+}

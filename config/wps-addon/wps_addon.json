@@ -1,0 +1,23 @@
+{
+  "wps_addon": {
+    "version": "内部版",
+    "name": "开悟插件",
+    "description": "WPS智能办公插件",
+    "log_path": "logs\\wps_addon.log",
+    "features": [
+      "帮我写",
+      "帮我改",
+      "帮我润色",
+      "帮我总结",
+      "文档问答",
+      "生成汇报大纲",
+      "生成会议纪要",
+      "提取待办事项"
+    ],
+    "settings": {
+      "auto_start": true,
+      "show_in_menu": true,
+      "enable_ai": true
+    }
+  }
+}

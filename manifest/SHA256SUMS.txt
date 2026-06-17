@@ -1,0 +1,45 @@
+# 开悟个体增智智能办公套件 V1.0 SHA256校验清单
+# 生成时间: 2026-06-17
+# 目标环境: Windows 7 SP1 64位
+# 说明: 此文件用于校验下载文件的完整性，请在下载完成后更新哈希值
+
+# 格式: SHA256哈希值  文件名
+# 示例: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855  filename.exe
+
+# 基础运行组件
+待计算  ndp48-x86-x64-allos-enu.exe
+待计算  MicrosoftEdgeWebView2RuntimeInstallerX64.exe
+待计算  vc_redist.x64.exe
+
+# 版本管理工具
+待计算  Git-2.46.2-64-bit.exe
+
+# 文件搜索工具
+待计算  Everything-1.4.1.1024.x64-Setup.exe
+
+# OCR工具
+待计算  tesseract-ocr-w64-setup-5.3.1.20231002.exe
+待计算  chi_sim.traineddata
+待计算  eng.traineddata
+
+# 办公软件
+待计算  WPS_Office_11.8.2.12068.exe
+
+# 办公插件
+待计算  wps-kaiyu-addon-setup.exe
+待计算  KexStepup-setup.exe
+
+# Agent组件
+待计算  AionUI-setup.exe
+待计算  HermesDesktop-setup.exe
+待计算  OpenCode-setup.exe
+
+# 知识库工具
+待计算  Obsidian-1.4.16.exe
+待计算  XMind-23.11.exe
+
+# 说明
+# 1. 此文件应在所有软件下载完成后更新
+# 2. 使用以下命令计算SHA256: Get-FileHash -Path "文件路径" -Algorithm SHA256
+# 3. 将计算结果替换对应的"待计算"值
+# 4. 安装脚本将使用此文件验证安装包完整性

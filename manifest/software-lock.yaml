@@ -1,0 +1,269 @@
+# 开悟个体增智智能办公套件 V1.0 版本锁定清单
+# 生成时间: 2026-06-17
+# 目标环境: Windows 7 SP1 64位
+
+software:
+  # 基础运行组件
+  - name: ".NET Framework 4.8"
+    category: "基础运行"
+    recommended_version: "4.8"
+    win7_compatibility: "已验证"
+    download_source: "https://go.microsoft.com/fwlink/?LinkId=2085155"
+    filename: "ndp48-x86-x64-allos-enu.exe"
+    file_size: "约70MB"
+    sha256: "待计算"
+    silent_install: "/quiet /norestart"
+    required: true
+    optional: false
+    need_reboot: true
+    auto_upgrade: false
+    notes: "离线安装包，支持Win7 SP1"
+
+  - name: "WebView2 Runtime"
+    category: "基础运行"
+    recommended_version: "109.0.1518.46"
+    win7_compatibility: "已验证"
+    download_source: "https://msedge.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/12d7cf13-854e-42e9-aa1b-5180dd88e09a/MicrosoftEdgeWebView2RuntimeInstallerX64.exe"
+    filename: "MicrosoftEdgeWebView2RuntimeInstallerX64.exe"
+    file_size: "约150MB"
+    sha256: "待计算"
+    silent_install: "/silent /install"
+    required: true
+    optional: false
+    need_reboot: false
+    auto_upgrade: false
+    notes: "固定109系列，不使用最新版"
+
+  - name: "VC++ Runtime"
+    category: "基础运行"
+    recommended_version: "14.38.33135"
+    win7_compatibility: "已验证"
+    download_source: "https://aka.ms/vs/17/release/vc_redist.x64.exe"
+    filename: "vc_redist.x64.exe"
+    file_size: "约25MB"
+    sha256: "待计算"
+    silent_install: "/install /quiet /norestart"
+    required: true
+    optional: false
+    need_reboot: false
+    auto_upgrade: false
+    notes: "按依赖补齐，Win7兼容版本"
+
+  # 版本管理
+  - name: "Git for Windows"
+    category: "版本管理"
+    recommended_version: "2.46.2"
+    win7_compatibility: "已验证"
+    download_source: "https://github.com/git-for-windows/git/releases/tag/v2.46.2"
+    filename: "Git-2.46.2-64-bit.exe"
+    file_size: "约60MB"
+    sha256: "待计算"
+    silent_install: "/VERYSILELS /NORESTART"
+    required: true
+    optional: false
+    need_reboot: false
+    auto_upgrade: false
+    notes: "固定2.46.2版本"
+
+  # 文件搜索
+  - name: "Everything"
+    category: "文件搜索"
+    recommended_version: "1.4.1.1024"
+    win7_compatibility: "已验证"
+    download_source: "https://www.voidtools.com/Everything-1.4.1.1024.x64-Setup.exe"
+    filename: "Everything-1.4.1.1024.x64-Setup.exe"
+    file_size: "约2MB"
+    sha256: "待计算"
+    silent_install: "/S"
+    required: true
+    optional: false
+    need_reboot: false
+    auto_upgrade: false
+    notes: "官方稳定版"
+
+  # OCR能力
+  - name: "Tesseract-OCR"
+    category: "OCR"
+    recommended_version: "5.3.1"
+    win7_compatibility: "已验证"
+    download_source: "https://digi.bib.uni-mannheim.de/tesseract/tesseract-ocr-w64-setup-5.3.1.20231002.exe"
+    filename: "tesseract-ocr-w64-setup-5.3.1.20231002.exe"
+    file_size: "约80MB"
+    sha256: "待计算"
+    silent_install: "/S"
+    required: true
+    optional: false
+    need_reboot: false
+    auto_upgrade: false
+    notes: "Windows稳定安装版，Win7兼容"
+
+  - name: "Tesseract中文语言包"
+    category: "OCR"
+    recommended_version: "与Tesseract版本匹配"
+    win7_compatibility: "已验证"
+    download_source: "https://github.com/tesseract-ocr/tessdata"
+    filename: "chi_sim.traineddata"
+    file_size: "约50MB"
+    sha256: "待计算"
+    silent_install: "复制到tessdata目录"
+    required: true
+    optional: false
+    need_reboot: false
+    auto_upgrade: false
+    notes: "中文简体语言包"
+
+  - name: "Tesseract英文语言包"
+    category: "OCR"
+    recommended_version: "与Tesseract版本匹配"
+    win7_compatibility: "已验证"
+    download_source: "https://github.com/tesseract-ocr/tessdata"
+    filename: "eng.traineddata"
+    file_size: "约5MB"
+    sha256: "待计算"
+    silent_install: "复制到tessdata目录"
+    required: true
+    optional: false
+    need_reboot: false
+    auto_upgrade: false
+    notes: "英文语言包"
+
+  # 办公软件
+  - name: "WPS Office"
+    category: "办公软件"
+    recommended_version: "11.8.2.12068"
+    win7_compatibility: "已验证"
+    download_source: "https://wps-linux-personal.wpscdn.cn/wps/download/ep/Linux2019/16478/WPS_Office_11.8.2.12068.exe"
+    filename: "WPS_Office_11.8.2.12068.exe"
+    file_size: "约200MB"
+    sha256: "待计算"
+    silent_install: "/S"
+    required: true
+    optional: false
+    need_reboot: false
+    auto_upgrade: false
+    notes: "Win7稳定版，明确支持Win7"
+
+  # 办公插件
+  - name: "wps-kaiyu-addon"
+    category: "办公插件"
+    recommended_version: "内部发布版"
+    win7_compatibility: "待验证"
+    download_source: "内部制品库"
+    filename: "wps-kaiyu-addon-setup.exe"
+    file_size: "待确定"
+    sha256: "待计算"
+    silent_install: "/S"
+    required: true
+    optional: false
+    need_reboot: false
+    auto_upgrade: false
+    notes: "内部发布版本"
+
+  - name: "KexStepup"
+    category: "办公插件"
+    recommended_version: "内部或可信来源版本"
+    win7_compatibility: "待验证"
+    download_source: "内部制品库"
+    filename: "KexStepup-setup.exe"
+    file_size: "待确定"
+    sha256: "待计算"
+    silent_install: "/S"
+    required: true
+    optional: false
+    need_reboot: false
+    auto_upgrade: false
+    notes: "建议必装"
+
+  # Agent组件
+  - name: "AionUI"
+    category: "Agent入口"
+    recommended_version: "Win7验证通过版本"
+    win7_compatibility: "待验证"
+    download_source: "内部制品库"
+    filename: "AionUI-setup.exe"
+    file_size: "待确定"
+    sha256: "待计算"
+    silent_install: "/S"
+    required: true
+    optional: false
+    need_reboot: false
+    auto_upgrade: false
+    notes: "必装组件"
+
+  - name: "Hermes Desktop"
+    category: "Agent底座"
+    recommended_version: "Win7验证通过版本"
+    win7_compatibility: "待验证"
+    download_source: "内部制品库"
+    filename: "HermesDesktop-setup.exe"
+    file_size: "待确定"
+    sha256: "待计算"
+    silent_install: "/S"
+    required: true
+    optional: false
+    need_reboot: false
+    auto_upgrade: false
+    notes: "必装组件"
+
+  - name: "OpenCode"
+    category: "Agent能力"
+    recommended_version: "内网服务版或本地适配版"
+    win7_compatibility: "待验证"
+    download_source: "内部制品库"
+    filename: "OpenCode-setup.exe"
+    file_size: "待确定"
+    sha256: "待计算"
+    silent_install: "/S"
+    required: true
+    optional: false
+    need_reboot: false
+    auto_upgrade: false
+    notes: "必装组件"
+
+  # 知识库工具
+  - name: "Obsidian"
+    category: "知识库"
+    recommended_version: "1.4.16"
+    win7_compatibility: "已验证"
+    download_source: "https://github.com/obsidianmd/obsidian-releases/releases/download/v1.4.16/Obsidian.1.4.16.exe"
+    filename: "Obsidian-1.4.16.exe"
+    file_size: "约150MB"
+    sha256: "待计算"
+    silent_install: "/S"
+    required: true
+    optional: false
+    need_reboot: false
+    auto_upgrade: false
+    notes: "可选组件，但建议安装"
+
+  - name: "XMind"
+    category: "思维导图"
+    recommended_version: "23.11"
+    win7_compatibility: "待验证"
+    download_source: "https://xmind.cn/download/"
+    filename: "XMind-23.11.exe"
+    file_size: "约120MB"
+    sha256: "待计算"
+    silent_install: "/S"
+    required: false
+    optional: true
+    need_reboot: false
+    auto_upgrade: false
+    notes: "可选组件"
+
+# 版本锁定策略说明
+version_lock_strategy:
+  - "所有软件版本锁定，不允许自动升级"
+  - "WebView2 Runtime固定109系列，不使用最新版"
+  - "Git for Windows固定2.46.2版本"
+  - ".NET Framework使用4.8离线安装包，不用Web在线安装包"
+  - "Electron类应用必须验证Win7兼容性"
+  - "Obsidian/XMind可选组件，不影响主流程"
+  - "WPS插件作为核心场景，必须重点验证"
+
+# 环境适配说明
+environment_adaptation:
+  - "目标环境为Windows 7 SP1 64位"
+  - "所有组件必须验证Win7兼容性"
+  - "使用Win7兼容的稳定版本"
+  - "避免使用最新版本，优先选择稳定版"

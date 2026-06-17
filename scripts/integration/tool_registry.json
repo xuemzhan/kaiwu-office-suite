@@ -1,0 +1,76 @@
+{
+  "tools": [
+    {
+      "name": "everything_search",
+      "display_name": "本地文件检索",
+      "command": "scripts/integration/call_everything_search.bat",
+      "input": ["keyword", "path"],
+      "output": "results/file_search_result.json",
+      "need_admin": false,
+      "log": "logs/everything_search.log"
+    },
+    {
+      "name": "tesseract_ocr",
+      "display_name": "OCR文字识别",
+      "command": "scripts/integration/call_tesseract_ocr.bat",
+      "input": ["image_path", "language"],
+      "output": "results/ocr_result.txt",
+      "need_admin": false,
+      "log": "logs/tesseract_ocr.log"
+    },
+    {
+      "name": "wps_summary",
+      "display_name": "WPS文档总结",
+      "command": "scripts/integration/call_wps_summary.bat",
+      "input": ["document_path"],
+      "output": "results/summary.txt",
+      "need_admin": false,
+      "log": "logs/wps_summary.log"
+    },
+    {
+      "name": "obsidian_note",
+      "display_name": "Obsidian笔记创建",
+      "command": "scripts/integration/call_obsidian_note.bat",
+      "input": ["title", "content", "tags"],
+      "output": "results/note_path.txt",
+      "need_admin": false,
+      "log": "logs/obsidian_note.log"
+    },
+    {
+      "name": "xmind_outline",
+      "display_name": "XMind大纲生成",
+      "command": "scripts/integration/call_xmind_outline.bat",
+      "input": ["topic", "subtopics"],
+      "output": "results/outline.txt",
+      "need_admin": false,
+      "log": "logs/xmind_outline.log"
+    },
+    {
+      "name": "git_status",
+      "display_name": "Git状态检查",
+      "command": "scripts/integration/call_git_status.bat",
+      "input": ["repo_path"],
+      "output": "results/git_status.txt",
+      "need_admin": false,
+      "log": "logs/git_status.log"
+    },
+    {
+      "name": "open_project_folder",
+      "display_name": "打开项目文件夹",
+      "command": "scripts/integration/open_project_folder.bat",
+      "input": ["folder_path"],
+      "output": "",
+      "need_admin": false,
+      "log": "logs/open_folder.log"
+    },
+    {
+      "name": "collect_context",
+      "display_name": "收集上下文信息",
+      "command": "scripts/integration/collect_context.bat",
+      "input": ["context_type"],
+      "output": "results/context.json",
+      "need_admin": false,
+      "log": "logs/collect_context.log"
+    }
+  ]
+}

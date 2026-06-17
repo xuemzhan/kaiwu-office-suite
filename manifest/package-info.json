@@ -1,0 +1,132 @@
+{
+  "package_info": {
+    "name": "开悟个体增智智能办公套件",
+    "version": "V1.0",
+    "release_date": "2026-06-17",
+    "target_environment": "Windows 7 SP1 64位",
+    "description": "面向Windows 7 SP1 64位办公环境的智能办公解决方案",
+    "publisher": "OpenCode",
+    "license": "内部使用"
+  },
+  "components": {
+    "runtime": [
+      {
+        "name": ".NET Framework 4.8",
+        "version": "4.8",
+        "required": true,
+        "win7_compatible": true
+      },
+      {
+        "name": "WebView2 Runtime",
+        "version": "109.0.1518.46",
+        "required": true,
+        "win7_compatible": true
+      },
+      {
+        "name": "VC++ Runtime",
+        "version": "14.38.33135",
+        "required": true,
+        "win7_compatible": true
+      },
+      {
+        "name": "Git for Windows",
+        "version": "2.46.2",
+        "required": true,
+        "win7_compatible": true
+      }
+    ],
+    "agent": [
+      {
+        "name": "AionUI",
+        "version": "Win7验证版",
+        "required": true,
+        "win7_compatible": "待验证"
+      },
+      {
+        "name": "Hermes Desktop",
+        "version": "Win7验证版",
+        "required": true,
+        "win7_compatible": "待验证"
+      },
+      {
+        "name": "OpenCode",
+        "version": "内网版",
+        "required": true,
+        "win7_compatible": "待验证"
+      }
+    ],
+    "office": [
+      {
+        "name": "WPS Office",
+        "version": "11.8.2.12068",
+        "required": true,
+        "win7_compatible": true
+      },
+      {
+        "name": "wps-kaiyu-addon",
+        "version": "内部版",
+        "required": true,
+        "win7_compatible": "待验证"
+      },
+      {
+        "name": "KexStepup",
+        "version": "内部版",
+        "required": true,
+        "win7_compatible": "待验证"
+      }
+    ],
+    "tools": [
+      {
+        "name": "Everything",
+        "version": "1.4.1.1024",
+        "required": true,
+        "win7_compatible": true
+      },
+      {
+        "name": "Tesseract-OCR",
+        "version": "5.3.1",
+        "required": true,
+        "win7_compatible": true
+      }
+    ],
+    "knowledge": [
+      {
+        "name": "Obsidian",
+        "version": "1.4.16",
+        "required": true,
+        "win7_compatible": true
+      },
+      {
+        "name": "XMind",
+        "version": "23.11",
+        "required": false,
+        "win7_compatible": "待验证"
+      }
+    ]
+  },
+  "features": [
+    "一键安装",
+    "一键检测",
+    "一键修复",
+    "一键卸载",
+    "版本锁定",
+    "离线安装",
+    "日志记录",
+    "回滚支持"
+  ],
+  "installation": {
+    "method": "一键安装",
+    "requirements": "管理员权限",
+    "estimated_time": "15-30分钟",
+    "disk_space": "10GB"
+  },
+  "documentation": [
+    "01_安装手册.md",
+    "02_用户使用手册.md",
+    "03_管理员维护手册.md",
+    "04_场景案例手册.md",
+    "05_常见问题FAQ.md",
+    "06_版本清单与依赖说明.md",
+    "07_安全与合规说明.md"
+  ]
+}
