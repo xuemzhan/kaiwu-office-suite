@@ -291,7 +291,7 @@ function renderDocs() {
     const grid = document.getElementById('docsGrid');
     if (!grid || !DOCS_DATA) return;
     grid.innerHTML = DOCS_DATA.map(d => `
-        <a href="../docs/0${DOCS_DATA.indexOf(d)+1}_${d.id}.md" class="doc-card" target="_blank">
+        <a href="../docs/${d.file}" class="doc-card" target="_blank">
             <div class="doc-icon">${getIcon(d.icon)}</div>
             <h3>${d.title}</h3>
             <p>${d.desc}</p>

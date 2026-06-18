@@ -148,14 +148,14 @@ const FAQ_DATA = [
 ];
 
 const DOCS_DATA = [
-    { id: 'install', icon: 'doc', title: '安装手册', desc: '详细安装步骤与配置指南' },
-    { id: 'user', icon: 'user', title: '用户手册', desc: '功能操作与使用技巧' },
-    { id: 'api', icon: 'code', title: 'API 参考', desc: '开发者接口文档' },
-    { id: 'faq', icon: 'help', title: '常见问题', desc: '问题解答与故障排除' },
-    { id: 'update', icon: 'update', title: '更新日志', desc: '版本更新内容说明' },
-    { id: 'guide', icon: 'guide', title: '快速入门', desc: '5 分钟快速上手指南' },
-    { id: 'case', icon: 'case', title: '案例集', desc: '典型应用场景案例' },
-    { id: 'community', icon: 'community', title: '社区', desc: '用户交流与分享' }
+    { file: '00_环境检查报告.md', icon: 'check', title: '环境检查报告', desc: '系统环境检测与诊断结果' },
+    { file: '01_安装手册.md', icon: 'doc', title: '安装手册', desc: '详细安装步骤与配置指南' },
+    { file: '02_用户使用手册.md', icon: 'user', title: '用户使用手册', desc: '功能操作与使用技巧详解' },
+    { file: '03_管理员维护手册.md', icon: 'tools', title: '管理员维护手册', desc: '系统维护与管理员操作指南' },
+    { file: '04_场景案例手册.md', icon: 'case', title: '场景案例手册', desc: '典型应用场景与实战案例' },
+    { file: '05_常见问题FAQ.md', icon: 'help', title: '常见问题 FAQ', desc: '问题解答与故障排除指南' },
+    { file: '06_版本清单与依赖说明.md', icon: 'update', title: '版本清单与依赖', desc: '组件版本与依赖关系说明' },
+    { file: '07_安全与合规说明.md', icon: 'guide', title: '安全与合规说明', desc: '安全策略与合规性文档' }
 ];
 
 // SVG Icons

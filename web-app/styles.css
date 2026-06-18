@@ -425,6 +425,13 @@ body {
     display: flex; align-items: center; justify-content: center;
     margin: 0 auto 1rem; transition: all 0.4s;
 }
+.entry-icon svg { width: 28px; height: 28px; }
+.entry-icon.purple { background: rgba(99, 102, 241, 0.15); color: var(--primary-light); box-shadow: 0 0 25px rgba(99, 102, 241, 0.3); }
+.entry-icon.blue { background: rgba(14, 165, 233, 0.15); color: var(--secondary); box-shadow: 0 0 25px rgba(14, 165, 233, 0.3); }
+.entry-icon.amber { background: rgba(245, 158, 11, 0.15); color: var(--accent); box-shadow: 0 0 25px rgba(245, 158, 11, 0.3); }
+.entry-icon.green { background: rgba(16, 185, 129, 0.15); color: var(--success); box-shadow: 0 0 25px rgba(16, 185, 129, 0.3); }
+.entry-icon.pink { background: rgba(236, 72, 153, 0.15); color: #ec4899; box-shadow: 0 0 25px rgba(236, 72, 153, 0.3); }
+.entry-icon.cyan { background: rgba(6, 182, 212, 0.15); color: #06b6d4; box-shadow: 0 0 25px rgba(6, 182, 212, 0.3); }
 .entry-card:hover .entry-icon { transform: scale(1.15) rotateZ(5deg); }
 .entry-icon svg { width: 28px; height: 28px; }
 .entry-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.25rem; }
