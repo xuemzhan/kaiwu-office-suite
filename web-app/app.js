@@ -20,9 +20,9 @@ class ParticleSystem {
         });
     }
     getThemeColors() {
-        var isCetc = document.documentElement.classList.contains('theme-cetc');
-        if (isCetc) return { primary: '196, 18, 48', secondary: '0, 102, 204' };
-        return { primary: '99, 102, 241', secondary: '14, 165, 233' };
+        var isTechBlue = document.documentElement.classList.contains('theme-techblue');
+        if (isTechBlue) return { primary: '99, 102, 241', secondary: '14, 165, 233' };
+        return { primary: '196, 18, 48', secondary: '0, 102, 204' };
     }
     updateColors() {
         this.colors = this.getThemeColors();
@@ -382,8 +382,8 @@ document.addEventListener('DOMContentLoaded', function() {
     if (canvas) particleSystem = new ParticleSystem(canvas);
 
     var twEl = document.getElementById('typewriter');
-    var defaultTexts = ['AI 驱动的智能办公解决方案', '让每个办公场景都有 AI 助手', '离线可用的完整办公套件', '一键安装即刻体验'];
-    var cetcTexts = ['公文写作 / 会议纪要 / 数据分析 / 知识管理 一体化', 'AI Agent + MCP + A2A 智能组件协议体系', '支持离线部署与国产化平台适配', '30+ 智能组件，开箱即用'];
+    var defaultTexts = ['公文写作 / 会议纪要 / 数据分析 / 知识管理 一体化', 'AI Agent + MCP + A2A 智能组件协议体系', '支持离线部署与国产化平台适配', '30+ 智能组件，开箱即用'];
+    var techblueTexts = ['AI 驱动的智能办公解决方案', '让每个办公场景都有 AI 助手', '离线可用的完整办公套件', '一键安装即刻体验'];
     var tw = null;
     if (twEl) {
         tw = new Typewriter(twEl, defaultTexts);
@@ -421,14 +421,15 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Theme Switcher
-    var themes = ['default', 'cetc'];
-    var themeColors = { 
-        default: { main: '#6366f1', light: '#818cf8', mid: '#0ea5e9', dark: '#4f46e5', deep: '#6366f1', rgb: '99, 102, 241' },
-        cetc: { main: '#C41230', light: '#E8354A', mid: '#0066CC', dark: '#8B0D22', deep: '#004499', rgb: '196, 18, 48' }
+    var themes = ['default', 'techblue'];
+    var themeColors = {
+        default: { main: '#C41230', light: '#E8354A', mid: '#0066CC', dark: '#8B0D22', deep: '#004499', rgb: '196, 18, 48' },
+        techblue: { main: '#6366f1', light: '#818cf8', mid: '#0ea5e9', dark: '#4f46e5', deep: '#6366f1', rgb: '99, 102, 241' }
     };
     var themeToggle = document.getElementById('themeToggle');
     var themeLabel = document.getElementById('themeLabel');
-    var savedTheme = localStorage.getItem('kw-theme') || 'default';
+    var savedTheme = localStorage.getItem('kw-theme');
+    if (themes.indexOf(savedTheme) === -1) savedTheme = 'default';
     applyTheme(savedTheme);
 
     if (themeToggle) {
@@ -441,15 +442,39 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Scroll Spy - highlight active menu item based on scroll position
+    function initScrollSpy() {
+        var links = document.querySelectorAll('.nav-links a[href^="#"]');
+        var sections = [];
+        links.forEach(function(link) {
+            var id = link.getAttribute('href').substring(1);
+            var section = document.getElementById(id);
+            if (section) sections.push({ id: id, el: section, link: link });
+        });
+        if (sections.length === 0) return;
+        function setActive(id) {
+            links.forEach(function(l) { l.classList.remove('active'); });
+            var link = document.querySelector('.nav-links a[href="#' + id + '"]');
+            if (link) link.classList.add('active');
+        }
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) setActive(entry.target.id);
+            });
+        }, { rootMargin: '-30% 0px -55% 0px', threshold: 0 });
+        sections.forEach(function(s) { observer.observe(s.el); });
+    }
+    initScrollSpy();
+
     function applyTheme(name) {
         document.body.setAttribute('data-theme', name);
         document.documentElement.className = name === 'default' ? '' : 'theme-' + name;
-        var labels = { default: 'Default', cetc: 'CETC' };
+        var labels = { default: 'Default', techblue: 'TechBlue' };
         if (themeLabel) themeLabel.textContent = labels[name] || name;
         updateSvgColors(name);
         if (particleSystem) particleSystem.updateColors();
         if (tw) {
-            tw.texts = name === 'cetc' ? cetcTexts : defaultTexts;
+            tw.texts = name === 'techblue' ? techblueTexts : defaultTexts;
             tw.textIndex = 0;
             tw.charIndex = 0;
             tw.isDeleting = false;

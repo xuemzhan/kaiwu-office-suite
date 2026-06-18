@@ -194,16 +194,16 @@ var ICONS = {
 };
 
 function getIcon(name) {
-    var isCetc = document.documentElement.classList.contains('theme-cetc');
-    if (isCetc) {
-        var cetcMap = {
-            agent: 'chip', mcp: 'chip', a2a: 'signal', knowledge: 'binary',
-            office: 'lock', tools: 'antenna', search: 'radar', write: 'doc',
-            meeting: 'signal', data: 'binary', mind: 'chip', system: 'shield',
-            fix: 'antenna', check: 'shield', help: 'guide', update: 'antenna',
-            case: 'shield', community: 'satellite'
-        };
-        return ICONS[cetcMap[name] || name] || ICONS[name];
+    var isTechBlue = document.documentElement.classList.contains('theme-techblue');
+    if (isTechBlue) {
+        return ICONS[name] || ICONS.doc;
     }
-    return ICONS[name] || ICONS.doc;
+    var defaultMap = {
+        agent: 'chip', mcp: 'chip', a2a: 'signal', knowledge: 'binary',
+        office: 'lock', tools: 'antenna', search: 'radar', write: 'doc',
+        meeting: 'signal', data: 'binary', mind: 'chip', system: 'shield',
+        fix: 'antenna', check: 'shield', help: 'guide', update: 'antenna',
+        case: 'shield', community: 'satellite'
+    };
+    return ICONS[defaultMap[name] || name] || ICONS[name];
 }
