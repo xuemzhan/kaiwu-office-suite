@@ -381,11 +381,12 @@ document.addEventListener('DOMContentLoaded', function() {
     var canvas = document.getElementById('particles');
     if (canvas) particleSystem = new ParticleSystem(canvas);
 
-    var tw = document.getElementById('typewriter');
+    var twEl = document.getElementById('typewriter');
     var defaultTexts = ['AI 驱动的智能办公解决方案', '让每个办公场景都有 AI 助手', '离线可用的完整办公套件', '一键安装即刻体验'];
     var cetcTexts = ['国家利益高于一切', '军工电子主力军·网信事业国家队', '忠于使命·勇于创新·善于协同·成于务实', '电子信息领域完备科研创新体系'];
-    if (tw) {
-        var twObj = new Typewriter(tw, defaultTexts);
+    var tw = null;
+    if (twEl) {
+        tw = new Typewriter(twEl, defaultTexts);
     }
 
     renderFeatures();
@@ -425,11 +426,11 @@ document.addEventListener('DOMContentLoaded', function() {
         default: { main: '#6366f1', light: '#818cf8', mid: '#0ea5e9', dark: '#4f46e5', deep: '#6366f1', rgb: '99, 102, 241' },
         cetc: { main: '#C41230', light: '#E8354A', mid: '#0066CC', dark: '#8B0D22', deep: '#004499', rgb: '196, 18, 48' }
     };
+    var themeToggle = document.getElementById('themeToggle');
+    var themeLabel = document.getElementById('themeLabel');
     var savedTheme = localStorage.getItem('kw-theme') || 'default';
     applyTheme(savedTheme);
 
-    var themeToggle = document.getElementById('themeToggle');
-    var themeLabel = document.getElementById('themeLabel');
     if (themeToggle) {
         themeToggle.addEventListener('click', function() {
             var current = document.body.getAttribute('data-theme') || 'default';
