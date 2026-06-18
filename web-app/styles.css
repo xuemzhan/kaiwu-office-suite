@@ -272,9 +272,9 @@ body {
 }
 .nav-brand {
     display: flex; align-items: center; gap: 10px;
-    font-size: 1.25rem; font-weight: 700; color: var(--text); text-decoration: none;
+    font-size: 1.5rem; font-weight: 700; color: var(--text); text-decoration: none;
 }
-.nav-brand svg { height: 28px; width: auto; filter: drop-shadow(0 0 8px rgba(var(--primary-rgb), 0.5)); }
+.nav-brand svg { height: 36px; width: auto; filter: drop-shadow(0 0 8px rgba(var(--primary-rgb), 0.5)); }
 .nav-brand .logo-default { display: block; }
 .nav-brand .logo-techblue { display: none; }
 .nav-brand .brand-text-default { display: inline; }
@@ -368,7 +368,7 @@ body {
 @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
 .hero h1 {
-    font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 800; line-height: 1.1; margin-bottom: 1.5rem;
+    font-size: clamp(3rem, 7vw, 5.5rem); font-weight: 800; line-height: 1.1; margin-bottom: 1.5rem;
     background: linear-gradient(135deg, #fff 0%, var(--primary-light) 50%, var(--secondary) 100%);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     animation: fadeInUp 0.8s ease 0.1s both;
@@ -454,7 +454,7 @@ body {
     box-shadow: 0 0 15px rgba(var(--primary-rgb), 0.15);
 }
 .section-title {
-    font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 700; margin-bottom: 1rem;
+    font-size: clamp(2rem, 5vw, 3rem); font-weight: 700; margin-bottom: 1rem;
     background: linear-gradient(135deg, var(--text), var(--text-muted));
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
 }
@@ -667,8 +667,8 @@ body {
 
 /* Footer */
 .footer { border-top: 1px solid var(--border); padding: 4rem 2rem; text-align: center; position: relative; z-index: 1; }
-.footer-brand { display: flex; align-items: center; justify-content: center; gap: 12px; font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem; }
-.footer-brand svg { height: 30px; width: auto; filter: drop-shadow(0 0 8px rgba(var(--primary-rgb), 0.5)); }
+.footer-brand { display: flex; align-items: center; justify-content: center; gap: 12px; font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; }
+.footer-brand svg { height: 36px; width: auto; filter: drop-shadow(0 0 8px rgba(var(--primary-rgb), 0.5)); }
 .footer-brand .logo-default { display: block; }
 .footer-brand .logo-techblue { display: none; }
 .footer-brand .brand-text-default { display: inline; }
