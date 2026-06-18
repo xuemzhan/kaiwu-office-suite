@@ -399,4 +399,97 @@ document.addEventListener('DOMContentLoaded', function() {
             if (t) window.scrollTo({ top: t.getBoundingClientRect().top + window.pageYOffset - 72, behavior: 'smooth' });
         });
     });
+
+    // Theme Switcher
+    var themes = ['default', 'cetc'];
+    var themeColors = { default: '#6366f1', cetc: '#C00000' };
+    var savedTheme = localStorage.getItem('kw-theme') || 'default';
+    applyTheme(savedTheme);
+
+    var themeToggle = document.getElementById('themeToggle');
+    var themeLabel = document.getElementById('themeLabel');
+    if (themeToggle) {
+        themeToggle.addEventListener('click', function() {
+            var current = document.body.getAttribute('data-theme') || 'default';
+            var idx = themes.indexOf(current);
+            var next = themes[(idx + 1) % themes.length];
+            applyTheme(next);
+            localStorage.setItem('kw-theme', next);
+        });
+    }
+
+    function applyTheme(name) {
+        document.body.setAttribute('data-theme', name);
+        document.documentElement.className = name === 'default' ? '' : 'theme-' + name;
+        if (themeLabel) themeLabel.textContent = name;
+        updateSvgColors(name);
+    }
+
+    function updateSvgColors(name) {
+        var c = themeColors[name] || themeColors['default'];
+        var rgb = name === 'cetc' ? '192, 0, 0' : '99, 102, 241';
+        var light = name === 'cetc' ? '#E03030' : '#818cf8';
+        var mid = name === 'cetc' ? '#FF6B6B' : '#0ea5e9';
+        var dark = name === 'cetc' ? '#C00000' : '#6366f1';
+        var deep = name === 'cetc' ? '#990000' : '#4f46e5';
+
+        document.querySelectorAll('.nav-brand svg, .footer-brand svg').forEach(function(svg) {
+            var stops = svg.querySelectorAll('linearGradient stop');
+            if (stops.length >= 2) {
+                stops[0].setAttribute('stop-color', light);
+                stops[1].setAttribute('stop-color', mid);
+            }
+            if (stops.length >= 4) {
+                stops[2].setAttribute('stop-color', dark);
+                stops[3].setAttribute('stop-color', deep);
+            }
+            svg.querySelectorAll('path[stroke="#818cf8"], ellipse[stroke="#818cf8"], circle[fill="#818cf8"], line[stroke="#818cf8"]').forEach(function(el) {
+                if (el.tagName === 'circle' && el.getAttribute('fill')) el.setAttribute('fill', light);
+                else el.setAttribute('stroke', light);
+            });
+            svg.querySelectorAll('path[stroke="#0ea5e9"], ellipse[stroke="#0ea5e9"], circle[fill="#0ea5e9"], line[stroke="#0ea5e9"]').forEach(function(el) {
+                if (el.tagName === 'circle' && el.getAttribute('fill')) el.setAttribute('fill', mid);
+                else el.setAttribute('stroke', mid);
+            });
+            svg.querySelectorAll('circle[stroke="#a78bfa"], line[stroke="#a78bfa"]').forEach(function(el) {
+                if (el.tagName === 'circle' && el.getAttribute('fill')) el.setAttribute('fill', light);
+                else el.setAttribute('stroke', light);
+            });
+            svg.querySelectorAll('circle[fill="#06b6d4"], line[stroke="#06b6d4"]').forEach(function(el) {
+                if (el.tagName === 'circle' && el.getAttribute('fill')) el.setAttribute('fill', mid);
+                else el.setAttribute('stroke', mid);
+            });
+            var glowFilter = svg.querySelector('feGaussianBlur');
+            if (glowFilter) {
+                var filterParent = glowFilter.closest('filter');
+                if (filterParent) {
+                    var merge = filterParent.querySelector('feMerge');
+                    if (merge) {
+                        var feMergeNode = merge.querySelector('feMergeNode');
+                        if (feMergeNode) {
+                            feMergeNode.setAttribute('in', 'SourceGraphic');
+                        }
+                    }
+                }
+            }
+        });
+
+        document.querySelectorAll('.corner-decor svg path').forEach(function(p, i) {
+            var fills = [
+                'rgba(' + rgb + ',0.3)',
+                'rgba(' + rgb + ',0.3)',
+                'rgba(' + rgb + ',0.3)',
+                'rgba(' + rgb + ',0.3)'
+            ];
+            p.setAttribute('fill', fills[i % 4]);
+        });
+        document.querySelectorAll('.corner-decor svg circle').forEach(function(c) {
+            c.setAttribute('fill', 'rgba(' + rgb + ',0.5)');
+        });
+
+        var heroGlow = document.querySelector('.hero-glow');
+        if (heroGlow) heroGlow.style.background = 'radial-gradient(circle, rgba(' + rgb + ', 0.35) 0%, transparent 55%)';
+        var heroGlow2 = document.querySelector('.hero-glow-2');
+        if (heroGlow2) heroGlow2.style.background = 'radial-gradient(circle, rgba(' + rgb + ', 0.25) 0%, transparent 55%)';
+    }
 });
