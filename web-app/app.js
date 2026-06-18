@@ -9,6 +9,7 @@ class ParticleSystem {
         this.ctx = canvas.getContext('2d');
         this.particles = [];
         this.mouse = { x: null, y: null };
+        this.colors = this.getThemeColors();
         this.resize();
         this.init();
         this.animate();
@@ -16,6 +17,17 @@ class ParticleSystem {
         window.addEventListener('mousemove', (e) => {
             this.mouse.x = e.clientX;
             this.mouse.y = e.clientY;
+        });
+    }
+    getThemeColors() {
+        var isCetc = document.documentElement.classList.contains('theme-cetc');
+        if (isCetc) return { primary: '196, 18, 48', secondary: '0, 102, 204' };
+        return { primary: '99, 102, 241', secondary: '14, 165, 233' };
+    }
+    updateColors() {
+        this.colors = this.getThemeColors();
+        this.particles.forEach(function(p) {
+            p.color = Math.random() > 0.5 ? p.primaryColor : p.secondaryColor;
         });
     }
     resize() {
@@ -32,7 +44,9 @@ class ParticleSystem {
                 speedX: (Math.random() - 0.5) * 0.6,
                 speedY: (Math.random() - 0.5) * 0.6,
                 opacity: Math.random() * 0.6 + 0.2,
-                color: Math.random() > 0.5 ? '99, 102, 241' : '14, 165, 233'
+                color: Math.random() > 0.5 ? this.colors.primary : this.colors.secondary,
+                primaryColor: this.colors.primary,
+                secondaryColor: this.colors.secondary
             });
         }
     }
@@ -62,7 +76,7 @@ class ParticleSystem {
                     this.ctx.beginPath();
                     this.ctx.moveTo(p.x, p.y);
                     this.ctx.lineTo(p2.x, p2.y);
-                    this.ctx.strokeStyle = 'rgba(99, 102, 241,' + (0.15 * (1 - dist2 / 120)) + ')';
+                    this.ctx.strokeStyle = 'rgba(' + this.colors.primary + ',' + (0.15 * (1 - dist2 / 120)) + ')';
                     this.ctx.stroke();
                 }
             }
@@ -342,7 +356,7 @@ function openApp(app) {
 (function initDataStream() {
     var container = document.getElementById('dataStream');
     if (!container) return;
-    var chars = '01アイウエオカキクケコ<>/{}[]ABCDEF';
+    var chars = '01电科信安控测通导算网智芯雷卫量子密码二进制十六进制ABCDEF';
     for (var i = 0; i < 25; i++) {
         var span = document.createElement('span');
         span.textContent = chars[Math.floor(Math.random() * chars.length)];
@@ -362,12 +376,17 @@ function openApp(app) {
 })();
 
 // Initialize
+var particleSystem = null;
 document.addEventListener('DOMContentLoaded', function() {
     var canvas = document.getElementById('particles');
-    if (canvas) new ParticleSystem(canvas);
+    if (canvas) particleSystem = new ParticleSystem(canvas);
 
     var tw = document.getElementById('typewriter');
-    if (tw) new Typewriter(tw, ['AI 驱动的智能办公解决方案', '让每个办公场景都有 AI 助手', '离线可用的完整办公套件', '一键安装即刻体验']);
+    var defaultTexts = ['AI 驱动的智能办公解决方案', '让每个办公场景都有 AI 助手', '离线可用的完整办公套件', '一键安装即刻体验'];
+    var cetcTexts = ['国家利益高于一切', '军工电子主力军·网信事业国家队', '忠于使命·勇于创新·善于协同·成于务实', '电子信息领域完备科研创新体系'];
+    if (tw) {
+        var twObj = new Typewriter(tw, defaultTexts);
+    }
 
     renderFeatures();
     renderCases();
@@ -427,6 +446,20 @@ document.addEventListener('DOMContentLoaded', function() {
         var labels = { default: 'Default', cetc: 'CETC' };
         if (themeLabel) themeLabel.textContent = labels[name] || name;
         updateSvgColors(name);
+        if (particleSystem) particleSystem.updateColors();
+        if (tw) {
+            tw.texts = name === 'cetc' ? cetcTexts : defaultTexts;
+            tw.textIndex = 0;
+            tw.charIndex = 0;
+            tw.isDeleting = false;
+            tw.element.textContent = '';
+        }
+        renderFeatures();
+        renderCases();
+        renderGuide();
+        renderEntry();
+        renderFaq();
+        renderDocs();
     }
 
     function updateSvgColors(name) {
