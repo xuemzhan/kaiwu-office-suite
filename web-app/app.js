@@ -383,7 +383,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     var twEl = document.getElementById('typewriter');
     var defaultTexts = ['AI 驱动的智能办公解决方案', '让每个办公场景都有 AI 助手', '离线可用的完整办公套件', '一键安装即刻体验'];
-    var cetcTexts = ['国家利益高于一切', '军工电子主力军·网信事业国家队', '忠于使命·勇于创新·善于协同·成于务实', '电子信息领域完备科研创新体系'];
+    var cetcTexts = ['公文写作 / 会议纪要 / 数据分析 / 知识管理 一体化', 'AI Agent + MCP + A2A 智能组件协议体系', '支持离线部署与国产化平台适配', '30+ 智能组件，开箱即用'];
     var tw = null;
     if (twEl) {
         tw = new Typewriter(twEl, defaultTexts);

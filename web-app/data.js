@@ -197,11 +197,11 @@ function getIcon(name) {
     var isCetc = document.documentElement.classList.contains('theme-cetc');
     if (isCetc) {
         var cetcMap = {
-            agent: 'shield', mcp: 'chip', a2a: 'signal', knowledge: 'binary',
-            office: 'radar', tools: 'antenna', search: 'radar', write: 'doc',
+            agent: 'chip', mcp: 'chip', a2a: 'signal', knowledge: 'binary',
+            office: 'lock', tools: 'antenna', search: 'radar', write: 'doc',
             meeting: 'signal', data: 'binary', mind: 'chip', system: 'shield',
-            fix: 'tools', check: 'shield', help: 'guide', update: 'antenna',
-            case: 'shield', community: 'antenna'
+            fix: 'antenna', check: 'shield', help: 'guide', update: 'antenna',
+            case: 'shield', community: 'satellite'
         };
         return ICONS[cetcMap[name] || name] || ICONS[name];
     }
