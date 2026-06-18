@@ -23,8 +23,8 @@ class ParticleSystem {
         this.canvas.height = window.innerHeight;
     }
     init() {
-        const count = Math.min(100, Math.floor(window.innerWidth / 15));
-        for (let i = 0; i < count; i++) {
+        var count = Math.min(100, Math.floor(window.innerWidth / 15));
+        for (var i = 0; i < count; i++) {
             this.particles.push({
                 x: Math.random() * this.canvas.width,
                 y: Math.random() * this.canvas.height,
@@ -43,32 +43,26 @@ class ParticleSystem {
             p.y += p.speedY;
             if (p.x < 0 || p.x > this.canvas.width) p.speedX *= -1;
             if (p.y < 0 || p.y > this.canvas.height) p.speedY *= -1;
-            
             if (this.mouse.x && this.mouse.y) {
-                const dx = p.x - this.mouse.x;
-                const dy = p.y - this.mouse.y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < 150) {
-                    p.x += dx * 0.01;
-                    p.y += dy * 0.01;
-                }
+                var dx = p.x - this.mouse.x;
+                var dy = p.y - this.mouse.y;
+                var dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < 150) { p.x += dx * 0.01; p.y += dy * 0.01; }
             }
-            
             this.ctx.beginPath();
             this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-            this.ctx.fillStyle = `rgba(${p.color}, ${p.opacity})`;
+            this.ctx.fillStyle = 'rgba(' + p.color + ',' + p.opacity + ')';
             this.ctx.fill();
-            
-            for (let j = i + 1; j < this.particles.length; j++) {
-                const p2 = this.particles[j];
-                const dx = p.x - p2.x;
-                const dy = p.y - p2.y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < 120) {
+            for (var j = i + 1; j < this.particles.length; j++) {
+                var p2 = this.particles[j];
+                var dx2 = p.x - p2.x;
+                var dy2 = p.y - p2.y;
+                var dist2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
+                if (dist2 < 120) {
                     this.ctx.beginPath();
                     this.ctx.moveTo(p.x, p.y);
                     this.ctx.lineTo(p2.x, p2.y);
-                    this.ctx.strokeStyle = `rgba(99, 102, 241, ${0.15 * (1 - dist / 120)})`;
+                    this.ctx.strokeStyle = 'rgba(99, 102, 241,' + (0.15 * (1 - dist2 / 120)) + ')';
                     this.ctx.stroke();
                 }
             }
@@ -79,17 +73,17 @@ class ParticleSystem {
 
 // Typewriter Effect
 class Typewriter {
-    constructor(element, texts, speed = 100) {
+    constructor(element, texts, speed) {
         this.element = element;
         this.texts = texts;
-        this.speed = speed;
+        this.speed = speed || 100;
         this.textIndex = 0;
         this.charIndex = 0;
         this.isDeleting = false;
         this.type();
     }
     type() {
-        const current = this.texts[this.textIndex];
+        var current = this.texts[this.textIndex];
         if (this.isDeleting) {
             this.element.textContent = current.substring(0, this.charIndex - 1);
             this.charIndex--;
@@ -97,7 +91,7 @@ class Typewriter {
             this.element.textContent = current.substring(0, this.charIndex + 1);
             this.charIndex++;
         }
-        let delay = this.isDeleting ? 50 : this.speed;
+        var delay = this.isDeleting ? 50 : this.speed;
         if (!this.isDeleting && this.charIndex === current.length) {
             delay = 2500;
             this.isDeleting = true;
@@ -115,14 +109,14 @@ class CardTilt {
     constructor(cards) {
         cards.forEach(card => {
             card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                const rotateX = (y - centerY) / 10;
-                const rotateY = (centerX - x) / 10;
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
+                var rect = card.getBoundingClientRect();
+                var x = e.clientX - rect.left;
+                var y = e.clientY - rect.top;
+                var centerX = rect.width / 2;
+                var centerY = rect.height / 2;
+                var rotateX = (y - centerY) / 10;
+                var rotateY = (centerX - x) / 10;
+                card.style.transform = 'perspective(1000px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg) translateY(-8px)';
             });
             card.addEventListener('mouseleave', () => {
                 card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
@@ -155,148 +149,171 @@ class CounterAnimation {
                 this.animate();
             }
         }, { threshold: 0.5 });
-        const stats = document.querySelector('.hero-stats');
+        var stats = document.querySelector('.hero-stats');
         if (stats) this.observer.observe(stats);
     }
     animate() {
         document.querySelectorAll('.stat-number').forEach(el => {
-            const target = parseInt(el.getAttribute('data-target'));
+            var target = parseInt(el.getAttribute('data-target'));
             if (!target) return;
-            const suffix = el.textContent.replace('0', '');
-            let current = 0;
-            const step = Math.ceil(target / 50);
-            const timer = setInterval(() => {
+            var current = 0;
+            var step = Math.ceil(target / 50);
+            var timer = setInterval(() => {
                 current += step;
                 if (current >= target) { current = target; clearInterval(timer); }
-                el.textContent = current + (suffix || '');
+                el.textContent = current;
             }, 20);
         });
     }
 }
 
+// Helper: build list items HTML
+function buildListItems(items, iconSvg) {
+    var html = '';
+    for (var i = 0; i < items.length; i++) {
+        html += '<li>' + iconSvg + items[i] + '</li>';
+    }
+    return html;
+}
+
+var CHECK_SVG = '<svg viewBox="0 0 16 16" fill="currentColor" width="16" height="16"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"/></svg>';
+var STAR_SVG = '<svg viewBox="0 0 14 14" fill="currentColor" width="14" height="14"><path d="M7 0l2.15 4.35L14 5.25l-3.5 3.4.83 4.82L7 11.17l-4.33 2.3.83-4.82L0 5.25l4.85-.9z"/></svg>';
+var PLUS_SVG = '<svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" width="18" height="18"><path d="M9 1v16M1 9h16"/></svg>';
+
 // Render Functions
 function renderFeatures() {
-    const grid = document.getElementById('featuresGrid');
-    if (!grid || !FEATURES_DATA) return;
-    grid.innerHTML = FEATURES_DATA.map(f => `
-        <div class="feature-card">
-            <div class="feature-icon ${f.color}">${getIcon(f.icon)}</div>
-            <h3>${f.title}</h3>
-            <p>${f.desc}</p>
-            <ul class="feature-list">
-                ${f.list.map(item => `<li><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"/></svg>${item}</li>
-            </ul>
-        </div>
-    `).join('');
+    var grid = document.getElementById('featuresGrid');
+    if (!grid || typeof FEATURES_DATA === 'undefined') return;
+    var html = '';
+    for (var i = 0; i < FEATURES_DATA.length; i++) {
+        var f = FEATURES_DATA[i];
+        html += '<div class="feature-card">';
+        html += '<div class="feature-icon ' + f.color + '">' + getIcon(f.icon) + '</div>';
+        html += '<h3>' + f.title + '</h3>';
+        html += '<p>' + f.desc + '</p>';
+        html += '<ul class="feature-list">';
+        html += buildListItems(f.list, CHECK_SVG);
+        html += '</ul></div>';
+    }
+    grid.innerHTML = html;
     new CardTilt(grid.querySelectorAll('.feature-card'));
 }
 
 function renderCases() {
-    const tabs = document.getElementById('casesTabs');
-    const content = document.getElementById('casesContent');
-    if (!tabs || !content || !CASES_DATA) return;
-    
-    tabs.innerHTML = CASES_DATA.map((c, i) => `
-        <button class="case-tab ${i === 0 ? 'active' : ''}" data-case="${c.id}">
-            ${getIcon(c.icon)} ${c.title}
-        </button>
-    `).join('');
-    
-    content.innerHTML = CASES_DATA.map((c, i) => `
-        <div class="case-panel ${i === 0 ? 'active' : ''}" id="${c.id}">
-            <div class="case-header">
-                <div class="case-icon">${getIcon(c.icon)}</div>
-                <h3>${c.title}</h3>
-            </div>
-            <div class="case-body">
-                <div class="case-desc">${c.desc}</div>
-                <div class="case-steps">
-                    <h4><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 1v16M1 9h16"/></svg>操作流程</h4>
-                    <ol>${c.steps.map(s => `<li>${s}</li>`).join('')}</ol>
-                </div>
-                <div class="case-tags">
-                    ${c.tags.map(t => `<span class="case-tag"><svg viewBox="0 0 14 14" fill="currentColor"><path d="M7 0l2.15 4.35L14 5.25l-3.5 3.4.83 4.82L7 11.17l-4.33 2.3.83-4.82L0 5.25l4.85-.9z"/></svg>${t}</span>`).join('')}
-                </div>
-            </div>
-        </div>
-    `).join('');
-    
-    tabs.querySelectorAll('.case-tab').forEach(btn => {
+    var tabs = document.getElementById('casesTabs');
+    var content = document.getElementById('casesContent');
+    if (!tabs || !content || typeof CASES_DATA === 'undefined') return;
+
+    var tabsHtml = '';
+    var panelsHtml = '';
+    for (var i = 0; i < CASES_DATA.length; i++) {
+        var c = CASES_DATA[i];
+        var active = i === 0 ? ' active' : '';
+        tabsHtml += '<button class="case-tab' + active + '" data-case="' + c.id + '">';
+        tabsHtml += getIcon(c.icon) + ' ' + c.title + '</button>';
+
+        panelsHtml += '<div class="case-panel' + active + '" id="' + c.id + '">';
+        panelsHtml += '<div class="case-header"><div class="case-icon">' + getIcon(c.icon) + '</div>';
+        panelsHtml += '<h3>' + c.title + '</h3></div>';
+        panelsHtml += '<div class="case-body">';
+        panelsHtml += '<div class="case-desc">' + c.desc + '</div>';
+        panelsHtml += '<div class="case-steps"><h4>' + PLUS_SVG + '操作流程</h4><ol>';
+        for (var s = 0; s < c.steps.length; s++) {
+            panelsHtml += '<li>' + c.steps[s] + '</li>';
+        }
+        panelsHtml += '</ol></div>';
+        panelsHtml += '<div class="case-tags">';
+        for (var t = 0; t < c.tags.length; t++) {
+            panelsHtml += '<span class="case-tag">' + STAR_SVG + c.tags[t] + '</span>';
+        }
+        panelsHtml += '</div></div></div>';
+    }
+    tabs.innerHTML = tabsHtml;
+    content.innerHTML = panelsHtml;
+
+    var tabBtns = tabs.querySelectorAll('.case-tab');
+    tabBtns.forEach(function(btn) {
         btn.addEventListener('click', function() {
-            tabs.querySelectorAll('.case-tab').forEach(b => b.classList.remove('active'));
-            content.querySelectorAll('.case-panel').forEach(p => p.classList.remove('active'));
+            tabBtns.forEach(function(b) { b.classList.remove('active'); });
+            content.querySelectorAll('.case-panel').forEach(function(p) { p.classList.remove('active'); });
             btn.classList.add('active');
-            const panel = document.getElementById(btn.getAttribute('data-case'));
+            var panel = document.getElementById(btn.getAttribute('data-case'));
             if (panel) panel.classList.add('active');
         });
     });
 }
 
 function renderGuide() {
-    const grid = document.getElementById('guideGrid');
-    if (!grid || !GUIDE_DATA) return;
-    grid.innerHTML = GUIDE_DATA.map(g => `
-        <div class="guide-card">
-            <div class="guide-number">${g.num}</div>
-            <h3>${g.title}</h3>
-            <ul class="guide-list">
-                ${g.items.map(item => `<li><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 110 16A8 8 0 018 0zm3.78 5.22a.75.75 0 00-1.06 0L7 8.94 5.28 7.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.06 0l4.25-4.25a.75.75 0 000-1.06z"/></svg>${item}</li>
-            </ul>
-        </div>
-    `).join('');
+    var grid = document.getElementById('guideGrid');
+    if (!grid || typeof GUIDE_DATA === 'undefined') return;
+    var html = '';
+    for (var i = 0; i < GUIDE_DATA.length; i++) {
+        var g = GUIDE_DATA[i];
+        html += '<div class="guide-card">';
+        html += '<div class="guide-number">' + g.num + '</div>';
+        html += '<h3>' + g.title + '</h3>';
+        html += '<ul class="guide-list">';
+        html += buildListItems(g.items, CHECK_SVG);
+        html += '</ul></div>';
+    }
+    grid.innerHTML = html;
 }
 
 function renderEntry() {
-    const grid = document.getElementById('entryGrid');
-    if (!grid || !ENTRY_DATA) return;
-    grid.innerHTML = ENTRY_DATA.map(e => `
-        <div class="entry-card" onclick="openApp('${e.id}')">
-            <div class="entry-icon ${e.color}">${getIcon(e.icon)}</div>
-            <h3>${e.title}</h3>
-            <p>${e.desc}</p>
-            <button class="entry-btn">
-                <svg viewBox="0 0 14 14" fill="currentColor"><path d="M1 1h5v1H2v10h10V8h1v5H1V1zm6 0h6v6h-1V3.41L4.71 8.7 4 8l4.3-4.3H7V1z"/></svg>
-                启动
-            </button>
-        </div>
-    `).join('');
+    var grid = document.getElementById('entryGrid');
+    if (!grid || typeof ENTRY_DATA === 'undefined') return;
+    var html = '';
+    for (var i = 0; i < ENTRY_DATA.length; i++) {
+        var e = ENTRY_DATA[i];
+        html += '<div class="entry-card" onclick="openApp(\'' + e.id + '\')">';
+        html += '<div class="entry-icon ' + e.color + '">' + getIcon(e.icon) + '</div>';
+        html += '<h3>' + e.title + '</h3>';
+        html += '<p>' + e.desc + '</p>';
+        html += '<button class="entry-btn"><svg viewBox="0 0 14 14" fill="currentColor" width="14" height="14"><path d="M1 1h5v1H2v10h10V8h1v5H1V1zm6 0h6v6h-1V3.41L4.71 8.7 4 8l4.3-4.3H7V1z"/></svg>启动</button>';
+        html += '</div>';
+    }
+    grid.innerHTML = html;
 }
 
 function renderFaq() {
-    const list = document.getElementById('faqList');
-    if (!list || !FAQ_DATA) return;
-    list.innerHTML = FAQ_DATA.map(f => `
-        <div class="faq-item">
-            <button class="faq-question">
-                ${f.q}
-                <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-            </button>
-            <div class="faq-answer">
-                <ul>${f.a.map(item => `<li><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 110 16A8 8 0 018 0zm3.78 5.22a.75.75 0 00-1.06 0L7 8.94 5.28 7.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.06 0l4.25-4.25a.75.75 0 000-1.06z"/></svg>${item}</li>`).join('')}</ul>
-            </div>
-        </div>
-    `).join('');
-    
-    list.querySelectorAll('.faq-question').forEach(q => {
+    var list = document.getElementById('faqList');
+    if (!list || typeof FAQ_DATA === 'undefined') return;
+    var html = '';
+    for (var i = 0; i < FAQ_DATA.length; i++) {
+        var f = FAQ_DATA[i];
+        html += '<div class="faq-item">';
+        html += '<button class="faq-question">' + f.q;
+        html += '<svg viewBox="0 0 20 20" fill="currentColor" width="20" height="20"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>';
+        html += '</button>';
+        html += '<div class="faq-answer"><ul>';
+        html += buildListItems(f.a, CHECK_SVG);
+        html += '</ul></div></div>';
+    }
+    list.innerHTML = html;
+
+    list.querySelectorAll('.faq-question').forEach(function(q) {
         q.addEventListener('click', function() {
-            const item = this.parentElement;
-            const isOpen = item.classList.contains('open');
-            list.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+            var item = this.parentElement;
+            var isOpen = item.classList.contains('open');
+            list.querySelectorAll('.faq-item').forEach(function(i) { i.classList.remove('open'); });
             if (!isOpen) item.classList.add('open');
         });
     });
 }
 
 function renderDocs() {
-    const grid = document.getElementById('docsGrid');
-    if (!grid || !DOCS_DATA) return;
-    grid.innerHTML = DOCS_DATA.map(d => `
-        <a href="../docs/${d.file}" class="doc-card" target="_blank">
-            <div class="doc-icon">${getIcon(d.icon)}</div>
-            <h3>${d.title}</h3>
-            <p>${d.desc}</p>
-        </a>
-    `).join('');
+    var grid = document.getElementById('docsGrid');
+    if (!grid || typeof DOCS_DATA === 'undefined') return;
+    var html = '';
+    for (var i = 0; i < DOCS_DATA.length; i++) {
+        var d = DOCS_DATA[i];
+        html += '<a href="../docs/' + encodeURIComponent(d.file) + '" class="doc-card" target="_blank">';
+        html += '<div class="doc-icon">' + getIcon(d.icon) + '</div>';
+        html += '<h3>' + d.title + '</h3>';
+        html += '<p>' + d.desc + '</p>';
+        html += '</a>';
+    }
+    grid.innerHTML = html;
 }
 
 // Open App
@@ -346,48 +363,39 @@ function openApp(app) {
 
 // Initialize
 document.addEventListener('DOMContentLoaded', function() {
-    // Particle System
-    const canvas = document.getElementById('particles');
+    var canvas = document.getElementById('particles');
     if (canvas) new ParticleSystem(canvas);
-    
-    // Typewriter
-    const tw = document.getElementById('typewriter');
+
+    var tw = document.getElementById('typewriter');
     if (tw) new Typewriter(tw, ['AI 驱动的智能办公解决方案', '让每个办公场景都有 AI 助手', '离线可用的完整办公套件', '一键安装即刻体验']);
-    
-    // Render content
+
     renderFeatures();
     renderCases();
     renderGuide();
     renderEntry();
     renderFaq();
     renderDocs();
-    
-    // Scroll Reveal
+
     new ScrollReveal();
-    
-    // Counter Animation
     new CounterAnimation();
-    
-    // Mobile nav
-    const navToggle = document.getElementById('navToggle');
-    const navLinks = document.querySelector('.nav-links');
+
+    var navToggle = document.getElementById('navToggle');
+    var navLinks = document.querySelector('.nav-links');
     if (navToggle && navLinks) {
-        navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
-        document.querySelectorAll('.nav-links a').forEach(l => {
-            l.addEventListener('click', () => navLinks.classList.remove('open'));
+        navToggle.addEventListener('click', function() { navLinks.classList.toggle('open'); });
+        document.querySelectorAll('.nav-links a').forEach(function(l) {
+            l.addEventListener('click', function() { navLinks.classList.remove('open'); });
         });
     }
-    
-    // Navbar scroll
-    window.addEventListener('scroll', () => {
+
+    window.addEventListener('scroll', function() {
         document.querySelector('.navbar').classList.toggle('scrolled', window.scrollY > 50);
     });
-    
-    // Smooth scroll
-    document.querySelectorAll('a[href^="#"]').forEach(a => {
+
+    document.querySelectorAll('a[href^="#"]').forEach(function(a) {
         a.addEventListener('click', function(e) {
             e.preventDefault();
-            const t = document.querySelector(this.getAttribute('href'));
+            var t = document.querySelector(this.getAttribute('href'));
             if (t) window.scrollTo({ top: t.getBoundingClientRect().top + window.pageYOffset - 72, behavior: 'smooth' });
         });
     });
