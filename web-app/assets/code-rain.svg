@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="800" viewBox="0 0 400 800">
+  <defs>
+    <linearGradient id="cr1" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#6366f1" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#6366f1" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#0ea5e9" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="crglow">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Code columns -->
+  <g font-family="monospace" font-size="14" fill="url(#cr1)" filter="url(#crglow)">
+    <text x="20" y="100">function</text>
+    <text x="20" y="130">const</text>
+    <text x="20" y="160">return</text>
+    <text x="20" y="190">async</text>
+    <text x="20" y="220">import</text>
+    
+    <text x="80" y="80">class</text>
+    <text x="80" y="110">extends</text>
+    <text x="80" y="140">export</text>
+    <text x="80" y="170">yield</text>
+    <text x="80" y="200">static</text>
+    
+    <text x="140" y="120">if</text>
+    <text x="140" y="150">else</text>
+    <text x="140" y="180">for</text>
+    <text x="140" y="210">while</text>
+    <text x="140" y="240">switch</text>
+    
+    <text x="200" y="90">true</text>
+    <text x="200" y="120">false</text>
+    <text x="200" y="150">null</text>
+    <text x="200" y="180">undefined</text>
+    <text x="200" y="210">this</text>
+    
+    <text x="260" y="110">new</text>
+    <text x="260" y="140">delete</text>
+    <text x="260" y="170">typeof</text>
+    <text x="260" y="200">instanceof</text>
+    
+    <text x="320" y="100">void</text>
+    <text x="320" y="130">throw</text>
+    <text x="320" y="160">try</text>
+    <text x="320" y="190">catch</text>
+    <text x="320" y="220">finally</text>
+  </g>
+  
+  <!-- Floating particles -->
+  <circle cx="50" cy="300" r="3" fill="#6366f1" opacity="0.6"/>
+  <circle cx="150" cy="350" r="2" fill="#0ea5e9" opacity="0.5"/>
+  <circle cx="250" cy="280" r="4" fill="#8b5cf6" opacity="0.7"/>
+  <circle cx="350" cy="320" r="2" fill="#06b6d4" opacity="0.5"/>
+  <circle cx="100" cy="400" r="3" fill="#6366f1" opacity="0.6"/>
+  <circle cx="300" cy="380" r="3" fill="#0ea5e9" opacity="0.6"/>
+</svg>

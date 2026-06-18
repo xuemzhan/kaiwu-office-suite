@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">
+  <defs>
+    <linearGradient id="ta1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.8"/>
+      <stop offset="50%" stop-color="#8b5cf6" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#0ea5e9" stop-opacity="0.8"/>
+    </linearGradient>
+    <linearGradient id="ta2" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#06b6d4" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#6366f1" stop-opacity="0.3"/>
+    </linearGradient>
+    <filter id="taglow">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <radialGradient id="ta3" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#f59e0b" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  
+  <!-- Background circles -->
+  <circle cx="200" cy="200" r="150" fill="url(#ta3)" opacity="0.3"/>
+  <circle cx="1000" cy="600" r="200" fill="url(#ta3)" opacity="0.2"/>
+  
+  <!-- Main circuit paths -->
+  <g stroke="url(#ta1)" stroke-width="2" fill="none" filter="url(#taglow)">
+    <!-- Horizontal lines -->
+    <path d="M0,100 H300 L320,120 H500 L520,100 H800 L820,120 H1200"/>
+    <path d="M0,300 H200 L220,280 H400 L420,300 H700 L720,280 H1000 L1020,300 H1200"/>
+    <path d="M0,500 H150 L170,520 H350 L370,500 H600 L620,520 H900 L920,500 H1200"/>
+    <path d="M0,700 H250 L270,680 H450 L470,700 H750 L770,680 H1050 L1070,700 H1200"/>
+    
+    <!-- Vertical lines -->
+    <path d="M100,0 V200 L120,220 V400 L100,420 V600 L120,620 V800"/>
+    <path d="M300,0 V150 L320,170 V350 L300,370 V550 L320,570 V800"/>
+    <path d="M600,0 V100 L620,120 V300 L600,320 V500 L620,520 V800"/>
+    <path d="M900,0 V180 L920,200 V380 L900,400 V580 L920,600 V800"/>
+    <path d="M1100,0 V120 L1080,140 V320 L1100,340 V520 L1080,540 V800"/>
+    
+    <!-- Diagonal connections -->
+    <path d="M100,100 L300,300"/>
+    <path d="M300,100 L100,300"/>
+    <path d="M600,300 L900,500"/>
+    <path d="M900,300 L600,500"/>
+    <path d="M1100,500 L900,700"/>
+    <path d="M900,500 L1100,700"/>
+  </g>
+  
+  <!-- Node circles -->
+  <g fill="url(#ta1)" filter="url(#taglow)">
+    <circle cx="100" cy="100" r="8"/><circle cx="300" cy="100" r="6"/>
+    <circle cx="600" cy="100" r="8"/><circle cx="900" cy="100" r="6"/>
+    <circle cx="1100" cy="100" r="8"/>
+    <circle cx="100" cy="300" r="6"/><circle cx="300" cy="300" r="10"/>
+    <circle cx="600" cy="300" r="6"/><circle cx="900" cy="300" r="10"/>
+    <circle cx="1100" cy="300" r="6"/>
+    <circle cx="100" cy="500" r="8"/><circle cx="300" cy="500" r="6"/>
+    <circle cx="600" cy="500" r="10"/><circle cx="900" cy="500" r="8"/>
+    <circle cx="1100" cy="500" r="6"/>
+    <circle cx="100" cy="700" r="6"/><circle cx="300" cy="700" r="8"/>
+    <circle cx="600" cy="700" r="6"/><circle cx="900" cy="700" r="8"/>
+    <circle cx="1100" cy="700" r="10"/>
+  </g>
+  
+  <!-- Glowing center -->
+  <circle cx="600" cy="400" r="50" fill="url(#ta1)" opacity="0.3" filter="url(#taglow)"/>
+  <circle cx="600" cy="400" r="30" fill="url(#ta1)" opacity="0.5" filter="url(#taglow)"/>
+  <circle cx="600" cy="400" r="15" fill="#fff" opacity="0.8"/>
+</svg>
