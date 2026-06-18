@@ -257,3 +257,26 @@ function openApp(app) {
     if (!path) { alert('组件路径未配置'); return; }
     alert('即将打开：' + name + '\n\n路径：' + path + '\n\n说明：需要在已安装套件的 Windows 7 环境下使用。');
 }
+
+// Data Stream Effect
+(function initDataStream() {
+    var container = document.getElementById('dataStream');
+    if (!container) return;
+    var chars = '01アイウエオカキクケコ<>/{}[]';
+    for (var i = 0; i < 20; i++) {
+        var span = document.createElement('span');
+        span.textContent = chars[Math.floor(Math.random() * chars.length)];
+        span.style.left = Math.random() * 100 + '%';
+        span.style.animationDuration = (5 + Math.random() * 8) + 's';
+        span.style.animationDelay = (-Math.random() * 10) + 's';
+        span.style.fontSize = (10 + Math.random() * 6) + 'px';
+        container.appendChild(span);
+    }
+    setInterval(function() {
+        var spans = container.querySelectorAll('span');
+        if (spans.length > 0) {
+            var idx = Math.floor(Math.random() * spans.length);
+            spans[idx].textContent = chars[Math.floor(Math.random() * chars.length)];
+        }
+    }, 2000);
+})();
