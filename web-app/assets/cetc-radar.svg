@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" fill="none">
+  <defs>
+    <linearGradient id="cetcGrad" x1="0" y1="0" x2="400" y2="400">
+      <stop offset="0%" stop-color="#C41230" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#0066CC" stop-opacity="0.1"/>
+    </linearGradient>
+    <radialGradient id="radarGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#C41230" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#C41230" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  
+  <!-- Radar circles -->
+  <circle cx="200" cy="200" r="180" stroke="#C41230" stroke-width="0.5" fill="none" opacity="0.15"/>
+  <circle cx="200" cy="200" r="140" stroke="#C41230" stroke-width="0.5" fill="none" opacity="0.12"/>
+  <circle cx="200" cy="200" r="100" stroke="#C41230" stroke-width="0.5" fill="none" opacity="0.1"/>
+  <circle cx="200" cy="200" r="60" stroke="#C41230" stroke-width="0.5" fill="none" opacity="0.08"/>
+  <circle cx="200" cy="200" r="20" stroke="#C41230" stroke-width="0.5" fill="none" opacity="0.06"/>
+  
+  <!-- Radar cross lines -->
+  <line x1="200" y1="20" x2="200" y2="380" stroke="#C41230" stroke-width="0.3" opacity="0.1"/>
+  <line x1="20" y1="200" x2="380" y2="200" stroke="#C41230" stroke-width="0.3" opacity="0.1"/>
+  <line x1="73" y1="73" x2="327" y2="327" stroke="#C41230" stroke-width="0.3" opacity="0.08"/>
+  <line x1="327" y1="73" x2="73" y2="327" stroke="#C41230" stroke-width="0.3" opacity="0.08"/>
+  
+  <!-- Radar sweep effect -->
+  <path d="M200 200 L200 20 A180 180 0 0 1 350 100 Z" fill="url(#radarGlow)" opacity="0.4">
+    <animateTransform attributeName="transform" type="rotate" from="0 200 200" to="360 200 200" dur="8s" repeatCount="indefinite"/>
+  </path>
+  
+  <!-- Signal dots -->
+  <circle cx="150" cy="120" r="3" fill="#C41230" opacity="0.6">
+    <animate attributeName="opacity" values="0.6;0.2;0.6" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="280" cy="150" r="2.5" fill="#0066CC" opacity="0.5">
+    <animate attributeName="opacity" values="0.5;0.1;0.5" dur="2.5s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="120" cy="280" r="2" fill="#C41230" opacity="0.4">
+    <animate attributeName="opacity" values="0.4;0.1;0.4" dur="3s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="300" cy="260" r="2.5" fill="#0066CC" opacity="0.5">
+    <animate attributeName="opacity" values="0.5;0.15;0.5" dur="2.2s" repeatCount="indefinite"/>
+  </circle>
+  
+  <!-- Hexagonal grid pattern -->
+  <path d="M200 60 L260 90 L260 150 L200 180 L140 150 L140 90 Z" stroke="#0066CC" stroke-width="0.5" fill="none" opacity="0.08"/>
+  <path d="M200 220 L260 250 L260 310 L200 340 L140 310 L140 250 Z" stroke="#0066CC" stroke-width="0.5" fill="none" opacity="0.06"/>
+</svg>

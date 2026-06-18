@@ -22,19 +22,94 @@
 }
 
 .theme-cetc {
-    --primary: #C00000;
-    --primary-dark: #990000;
-    --primary-light: #E03030;
-    --primary-rgb: 192, 0, 0;
-    --secondary: #FF6B6B;
-    --secondary-rgb: 255, 107, 107;
+    --primary: #C41230;
+    --primary-dark: #8B0D22;
+    --primary-light: #E8354A;
+    --primary-rgb: 196, 18, 48;
+    --secondary: #0066CC;
+    --secondary-rgb: 0, 102, 204;
     --accent: #FFD700;
     --accent-rgb: 255, 215, 0;
-    --pink: #FF3366;
-    --pink-rgb: 255, 51, 102;
-    --cyan: #00D4FF;
-    --cyan-rgb: 0, 212, 255;
-    --glow: 0 0 60px rgba(192, 0, 0, 0.3);
+    --pink: #FF2D55;
+    --pink-rgb: 255, 45, 85;
+    --cyan: #00AAFF;
+    --cyan-rgb: 0, 170, 255;
+    --glow: 0 0 60px rgba(196, 18, 48, 0.4);
+    --bg-card: rgba(20, 10, 15, 0.7);
+    --border: rgba(196, 18, 48, 0.12);
+}
+
+/* CETC Theme Specific Styles */
+.theme-cetc .tech-bg::before {
+    background: url('assets/cetc-circuit.svg') repeat;
+    opacity: 0.6;
+}
+.theme-cetc .tech-bg::after {
+    background: 
+        radial-gradient(circle at 20% 20%, rgba(196, 18, 48, 0.25) 0%, transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(0, 102, 204, 0.2) 0%, transparent 40%),
+        radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.08) 0%, transparent 50%);
+}
+.theme-cetc .hero-bg-pattern {
+    background: url('assets/cetc-radar.svg') center/cover no-repeat;
+    opacity: 0.5;
+}
+.theme-cetc .section-bg.circuit {
+    background: url('assets/cetc-circuit.svg') center/contain no-repeat;
+    opacity: 0.25;
+}
+.theme-cetc .section-bg.hexagon {
+    background: url('assets/cetc-radar.svg') repeat;
+    opacity: 0.2;
+}
+
+/* CETC Radar sweep animation */
+.theme-cetc .scan-line {
+    background: linear-gradient(90deg, transparent, #C41230, transparent);
+    box-shadow: 0 0 20px #C41230, 0 0 40px #C41230;
+}
+.theme-cetc .shape::before {
+    background: var(--primary);
+    box-shadow: 0 0 10px var(--primary), 0 0 20px var(--primary);
+}
+.theme-cetc .data-stream span {
+    color: var(--primary);
+    text-shadow: 0 0 5px var(--primary);
+}
+
+/* CETC Signal pulse animation */
+@keyframes cetcPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(196, 18, 48, 0.4); }
+    50% { box-shadow: 0 0 0 15px rgba(196, 18, 48, 0); }
+}
+.theme-cetc .hero-badge {
+    animation: cetcPulse 2s infinite, fadeInDown 0.8s ease;
+}
+.theme-cetc .feature-icon {
+    animation: cetcPulse 3s infinite;
+}
+
+/* CETC Military tech aesthetic */
+.theme-cetc .btn-primary {
+    background: linear-gradient(135deg, #C41230, #8B0D22);
+    box-shadow: 0 4px 20px rgba(196, 18, 48, 0.5);
+}
+.theme-cetc .btn-primary:hover {
+    box-shadow: 0 8px 30px rgba(196, 18, 48, 0.7);
+}
+.theme-cetc .case-tab.active {
+    background: linear-gradient(135deg, #C41230, #8B0D22);
+    box-shadow: 0 4px 20px rgba(196, 18, 48, 0.5);
+}
+.theme-cetc .guide-number {
+    background: linear-gradient(135deg, #C41230, #8B0D22);
+    box-shadow: 0 4px 20px rgba(196, 18, 48, 0.5);
+}
+.theme-cetc .entry-btn {
+    background: #C41230;
+}
+.theme-cetc .entry-btn:hover {
+    background: #8B0D22;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
@@ -541,6 +616,10 @@ body {
     width: 100%; height: 150px; background: url('assets/wave.svg') no-repeat center;
     background-size: cover; position: relative; z-index: 1; margin-top: -60px;
     filter: drop-shadow(0 0 20px rgba(var(--primary-rgb), 0.5));
+}
+.theme-cetc .wave-separator {
+    background: url('assets/cetc-wave.svg') no-repeat center;
+    background-size: cover;
 }
 
 @media (max-width: 1024px) {

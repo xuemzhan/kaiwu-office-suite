@@ -402,7 +402,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Theme Switcher
     var themes = ['default', 'cetc'];
-    var themeColors = { default: '#6366f1', cetc: '#C00000' };
+    var themeColors = { 
+        default: { main: '#6366f1', light: '#818cf8', mid: '#0ea5e9', dark: '#4f46e5', deep: '#6366f1', rgb: '99, 102, 241' },
+        cetc: { main: '#C41230', light: '#E8354A', mid: '#0066CC', dark: '#8B0D22', deep: '#004499', rgb: '196, 18, 48' }
+    };
     var savedTheme = localStorage.getItem('kw-theme') || 'default';
     applyTheme(savedTheme);
 
@@ -421,17 +424,18 @@ document.addEventListener('DOMContentLoaded', function() {
     function applyTheme(name) {
         document.body.setAttribute('data-theme', name);
         document.documentElement.className = name === 'default' ? '' : 'theme-' + name;
-        if (themeLabel) themeLabel.textContent = name;
+        var labels = { default: 'Default', cetc: 'CETC' };
+        if (themeLabel) themeLabel.textContent = labels[name] || name;
         updateSvgColors(name);
     }
 
     function updateSvgColors(name) {
         var c = themeColors[name] || themeColors['default'];
-        var rgb = name === 'cetc' ? '192, 0, 0' : '99, 102, 241';
-        var light = name === 'cetc' ? '#E03030' : '#818cf8';
-        var mid = name === 'cetc' ? '#FF6B6B' : '#0ea5e9';
-        var dark = name === 'cetc' ? '#C00000' : '#6366f1';
-        var deep = name === 'cetc' ? '#990000' : '#4f46e5';
+        var rgb = c.rgb;
+        var light = c.light;
+        var mid = c.mid;
+        var dark = c.dark;
+        var deep = c.deep;
 
         document.querySelectorAll('.nav-brand svg, .footer-brand svg').forEach(function(svg) {
             var stops = svg.querySelectorAll('linearGradient stop');
@@ -491,5 +495,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (heroGlow) heroGlow.style.background = 'radial-gradient(circle, rgba(' + rgb + ', 0.35) 0%, transparent 55%)';
         var heroGlow2 = document.querySelector('.hero-glow-2');
         if (heroGlow2) heroGlow2.style.background = 'radial-gradient(circle, rgba(' + rgb + ', 0.25) 0%, transparent 55%)';
+        
+        document.documentElement.style.setProperty('--cetc-glow', 'radial-gradient(circle, rgba(' + rgb + ', 0.35) 0%, transparent 55%)');
     }
 });

@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" fill="none">
+  <defs>
+    <linearGradient id="circuitGrad" x1="0" y1="0" x2="400" y2="400">
+      <stop offset="0%" stop-color="#C41230" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#0066CC" stop-opacity="0.08"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Circuit board traces -->
+  <path d="M0 100 H80 V150 H160 V100 H240 V180 H320 V100 H400" stroke="#C41230" stroke-width="0.8" fill="none" opacity="0.15"/>
+  <path d="M0 200 H60 V250 H140 V200 H220 V280 H300 V200 H400" stroke="#0066CC" stroke-width="0.8" fill="none" opacity="0.12"/>
+  <path d="M0 300 H100 V340 H180 V300 H260 V360 H340 V300 H400" stroke="#C41230" stroke-width="0.8" fill="none" opacity="0.1"/>
+  
+  <!-- Vertical traces -->
+  <path d="M100 0 V80 H150 V160 H100 V240 H150 V320 H100 V400" stroke="#0066CC" stroke-width="0.6" fill="none" opacity="0.1"/>
+  <path d="M200 0 V60 H250 V140 H200 V220 H250 V300 H200 V380 H250 V400" stroke="#C41230" stroke-width="0.6" fill="none" opacity="0.12"/>
+  <path d="M300 0 V100 H350 V180 H300 V260 H350 V340 H300 V400" stroke="#0066CC" stroke-width="0.6" fill="none" opacity="0.08"/>
+  
+  <!-- Circuit nodes -->
+  <circle cx="80" cy="100" r="4" fill="#C41230" opacity="0.2"/>
+  <circle cx="160" cy="150" r="3" fill="#0066CC" opacity="0.18"/>
+  <circle cx="240" cy="100" r="4" fill="#C41230" opacity="0.2"/>
+  <circle cx="320" cy="180" r="3" fill="#0066CC" opacity="0.15"/>
+  <circle cx="60" cy="200" r="3" fill="#C41230" opacity="0.15"/>
+  <circle cx="140" cy="250" r="4" fill="#0066CC" opacity="0.2"/>
+  <circle cx="220" cy="200" r="3" fill="#C41230" opacity="0.18"/>
+  <circle cx="300" cy="280" r="4" fill="#0066CC" opacity="0.15"/>
+  <circle cx="100" cy="300" r="3" fill="#C41230" opacity="0.15"/>
+  <circle cx="180" cy="340" r="4" fill="#0066CC" opacity="0.18"/>
+  <circle cx="260" cy="300" r="3" fill="#C41230" opacity="0.12"/>
+  <circle cx="340" cy="360" r="4" fill="#0066CC" opacity="0.15"/>
+  
+  <!-- IC chip symbols -->
+  <rect x="120" y="120" width="20" height="20" rx="2" stroke="#C41230" stroke-width="0.8" fill="none" opacity="0.15"/>
+  <rect x="280" y="240" width="20" height="20" rx="2" stroke="#0066CC" stroke-width="0.8" fill="none" opacity="0.12"/>
+  
+  <!-- Data flow animation dots -->
+  <circle r="2" fill="#C41230" opacity="0.6">
+    <animateMotion dur="4s" repeatCount="indefinite" path="M0 100 H80 V150 H160 V100 H240"/>
+  </circle>
+  <circle r="2" fill="#0066CC" opacity="0.5">
+    <animateMotion dur="5s" repeatCount="indefinite" path="M0 200 H60 V250 H140 V200 H220"/>
+  </circle>
+</svg>

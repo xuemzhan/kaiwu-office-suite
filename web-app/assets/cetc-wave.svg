@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 150" fill="none" preserveAspectRatio="none">
+  <defs>
+    <linearGradient id="cetcWaveGrad" x1="0" y1="0" x2="1440" y2="0">
+      <stop offset="0%" stop-color="#C41230" stop-opacity="0.3"/>
+      <stop offset="50%" stop-color="#0066CC" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#C41230" stop-opacity="0.3"/>
+    </linearGradient>
+  </defs>
+  <path d="M0 80 Q360 20 720 80 T1440 80 V150 H0 Z" fill="url(#cetcWaveGrad)" opacity="0.4"/>
+  <path d="M0 100 Q360 50 720 100 T1440 100 V150 H0 Z" fill="url(#cetcWaveGrad)" opacity="0.25"/>
+  <path d="M0 120 Q360 80 720 120 T1440 120 V150 H0 Z" fill="url(#cetcWaveGrad)" opacity="0.15"/>
+</svg>
