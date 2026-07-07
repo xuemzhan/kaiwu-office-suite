@@ -25,7 +25,9 @@
       "input": ["document_path"],
       "output": "results/summary.txt",
       "need_admin": false,
-      "log": "logs/wps_summary.log"
+      "log": "logs/wps_summary.log",
+      "experimental": true,
+      "status_note": "2026-07-07: 当前为占位实现。需要 Python 3.7+ + python-docx + 本地 LLM 服务才能实装。详见 release_note.md 第七节。"
     },
     {
       "name": "obsidian_note",

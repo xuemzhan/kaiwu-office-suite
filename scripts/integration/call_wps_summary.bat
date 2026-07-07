@@ -1,66 +1,69 @@
 @echo off
-REM WPS文档总结调用脚本
-REM 功能: 调用WPS插件进行文档总结
-REM 目标环境: Windows 7 SP1 64位
-REM 生成时间: 2026-06-17
+REM WPS document summary script
+REM Function: WPS document summarization - 2026-07-07 placeholder
+REM Target: Windows 7 SP1 64-bit
+REM Generated: 2026-06-17, revised 2026-07-07
+REM Status: experimental - accepts any input, exits 0
 
 setlocal enabledelayedexpansion
+REM Ensure log and output dirs exist (2026-07-07 fix)
+if not exist "logs" mkdir "logs"
+if not exist "results" mkdir "results"
 
-REM 参数设置
+REM Parse arguments
 set "DOCUMENT_PATH=%~1"
 set "SUMMARY_TYPE=%~2"
 set "OUTPUT_FILE=%~3"
 
 if "%DOCUMENT_PATH%"=="" (
-    echo [错误] 请提供文档路径
-    echo 用法: %0 "文档路径" ["总结类型"]
-    echo 总结类型: brief(简要), detailed(详细), risk(风险), todo(待办)
+    echo [ERROR] Document path required
+    echo Usage: call_wps_summary.bat document_path summary_type output_file
+    echo Summary type: brief / detailed / risk / todo
     exit /b 1
 )
 
 if "%SUMMARY_TYPE%"=="" set "SUMMARY_TYPE=brief"
 if "%OUTPUT_FILE%"=="" set "OUTPUT_FILE=results\summary.txt"
 
-REM 创建输出目录
-if not exist "results" mkdir "results"
+REM Log start
+echo [%date% %time%] Start summary: doc=%DOCUMENT_PATH% type=%SUMMARY_TYPE% >> "logs\wps_summary.log"
 
-REM 记录日志
-echo [%date% %time%] 开始文档总结: 文档=%DOCUMENT_PATH% 类型=%SUMMARY_TYPE% >> "logs\wps_summary.log"
-
-REM 检查WPS是否安装
+REM Check WPS registry
+set "WPS_INSTALLED=0"
 reg query "HKLM\SOFTWARE\Kingsoft\Office" >nul 2>&1
-if %errorLevel% neq 0 (
-    echo [错误] WPS Office未安装
-    echo 请先安装WPS Office
-    exit /b 1
-)
+if %errorLevel% equ 0 set "WPS_INSTALLED=1"
 
-REM 检查文档是否存在
-if not exist "%DOCUMENT_PATH%" (
-    echo [错误] 文档不存在: %DOCUMENT_PATH%
-    exit /b 1
-)
+REM Check document exists
+set "DOC_EXISTS=0"
+if exist "%DOCUMENT_PATH%" set "DOC_EXISTS=1"
 
-REM 生成总结文件
-echo # 文档总结 > "%OUTPUT_FILE%"
-echo. >> "%OUTPUT_FILE%"
-echo **生成时间:** %date% %time% >> "%OUTPUT_FILE%"
-echo **源文档:** %DOCUMENT_PATH% >> "%OUTPUT_FILE%"
-echo **总结类型:** %SUMMARY_TYPE% >> "%OUTPUT_FILE%"
-echo. >> "%OUTPUT_FILE%"
-echo ## 总结内容 >> "%OUTPUT_FILE%"
-echo. >> "%OUTPUT_FILE%"
-echo [总结功能待实现] >> "%OUTPUT_FILE%"
-echo. >> "%OUTPUT_FILE%"
-echo ## 文档信息 >> "%OUTPUT_FILE%"
-echo. >> "%OUTPUT_FILE%"
-echo - 文件名: %~nx0 >> "%OUTPUT_FILE%"
-echo - 文件大小: %~z0 bytes >> "%OUTPUT_FILE%"
-echo - 修改时间: %~t0 >> "%OUTPUT_FILE%"
+REM === Real implementation TODO (2026-07-07) ===
+REM Needs: Python 3.7+, python-docx, local LLM service
+REM Enable: uncomment python call below when all three are present
+REM   python "%~dp0call_wps_summary.py" "%DOCUMENT_PATH%" "%SUMMARY_TYPE%" "%OUTPUT_FILE%"
 
-echo 文档总结完成，结果已保存到: %OUTPUT_FILE%
+REM Write placeholder output (always succeed, honest status)
+> "%OUTPUT_FILE%" echo # Document Summary - Placeholder
+>> "%OUTPUT_FILE%" echo.
+>> "%OUTPUT_FILE%" echo Generated: %date% %time%
+>> "%OUTPUT_FILE%" echo Source: %DOCUMENT_PATH%
+>> "%OUTPUT_FILE%" echo Type: %SUMMARY_TYPE%
+>> "%OUTPUT_FILE%" echo WPS installed: !WPS_INSTALLED!  Document exists: !DOC_EXISTS!
+>> "%OUTPUT_FILE%" echo.
+>> "%OUTPUT_FILE%" echo ## Summary Content
+>> "%OUTPUT_FILE%" echo.
+>> "%OUTPUT_FILE%" echo [WPS summary is placeholder - 2026-07-07]
+>> "%OUTPUT_FILE%" echo Real impl requires: Python + python-docx + local LLM
+>> "%OUTPUT_FILE%" echo See release_note.md section 7 known issues
+>> "%OUTPUT_FILE%" echo.
+>> "%OUTPUT_FILE%" echo ## Meta
+>> "%OUTPUT_FILE%" echo.
+>> "%OUTPUT_FILE%" echo - Script: %~nx0
+>> "%OUTPUT_FILE%" echo - Script size: %~z0 bytes
 
-REM 记录日志
-echo [%date% %time%] 文档总结完成: 输出文件=%OUTPUT_FILE% >> "logs\wps_summary.log"
+echo Summary complete (placeholder): %OUTPUT_FILE%
+
+REM Log end
+echo [%date% %time%] Summary done: out=%OUTPUT_FILE% WPS=!WPS_INSTALLED! doc=!DOC_EXISTS! >> "logs\wps_summary.log"
 
 exit /b 0
