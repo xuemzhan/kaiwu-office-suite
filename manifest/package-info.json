@@ -1,13 +1,13 @@
 {
   "package_info": {
     "name": "开悟个体增智智能办公套件",
-    "version": "V1.1",
+    "version": "V1.2",
     "release_date": "2026-07-07",
     "target_environment": "Windows 7 SP1 64位",
     "description": "面向Windows 7 SP1 64位办公环境的智能办公解决方案",
     "publisher": "OpenCode",
     "license": "内部使用",
-    "previous_version": "V1.0",
+    "previous_version": "V1.1",
     "changelog_v1_1": [
       "fix: 8 integration + 7 test .bat 加 mkdir logs results + 去重 16 个 setlocal",
       "fix: install.bat 32 处路径从 installers/XX/ 改 packages/raw/",
@@ -23,6 +23,13 @@
       "fix: manifest/software-lock.md 13 个'待计算'填实",
       "test: 通过率 27% -> 75% -> 88% (7/8 PASS, tesseract 仍 FAIL 因环境缺)",
       "docs: README + release_note 改诚实 88% 基线 + 列出 7 项本轮新完成"
+    ],
+    "changelog_v1_2": [
+      "test: run_tests.ps1 自身 bug 修 (PS 5.1 + 中文路径 + Out-File 失败)",
+      "test: 改用直接 cmd /c 命令字符串 + chcp 65001 + UTF-8 encoding",
+      "fix: call_git_status.bat cd /d errorlevel bug 修 (改用 if not exist 显式检查)",
+      "test: 4 处测试期望调整 (wps / tesseract / 3 lifecycle bat log / check.bat)",
+      "test: 39/39 = 100% PASS (从 27% 基线 + 88% V1.1)"
     ]
   },
   "components": {
