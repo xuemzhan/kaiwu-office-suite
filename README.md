@@ -100,10 +100,10 @@ python -m http.server 8080
 
 - **首页** - 套件概览与统计数据
 - **功能介绍** - 6 大核心功能卡片展示
-- **场景案例** - 6 个详细操作案例（Tab 切换）
+- **场景案例** - 5 个详细操作案例（Tab 切换）
 - **使用说明** - 4 步安装与使用指南
 - **快速入口** - 8 个组件快速启动按钮
-- **常见问题** - 7 个 FAQ 手风琴面板
+- **常见问题** - 5 个 FAQ 手风琴面板
 - **文档中心** - 8 份文档链接入口
 
 ## 目录结构
@@ -134,7 +134,7 @@ kaiwu-office-suite-v1.0/
 │   └── download/            # download_all.ps1 (V1.1: 8 SHA256 真值)
 ├── config/                  # 配置文件目录
 ├── templates/               # 模板目录
-├── examples/                # 示例目录
+├── examples/                # 4 个真实模板 (todo/weekly_report/meeting_notes/project_plan)
 ├── docs/                    # 文档目录 (V1.1 新增 2 份: ZIP包使用说明 + Win7验证清单)
 ├── tests/                   # 回归测试 (V1.2: run_tests.ps1 自身 bug 修, 39/39 PASS)
 └── logs/                    # 日志目录
@@ -170,7 +170,7 @@ kaiwu-office-suite-v1.0/
 > - 4 处测试期望调整: wps 占位 / tesseract 环境缺 / 3 lifecycle log 时间戳 / check.bat FAIL 正常
 >
 > **V1.1 关键修复**:
-> - 8 个 integration .bat + 7 个 test .bat 加 `mkdir logs results` + 清掉 16 个重复 setlocal
+> - 8 个 integration .bat + 12 个 test_*/test_script.bat 加 `mkdir logs results` + 清掉 16 个重复 setlocal
 > - `uninstall.bat` 8 步实装 (wmic + Y/N 询问 + 不动 base runtime)
 > - `repair.bat` 9 种修复实装
 > - `call_wps_summary.bat` 占位实装 (任何输入 exit 0, 写诚实占位)
@@ -193,6 +193,11 @@ powershell -ExecutionPolicy Bypass -File tests\run_tests.ps1
 
 ## 版本历史
 
+### V1.3 (2026-07-07)
+- 删 6 个死代码空 `examples/0[1-6]_*` 目录 — web-app 用 `data.js` CASES_DATA 静态数组, 5 个场景,不读文件系统
+- README 改 "6 个场景案例" -> 5 个, "7 个 FAQ" -> 5 个 — 与 web-app `data.js` 实际数组长度一致
+- 4 个真实 `example_*.md` 模板保留 (todo/weekly_report/meeting_notes/project_plan)
+
 ### V1.2 (2026-07-07)
 - 测试通过率：**39/39 = 100%** (从 27% 修复前)
 - `run_tests.ps1` v3 fix: 完全去掉 wrapper.bat 中间文件 (PS 5.1 + 中文路径兼容)
@@ -201,7 +206,7 @@ powershell -ExecutionPolicy Bypass -File tests\run_tests.ps1
 - SHA256 校验链路完整 (`verify_installers.bat` 装前自动跑)
 
 ### V1.1 (2026-07-07)
-- 8 个 integration .bat + 7 个 test .bat 加 `mkdir logs results`
+- 8 个 integration .bat + 12 个 test_*/test_script.bat 加 `mkdir logs results`
 - `install.bat` / `install_runtime.bat` 路径与文件名错修
 - `uninstall.bat` 8 步实装
 - `repair.bat` 9 种修复实装
