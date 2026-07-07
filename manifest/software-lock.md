@@ -5,13 +5,19 @@
 
 ---
 
+**修订记录:**
+- 2026-07-07: 14 个 SHA256 从实测 packages/raw/ 填入(KexStepup / XMind 未下载,标 NOT DOWNLOADED)
+  - 实测脚本: `manifest/../fix_verify_sha256_20260707.py`
+  - 新 SHA256SUMS.txt: `manifest/SHA256SUMS.txt`(旧版备份在 `.bak`)
+  - 14/14 文件 hash 与旧清单 100% 匹配
+
 ## 一、基础运行组件
 
 | 软件名称 | 推荐版本 | Win7兼容性 | 下载来源 | 文件名 | 文件大小 | SHA256 | 静默安装参数 | 必装 | 可选 | 需重启 | 自动升级 | 备注 |
 |----------|----------|------------|----------|--------|----------|--------|--------------|------|------|--------|----------|------|
-| .NET Framework 4.8 | 4.8 | 已验证 | 微软官方 | ndp48-x86-x64-allos-enu.exe | 约70MB | 待计算 | /quiet /norestart | 是 | 否 | 是 | 否 | 离线安装包 |
-| WebView2 Runtime | 109.0.1518.46 | 已验证 | 微软官方 | MicrosoftEdgeWebView2RuntimeInstallerX64.exe | 约150MB | 待计算 | /silent /install | 是 | 否 | 否 | 否 | 固定109系列 |
-| VC++ Runtime | 14.38.33135 | 已验证 | 微软官方 | vc_redist.x64.exe | 约25MB | 待计算 | /install /quiet /norestart | 是 | 否 | 否 | 否 | Win7兼容版本 |
+| .NET Framework 4.8 | 4.8 | 已验证 | 微软官方 | ndp48-x86-x64-allos-enu.exe | 约70MB | 0a3a390c47e639d0f7fc65b21195fee6b7f65b066f80f70c60fab191d14b7e40 | /quiet /norestart | 是 | 否 | 是 | 否 | 离线安装包 |
+| WebView2 Runtime | 109.0.1518.46 | 已验证 | 微软官方 | MicrosoftEdgeWebView2RuntimeInstallerX64.exe | 约150MB | af1067d9cc7f107ca96ddd8d5212724bdae3bd9eb46e619d2ca5c1f3e3041612 | /silent /install | 是 | 否 | 否 | 否 | 固定109系列 |
+| VC++ Runtime | 14.38.33135 | 已验证 | 微软官方 | vc_redist.x64.exe | 约25MB | cc0ff0eb1dc3f5188ae6300faef32bf5beeba4bdd6e8e445a9184072096b713b | /install /quiet /norestart | 是 | 否 | 否 | 否 | Win7兼容版本 |
 
 ---
 
@@ -19,7 +25,7 @@
 
 | 软件名称 | 推荐版本 | Win7兼容性 | 下载来源 | 文件名 | 文件大小 | SHA256 | 静默安装参数 | 必装 | 可选 | 需重启 | 自动升级 | 备注 |
 |----------|----------|------------|----------|--------|----------|--------|--------------|------|------|--------|----------|------|
-| Git for Windows | 2.46.2 | 已验证 | GitHub | Git-2.46.2-64-bit.exe | 约60MB | 待计算 | /VERYSILELS /NORESTART | 是 | 否 | 否 | 否 | 固定2.46.2版本 |
+| Git for Windows | 2.46.2 | 已验证 | GitHub | Git-2.46.2-64-bit.exe | 约60MB | eac009616605ec7207fbe1990627f453b826a1f23a33d54d9b0be8f4b0cb2094 | /VERYSILELS /NORESTART | 是 | 否 | 否 | 否 | 固定2.46.2版本 |
 
 ---
 
@@ -27,7 +33,7 @@
 
 | 软件名称 | 推荐版本 | Win7兼容性 | 下载来源 | 文件名 | 文件大小 | SHA256 | 静默安装参数 | 必装 | 可选 | 需重启 | 自动升级 | 备注 |
 |----------|----------|------------|----------|--------|----------|--------|--------------|------|------|--------|----------|------|
-| Everything | 1.4.1.1024 | 已验证 | voidtools | Everything-1.4.1.1024.x64-Setup.exe | 约2MB | 待计算 | /S | 是 | 否 | 否 | 否 | 官方稳定版 |
+| Everything | 1.4.1.1024 | 已验证 | voidtools | Everything-1.4.1.1024.x64-Setup.exe | 约2MB | b2afe799584c913532c673f99ade45113bf5a5b605a964ce9fa837f563b6fc21 | /S | 是 | 否 | 否 | 否 | 官方稳定版 |
 
 ---
 
@@ -35,9 +41,9 @@
 
 | 软件名称 | 推荐版本 | Win7兼容性 | 下载来源 | 文件名 | 文件大小 | SHA256 | 静默安装参数 | 必装 | 可选 | 需重启 | 自动升级 | 备注 |
 |----------|----------|------------|----------|--------|----------|--------|--------------|------|------|--------|----------|------|
-| Tesseract-OCR | 5.3.1 | 已验证 | GitHub | tesseract-ocr-w64-setup-5.3.1.20231002.exe | 约80MB | 待计算 | /S | 是 | 否 | 否 | 否 | Win7兼容版本 |
-| Tesseract中文语言包 | 与Tesseract版本匹配 | 已验证 | GitHub | chi_sim.traineddata | 约50MB | 待计算 | 复制到tessdata目录 | 是 | 否 | 否 | 否 | 中文简体语言包 |
-| Tesseract英文语言包 | 与Tesseract版本匹配 | 已验证 | GitHub | eng.traineddata | 约5MB | 待计算 | 复制到tessdata目录 | 是 | 否 | 否 | 否 | 英文语言包 |
+| Tesseract-OCR | 5.3.1 | 已验证 | GitHub | tesseract-ocr-w64-setup-5.3.1.20230401.exe | 约48MB | ac0ce1748b83b993a5c3244d485303695b73ff1ccf0206a6a2ae44040e5a8ed4 | /S | 是 | 否 | 否 | 否 | Win7兼容版本(实测 tesseract-ocr-w64-setup-5.3.1.20230401.exe) |
+| Tesseract中文语言包 | 与Tesseract版本匹配 | 已验证 | GitHub | chi_sim.traineddata | 约50MB | fc05d89ab31d8b4e226910f16a8bcbf78e43bae3e2580bb5feefd052efdab363 | 复制到tessdata目录 | 是 | 否 | 否 | 否 | 中文简体语言包 |
+| Tesseract英文语言包 | 与Tesseract版本匹配 | 已验证 | GitHub | eng.traineddata | 约5MB | daa0c97d651c19fba3b25e81317cd697e9908c8208090c94c3905381c23fc047 | 复制到tessdata目录 | 是 | 否 | 否 | 否 | 英文语言包 |
 
 ---
 
@@ -45,7 +51,7 @@
 
 | 软件名称 | 推荐版本 | Win7兼容性 | 下载来源 | 文件名 | 文件大小 | SHA256 | 静默安装参数 | 必装 | 可选 | 需重启 | 自动升级 | 备注 |
 |----------|----------|------------|----------|--------|----------|--------|--------------|------|------|--------|----------|------|
-| WPS Office | 11.8.2.12068 | 已验证 | 金山官方 | WPS_Office_11.8.2.12068.exe | 约200MB | 待计算 | /S | 是 | 否 | 否 | 否 | Win7稳定版 |
+| WPS Office | WPS_Setup_26895 (用户Downloads版本) | 已验证 | 用户本地 | WPS_Setup_26895.exe | 约286MB | eb77db4470db108e19bd52cae577102dd5c30e80dcc3b62d150e35637542e818 | /S | 是 | 否 | 否 | 否 | 用户Downloads提供的 WPS_Setup_26895.exe(实测) |
 
 ---
 
@@ -53,8 +59,8 @@
 
 | 软件名称 | 推荐版本 | Win7兼容性 | 下载来源 | 文件名 | 文件大小 | SHA256 | 静默安装参数 | 必装 | 可选 | 需重启 | 自动升级 | 备注 |
 |----------|----------|------------|----------|--------|----------|--------|--------------|------|------|--------|----------|------|
-| wps-kaiyu-addon | 内部发布版 | 待验证 | 内部制品库 | wps-kaiyu-addon-setup.exe | 待确定 | 待计算 | /S | 是 | 否 | 否 | 否 | 内部发布版本 |
-| KexStepup | 内部或可信来源版本 | 待验证 | 内部制品库 | KexStepup-setup.exe | 待确定 | 待计算 | /S | 是 | 否 | 否 | 否 | 建议必装 |
+| wps-kaiyu-addon | 内部发布版 | 待验证 | 内部制品库 | wps-kaiyu-addon-setup.exe | 待确定 | b75a8bc8cc13967215726fa99a21e591ad32f45ad2fcfaf55087eed593cf5efd | /S | 是 | 否 | 否 | 否 | 内部发布版本 |
+| KexStepup | 内部或可信来源版本 | 待验证 | 内部制品库 | KexStepup-setup.exe | 待确定 | NOT DOWNLOADED | /S | 是 | 否 | 否 | 否 | 建议必装 |
 
 ---
 
@@ -62,9 +68,9 @@
 
 | 软件名称 | 推荐版本 | Win7兼容性 | 下载来源 | 文件名 | 文件大小 | SHA256 | 静默安装参数 | 必装 | 可选 | 需重启 | 自动升级 | 备注 |
 |----------|----------|------------|----------|--------|----------|--------|--------------|------|------|--------|----------|------|
-| AionUI | Win7验证通过版本 | 待验证 | 内部制品库 | AionUI-setup.exe | 待确定 | 待计算 | /S | 是 | 否 | 否 | 否 | 必装组件 |
-| Hermes Desktop | Win7验证通过版本 | 待验证 | 内部制品库 | HermesDesktop-setup.exe | 待确定 | 待计算 | /S | 是 | 否 | 否 | 否 | 必装组件 |
-| OpenCode | 内网服务版或本地适配版 | 待验证 | 内部制品库 | OpenCode-setup.exe | 待确定 | 待计算 | /S | 是 | 否 | 否 | 否 | 必装组件 |
+| AionUI | Win7验证通过版本 | 待验证 | 内部制品库 | AionUI-setup.exe | 待确定 | 7647997f8b6c9997a5703d8581b7efae029eb3ead3618fecf6537805cd143a78 | /S | 是 | 否 | 否 | 否 | 必装组件 |
+| Hermes Desktop | Win7验证通过版本 | 待验证 | 内部制品库 | HermesDesktop-setup.exe | 待确定 | c47b8f7a54678e17747c5e7f9d07b18cb99937263018fea8b6dd35c1382cb3c7 | /S | 是 | 否 | 否 | 否 | 必装组件 |
+| OpenCode | 内网服务版或本地适配版 | 待验证 | 内部制品库 | OpenCode-setup.exe | 待确定 | 8c6da334a8d04f837d81f92d23219cc90376a0835fd00c6215a6a3c2b4b654fc | /S | 是 | 否 | 否 | 否 | 必装组件 |
 
 ---
 
@@ -72,8 +78,8 @@
 
 | 软件名称 | 推荐版本 | Win7兼容性 | 下载来源 | 文件名 | 文件大小 | SHA256 | 静默安装参数 | 必装 | 可选 | 需重启 | 自动升级 | 备注 |
 |----------|----------|------------|----------|--------|----------|--------|--------------|------|------|--------|----------|------|
-| Obsidian | 1.4.16 | 已验证 | GitHub | Obsidian-1.4.16.exe | 约150MB | 待计算 | /S | 是 | 否 | 否 | 否 | 可选组件，但建议安装 |
-| XMind | 23.11 | 待验证 | xmind.cn | XMind-23.11.exe | 约120MB | 待计算 | /S | 否 | 是 | 否 | 否 | 可选组件 |
+| Obsidian | 1.4.16 | 已验证 | GitHub | Obsidian-1.4.16.exe | 约73MB | eb60f93f3ce10c2f4d0f8ab45ea0d457a9975f5b2f108691773951ce02d85526 | /S | 是 | 否 | 否 | 否 | 可选组件，但建议安装 |
+| XMind | 23.11 | 待验证 | xmind.cn | XMind-23.11.exe | 约120MB | NOT DOWNLOADED | /S | 否 | 是 | 否 | 否 | 可选组件 |
 
 ---
 

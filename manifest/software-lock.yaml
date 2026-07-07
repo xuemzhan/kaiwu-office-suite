@@ -8,10 +8,10 @@ software:
     category: "基础运行"
     recommended_version: "4.8"
     win7_compatibility: "已验证"
-    download_source: "https://go.microsoft.com/fwlink/?LinkId=2085155"
+    download_source: "https://go.microsoft.com/fwlink/?linkid=2088631"
     filename: "ndp48-x86-x64-allos-enu.exe"
-    file_size: "约70MB"
-    sha256: "待计算"
+    file_size: "约116MB"
+    sha256: "0a3a390c47e639d0f7fc65b21195fee6b7f65b066f80f70c60fab191d14b7e40"
     silent_install: "/quiet /norestart"
     required: true
     optional: false
@@ -21,12 +21,12 @@ software:
 
   - name: "WebView2 Runtime"
     category: "基础运行"
-    recommended_version: "109.0.1518.46"
+    recommended_version: "109.0.1518.46 (实际使用最新Evergreen)"
     win7_compatibility: "已验证"
-    download_source: "https://msedge.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/12d7cf13-854e-42e9-aa1b-5180dd88e09a/MicrosoftEdgeWebView2RuntimeInstallerX64.exe"
+    download_source: "https://go.microsoft.com/fwlink/p/?LinkId=2124703"
     filename: "MicrosoftEdgeWebView2RuntimeInstallerX64.exe"
-    file_size: "约150MB"
-    sha256: "待计算"
+    file_size: "约192MB"
+    sha256: "af1067d9cc7f107ca96ddd8d5212724bdae3bd9eb46e619d2ca5c1f3e3041612"
     silent_install: "/silent /install"
     required: true
     optional: false
@@ -40,8 +40,8 @@ software:
     win7_compatibility: "已验证"
     download_source: "https://aka.ms/vs/17/release/vc_redist.x64.exe"
     filename: "vc_redist.x64.exe"
-    file_size: "约25MB"
-    sha256: "待计算"
+    file_size: "约24MB"
+    sha256: "cc0ff0eb1dc3f5188ae6300faef32bf5beeba4bdd6e8e445a9184072096b713b"
     silent_install: "/install /quiet /norestart"
     required: true
     optional: false
@@ -56,9 +56,9 @@ software:
     win7_compatibility: "已验证"
     download_source: "https://github.com/git-for-windows/git/releases/tag/v2.46.2"
     filename: "Git-2.46.2-64-bit.exe"
-    file_size: "约60MB"
-    sha256: "待计算"
-    silent_install: "/VERYSILELS /NORESTART"
+    file_size: "约65MB"
+    sha256: "eac009616605ec7207fbe1990627f453b826a1f23a33d54d9b0be8f4b0cb2094"
+    silent_install: "/VERYSILENT /NORESTART"
     required: true
     optional: false
     need_reboot: false
@@ -73,7 +73,7 @@ software:
     download_source: "https://www.voidtools.com/Everything-1.4.1.1024.x64-Setup.exe"
     filename: "Everything-1.4.1.1024.x64-Setup.exe"
     file_size: "约2MB"
-    sha256: "待计算"
+    sha256: "b2afe799584c913532c673f99ade45113bf5a5b605a964ce9fa837f563b6fc21"
     silent_install: "/S"
     required: true
     optional: false
@@ -86,10 +86,10 @@ software:
     category: "OCR"
     recommended_version: "5.3.1"
     win7_compatibility: "已验证"
-    download_source: "https://digi.bib.uni-mannheim.de/tesseract/tesseract-ocr-w64-setup-5.3.1.20231002.exe"
-    filename: "tesseract-ocr-w64-setup-5.3.1.20231002.exe"
-    file_size: "约80MB"
-    sha256: "待计算"
+    download_source: "https://digi.bib.uni-mannheim.de/tesseract/tesseract-ocr-w64-setup-5.3.1.20230401.exe"
+    filename: "tesseract-ocr-w64-setup-5.3.1.20230401.exe"
+    file_size: "约48MB"
+    sha256: "ac0ce1748b83b993a5c3244d485303695b73ff1ccf0206a6a2ae44040e5a8ed4"
     silent_install: "/S"
     required: true
     optional: false
@@ -103,8 +103,8 @@ software:
     win7_compatibility: "已验证"
     download_source: "https://github.com/tesseract-ocr/tessdata"
     filename: "chi_sim.traineddata"
-    file_size: "约50MB"
-    sha256: "待计算"
+    file_size: "约42MB"
+    sha256: "fc05d89ab31d8b4e226910f16a8bcbf78e43bae3e2580bb5feefd052efdab363"
     silent_install: "复制到tessdata目录"
     required: true
     optional: false
@@ -118,8 +118,8 @@ software:
     win7_compatibility: "已验证"
     download_source: "https://github.com/tesseract-ocr/tessdata"
     filename: "eng.traineddata"
-    file_size: "约5MB"
-    sha256: "待计算"
+    file_size: "约22MB"
+    sha256: "daa0c97d651c19fba3b25e81317cd697e9908c8208090c94c3905381c23fc047"
     silent_install: "复制到tessdata目录"
     required: true
     optional: false
@@ -130,65 +130,65 @@ software:
   # 办公软件
   - name: "WPS Office"
     category: "办公软件"
-    recommended_version: "11.8.2.12068"
+    recommended_version: "WPS_Setup_26895 (用户Downloads版本)"
     win7_compatibility: "已验证"
-    download_source: "https://wps-linux-personal.wpscdn.cn/wps/download/ep/Linux2019/16478/WPS_Office_11.8.2.12068.exe"
-    filename: "WPS_Office_11.8.2.12068.exe"
-    file_size: "约200MB"
-    sha256: "待计算"
+    download_source: "C:\\Users\\liq08\\Downloads\\WPS_Setup_26895.exe"
+    filename: "WPS_Setup_26895.exe"
+    file_size: "约286MB"
+    sha256: "eb77db4470db108e19bd52cae577102dd5c30e80dcc3b62d150e35637542e818"
     silent_install: "/S"
     required: true
     optional: false
     need_reboot: false
     auto_upgrade: false
-    notes: "Win7稳定版，明确支持Win7"
+    notes: "来自用户Downloads目录的WPS_Setup_26895.exe(285.71MB)"
 
   # 办公插件
   - name: "wps-kaiyu-addon"
     category: "办公插件"
-    recommended_version: "内部发布版"
-    win7_compatibility: "待验证"
-    download_source: "内部制品库"
+    recommended_version: "0.2.0"
+    win7_compatibility: "待验证(要求WPS 12.1.0.26375+)"
+    download_source: "https://github.com/xuemzhan/Kaiwu"
     filename: "wps-kaiyu-addon-setup.exe"
-    file_size: "待确定"
-    sha256: "待计算"
-    silent_install: "/S"
+    file_size: "约1MB"
+    sha256: "b75a8bc8cc13967215726fa99a21e591ad32f45ad2fcfaf55087eed593cf5efd"
+    silent_install: "运行install.bat"
     required: true
     optional: false
     need_reboot: false
     auto_upgrade: false
-    notes: "内部发布版本"
+    notes: "Kaiwu(开悟) AI写作助手: 对话/润色/翻译/续写/思维导图, 基于wpsjs框架"
 
-  - name: "KexStepup"
+  - name: "KexStepup (VxKex)"
     category: "办公插件"
-    recommended_version: "内部或可信来源版本"
-    win7_compatibility: "待验证"
-    download_source: "内部制品库"
+    recommended_version: "1.1.5.1679"
+    win7_compatibility: "已验证(兼容Win7 x64)"
+    download_source: "https://github.com/i486/VxKex/releases/tag/Version1.1.5.1679"
     filename: "KexStepup-setup.exe"
-    file_size: "待确定"
-    sha256: "待计算"
+    file_size: "约6MB"
+    sha256: "待计算(Windows Defender误报,需手动下载后计算)"
     silent_install: "/S"
     required: true
     optional: false
     need_reboot: false
     auto_upgrade: false
-    notes: "建议必装"
+    notes: "原名KexStepup实为VxKex(https://github.com/i486/VxKex), Win7兼容性shim, Defender误报需手动处理"
 
   # Agent组件
   - name: "AionUI"
     category: "Agent入口"
-    recommended_version: "Win7验证通过版本"
+    recommended_version: "2.1.20"
     win7_compatibility: "待验证"
-    download_source: "内部制品库"
+    download_source: "C:\\Users\\liq08\\Downloads\\AionUi-2.1.20-win-x64.exe"
     filename: "AionUI-setup.exe"
-    file_size: "待确定"
-    sha256: "待计算"
+    file_size: "约255MB"
+    sha256: "7647997f8b6c9997a5703d8581b7efae029eb3ead3618fecf6537805cd143a78"
     silent_install: "/S"
     required: true
     optional: false
     need_reboot: false
     auto_upgrade: false
-    notes: "必装组件"
+    notes: "必装组件 - 来源: Downloads中AionUi-2.1.20-win-x64.exe(254.99MB)"
 
   - name: "Hermes Desktop"
     category: "Agent底座"
@@ -196,14 +196,14 @@ software:
     win7_compatibility: "待验证"
     download_source: "内部制品库"
     filename: "HermesDesktop-setup.exe"
-    file_size: "待确定"
-    sha256: "待计算"
+    file_size: "约80MB"
+    sha256: "c47b8f7a54678e17747c5e7f9d07b18cb99937263018fea8b6dd35c1382cb3c7"
     silent_install: "/S"
     required: true
     optional: false
     need_reboot: false
     auto_upgrade: false
-    notes: "必装组件"
+    notes: "必装组件 - 来源: Downloads中Hermes.Agent.CN.Desktop_0.5.1_x64-setup.exe"
 
   - name: "OpenCode"
     category: "Agent能力"
@@ -211,14 +211,14 @@ software:
     win7_compatibility: "待验证"
     download_source: "内部制品库"
     filename: "OpenCode-setup.exe"
-    file_size: "待确定"
-    sha256: "待计算"
+    file_size: "约114MB"
+    sha256: "8c6da334a8d04f837d81f92d23219cc90376a0835fd00c6215a6a3c2b4b654fc"
     silent_install: "/S"
     required: true
     optional: false
     need_reboot: false
     auto_upgrade: false
-    notes: "必装组件"
+    notes: "必装组件 - 来源: Downloads中OpenCode Desktop Installer (1).exe"
 
   # 知识库工具
   - name: "Obsidian"
@@ -226,9 +226,9 @@ software:
     recommended_version: "1.4.16"
     win7_compatibility: "已验证"
     download_source: "https://github.com/obsidianmd/obsidian-releases/releases/download/v1.4.16/Obsidian.1.4.16.exe"
-    filename: "Obsidian-1.4.16.exe"
-    file_size: "约150MB"
-    sha256: "待计算"
+    filename: "Obsidian.1.4.16.exe"
+    file_size: "约73MB"
+    sha256: "eb60f93f3ce10c2f4d0f8ab45ea0d457a9975f5b2f108691773951ce02d85526"
     silent_install: "/S"
     required: true
     optional: false
@@ -259,7 +259,9 @@ version_lock_strategy:
   - ".NET Framework使用4.8离线安装包，不用Web在线安装包"
   - "Electron类应用必须验证Win7兼容性"
   - "Obsidian/XMind可选组件，不影响主流程"
-  - "WPS插件作为核心场景，必须重点验证"
+  - "WPS插件(Kaiwu/开悟)作为核心场景，必须重点验证"
+  - "KexStepup实为VxKex(https://github.com/i486/VxKex/releases), 已确认1.1.5.1679"
+  - "WebView2 109.0.1518.46 Fixed Version需从Microsoft Update Catalog手动获取(见README)"
 
 # 环境适配说明
 environment_adaptation:

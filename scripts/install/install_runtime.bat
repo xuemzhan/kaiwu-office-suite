@@ -32,7 +32,7 @@ REM 1. 安装 .NET Framework 4.8
 echo [信息] 安装 .NET Framework 4.8...
 echo [%date% %time%] 安装 .NET Framework 4.8 >> "%LOG_FILE%"
 
-set "DOTNET_INSTALLER=installers\00_runtime\ndp48-web_x86_x64_en_us.exe"
+set "DOTNET_INSTALLER=packages\raw\ndp48-x86-x64-allos-enu.exe"
 if exist "%DOTNET_INSTALLER%" (
     echo [信息] 找到安装程序: %DOTNET_INSTALLER%
     echo [%date% %time%] 找到安装程序: %DOTNET_INSTALLER% >> "%LOG_FILE%"
@@ -58,7 +58,7 @@ REM 2. 安装 VC++ Runtime
 echo [信息] 安装 VC++ Runtime...
 echo [%date% %time%] 安装 VC++ Runtime >> "%LOG_FILE%"
 
-set "VC_INSTALLER=installers\00_runtime\vc_redist.x64.exe"
+set "VC_INSTALLER=packages\raw\vc_redist.x64.exe"
 if exist "%VC_INSTALLER%" (
     echo [信息] 找到安装程序: %VC_INSTALLER%
     echo [%date% %time%] 找到安装程序: %VC_INSTALLER% >> "%LOG_FILE%"
@@ -84,7 +84,7 @@ REM 3. 安装 WebView2 Runtime
 echo [信息] 安装 WebView2 Runtime...
 echo [%date% %time%] 安装 WebView2 Runtime >> "%LOG_FILE%"
 
-set "WEBVIEW2_INSTALLER=installers\00_runtime\MicrosoftEdgeWebview2Setup.exe"
+set "WEBVIEW2_INSTALLER=packages\raw\MicrosoftEdgeWebView2RuntimeInstallerX64.exe"
 if exist "%WEBVIEW2_INSTALLER%" (
     echo [信息] 找到安装程序: %WEBVIEW2_INSTALLER%
     echo [%date% %time%] 找到安装程序: %WEBVIEW2_INSTALLER% >> "%LOG_FILE%"

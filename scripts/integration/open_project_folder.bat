@@ -5,6 +5,9 @@ REM 目标环境: Windows 7 SP1 64位
 REM 生成时间: 2026-06-17
 
 setlocal enabledelayedexpansion
+REM 确保日志目录存在(2026-07-07 修复;本脚本无 results 输出)
+if not exist "logs" mkdir "logs"
+
 
 REM 参数设置
 set "FOLDER_PATH=%~1"

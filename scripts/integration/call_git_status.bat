@@ -5,6 +5,10 @@ REM 目标环境: Windows 7 SP1 64位
 REM 生成时间: 2026-06-17
 
 setlocal enabledelayedexpansion
+REM 确保日志与输出目录存在(2026-07-07 修复: 此前缺失 mkdir 导致 14 个 log 断言全 FAIL)
+if not exist "logs" mkdir "logs"
+if not exist "results" mkdir "results"
+
 
 REM 参数设置
 set "REPO_PATH=%~1"
