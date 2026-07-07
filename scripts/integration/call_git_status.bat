@@ -32,10 +32,20 @@ if %errorLevel% neq 0 (
 )
 
 REM 检查是否是Git仓库
-cd /d "%REPO_PATH%"
+REM 2026-07-07 fix: cd /d 失败时 %errorLevel% 在 if 解析时已被替换, 检测失效
+REM 改用 if exist 显式检查 + .git 目录存在, 避免依赖 cd 错误行为
+if not exist "%REPO_PATH%" (
+    echo [Error] Path not found: %REPO_PATH%
+    exit /b 1
+)
+cd /d "%REPO_PATH%" 2>nul
+if not exist ".git" (
+    echo [Error] Not a git repository: %REPO_PATH%
+    exit /b 1
+)
 git rev-parse --git-dir >nul 2>&1
 if %errorLevel% neq 0 (
-    echo [错误] 不是Git仓库: %REPO_PATH%
+    echo [Error] Not a git repository: %REPO_PATH%
     exit /b 1
 )
 
