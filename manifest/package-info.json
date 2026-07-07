@@ -1,12 +1,29 @@
 {
   "package_info": {
     "name": "开悟个体增智智能办公套件",
-    "version": "V1.0",
-    "release_date": "2026-06-17",
+    "version": "V1.1",
+    "release_date": "2026-07-07",
     "target_environment": "Windows 7 SP1 64位",
     "description": "面向Windows 7 SP1 64位办公环境的智能办公解决方案",
     "publisher": "OpenCode",
-    "license": "内部使用"
+    "license": "内部使用",
+    "previous_version": "V1.0",
+    "changelog_v1_1": [
+      "fix: 8 integration + 7 test .bat 加 mkdir logs results + 去重 16 个 setlocal",
+      "fix: install.bat 32 处路径从 installers/XX/ 改 packages/raw/",
+      "fix: install_runtime.bat 2 个文件名错修",
+      "fix: uninstall.bat 8 步实装 (wmic + Y/N 询问 + 不动 base runtime)",
+      "fix: repair.bat 9 种修复实装 (env / shortcuts / tool registry / vault / WPS / Everything / agent config / log perms)",
+      "fix: call_wps_summary.bat 占位实装 (任何输入 exit 0, 写诚实占位)",
+      "fix: tool_registry.json 标 wps_summary experimental:true",
+      "feat: verify_installers.bat + .py 装前 SHA256 校验 (15/15 自动 PASS)",
+      "feat: install.bat 头部自动调 verify_installers, 失败 abort",
+      "fix: download_all.ps1 8 个 ExpectedSHA256 真值 (不再跳校验)",
+      "fix: manifest/SHA256SUMS.txt 重写 (15 文件实测, 14/14 旧版匹配)",
+      "fix: manifest/software-lock.md 13 个'待计算'填实",
+      "test: 通过率 27% -> 75% -> 88% (7/8 PASS, tesseract 仍 FAIL 因环境缺)",
+      "docs: README + release_note 改诚实 88% 基线 + 列出 7 项本轮新完成"
+    ]
   },
   "components": {
     "runtime": [

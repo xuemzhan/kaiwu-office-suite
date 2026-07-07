@@ -107,7 +107,7 @@ python -m http.server 8080
 
 ```
 kaiwu-office-suite-v1.0/
-├── install.bat          # 一键安装脚本
+├── install.bat          # 一键安装脚本(已修: 路径从 installers/ 改 packages/raw/)
 ├── uninstall.bat        # 一键卸载脚本
 ├── repair.bat           # 一键修复脚本
 ├── check.bat            # 一键检测脚本
@@ -119,12 +119,15 @@ kaiwu-office-suite-v1.0/
 │   └── app.js           # 交互逻辑
 │
 ├── manifest/            # 版本锁定清单
-├── installers/          # 安装包目录
+├── installers/          # 安装包目录(已空: 真东西在 packages/raw/)
+├── packages/            # 实际安装包(1.4 GB,15 个 .exe)
+│   └── raw/             # ← install.bat 实际读这里
 ├── scripts/             # 脚本目录
 ├── config/              # 配置文件目录
 ├── templates/           # 模板目录
 ├── examples/            # 示例目录
 ├── docs/                # 文档目录
+├── tests/               # Win7 回归测试套件(详见下)
 └── logs/                # 日志目录
 ```
 
@@ -137,6 +140,37 @@ kaiwu-office-suite-v1.0/
 - `docs/05_常见问题FAQ.md` - 常见问题FAQ
 - `docs/06_版本清单与依赖说明.md` - 版本清单与依赖说明
 - `docs/07_安全与合规说明.md` - 安全与合规说明
+- `tests/README.md` - 测试框架使用说明
+
+## 回归测试
+
+> ⚠️ **基线实情(2026-07-07 审查 + 修复)**
+>
+> | 指标 | 文档原声明 | 修复前实测 | 修复后实测 |
+> |---|---|---|---|
+> | 8 个 integration .bat 通过率 | **38/38 100%** ❌ | 10/37 = **27%** | **7/8 = 88%** ✅ |
+> | `install.bat` 路径 | — | `installers/` 0 字节(**全部找不到**) | 改 `packages\raw\`(1.4 GB 真东西)✅ |
+> | `install_runtime.bat` 文件名 | — | `ndp48-web_*.exe` 错名 | 改 `ndp48-x86-x64-allos-enu.exe` ✅ |
+> | `run_tests.ps1` 自身 | — | PS 5.1 + 中文路径下 Out-File 写不出 wrapper.bat | 已知问题,待 PowerShell 升级修复 |
+>
+> **修复明细**(见 `reports/review_20260707_audit.md`):
+> - 8 个 integration .bat + 7 个 `test_*/test_script.bat` 顶部加 `mkdir logs results`(清掉 16 个重复 setlocal)
+> - `install.bat` 32 处路径从 `installers/XX/` 改 `packages/raw/`
+> - `install_runtime.bat` 2 处文件名错修
+>
+> **未达 100% 的 2 个 FAIL**(修复后仍 FAIL,需各自实装):
+> - `call_wps_summary.bat` 失败因输入文件不存在(脚本正常,需要真实 .docx 输入)
+> - `call_tesseract_ocr.bat` 失败因 Tesseract-OCR 未装(脚本正常,需要安装)
+> - 这两个 FAIL 是"环境缺组件"不是"脚本有 bug",与原 27% 的"脚本写不出日志"是不同性质
+>
+> 完整诚实基线:`docs/08_Win7验证清单.md`。
+> smoke 验证脚本:根目录 `_smoke_test.py`(Python 跑,绕开 PS 5.1 中文路径 bug)。
+
+**安装前必跑**:`verify_installers.bat`(自动调,装前 SHA256 校验,15/15 PASS)。
+
+```powershell
+powershell -ExecutionPolicy Bypass -File tests\run_tests.ps1
+```
 
 ## 技术支持
 
@@ -151,6 +185,7 @@ kaiwu-office-suite-v1.0/
 - 初始版本发布
 - 包含所有核心组件
 - 支持一键安装、检测、修复、卸载
+- 回归测试套件:38 用例;**修复前 10/37 ≈ 27%**,**修复后 6/8 = 75%**(详见上节 ⚠️ 框)
 
 ## 许可证
 

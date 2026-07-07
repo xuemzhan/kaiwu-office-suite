@@ -1,4 +1,4 @@
-# 大型安装包文件（不上传到GitHub）
+# 避免发包被上传
 installers/
 packages/raw/
 
@@ -11,6 +11,12 @@ results/
 state/
 *.tmp
 *.log
+
+# 调试残留
+_*.js
+_*.js.bak
+_*.bak
+*.bak
 
 # Windows系统文件
 Thumbs.db
@@ -27,3 +33,12 @@ Desktop.ini
 # 用户特定文件
 *.user
 *.suo
+
+# 测试运行产物
+tests/wrapper.bat
+tests/stdout.txt
+tests/stderr.txt
+tests/TEST_REPORT.md
+tests/test_*/stdout.txt
+tests/test_*/stderr.txt
+tests/test_git/temprepo/

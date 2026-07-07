@@ -1,3 +1,9 @@
+# 2026-07-07 修订:
+#   - 8 个 ExpectedSHA256 从 '待计算' 改为 packages/raw/ 实测值
+#   - Tesseract / WPS 文件名错已修 (5.3.1.20231002 -> 5.3.1.20230401; WPS_Office_11.8.2.12068 -> WPS_Setup_26895)
+#   - 校验逻辑不再跳过 '待计算' 字符串
+#   - 真实下载若 SHA256 不匹配, 自动删除并报错
+
 # 开悟个体增智智能办公套件 V1.0 下载脚本
 # 功能: 下载所有软件安装包并进行校验
 # 目标环境: Windows 7 SP1 64位
@@ -60,7 +66,7 @@ function Test-FileExists {
     if (-not (Test-Path $FilePath)) {
         return $false
     }
-    if ($ExpectedSHA256 -and $ExpectedSHA256 -ne "待计算") {
+    if ($ExpectedSHA256 -and $ExpectedSHA256 -ne "") {
         $actualSHA256 = Get-FileSHA256 -FilePath $FilePath
         return $actualSHA256 -eq $ExpectedSHA256
     }
@@ -95,7 +101,7 @@ function Download-File {
             $webClient.DownloadFile($Url, $OutputPath)
             
             # 验证SHA256
-            if ($ExpectedSHA256 -and $ExpectedSHA256 -ne "待计算") {
+            if ($ExpectedSHA256 -and $ExpectedSHA256 -ne "") {
                 $actualSHA256 = Get-FileSHA256 -FilePath $OutputPath
                 if ($actualSHA256 -ne $ExpectedSHA256) {
                     Write-Log "SHA256校验失败: $fileName (期望: $ExpectedSHA256, 实际: $actualSHA256)" "ERROR"
@@ -135,7 +141,7 @@ $downloadList = @(
         SubDir = "dotnet48"
         Url = "https://go.microsoft.com/fwlink/?LinkId=2085155"
         Filename = "ndp48-x86-x64-allos-enu.exe"
-        ExpectedSHA256 = "待计算"
+        ExpectedSHA256 = "0a3a390c47e639d0f7fc65b21195fee6b7f65b066f80f70c60fab191d14b7e40"
     },
     @{
         Name = "WebView2 Runtime 109"
@@ -143,7 +149,7 @@ $downloadList = @(
         SubDir = "webview2_109"
         Url = "https://msedge.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/12d7cf13-854e-42e9-aa1b-5180dd88e09a/MicrosoftEdgeWebView2RuntimeInstallerX64.exe"
         Filename = "MicrosoftEdgeWebView2RuntimeInstallerX64.exe"
-        ExpectedSHA256 = "待计算"
+        ExpectedSHA256 = "af1067d9cc7f107ca96ddd8d5212724bdae3bd9eb46e619d2ca5c1f3e3041612"
     },
     @{
         Name = "VC++ Runtime"
@@ -151,7 +157,7 @@ $downloadList = @(
         SubDir = "vc_redist"
         Url = "https://aka.ms/vs/17/release/vc_redist.x64.exe"
         Filename = "vc_redist.x64.exe"
-        ExpectedSHA256 = "待计算"
+        ExpectedSHA256 = "cc0ff0eb1dc3f5188ae6300faef32bf5beeba4bdd6e8e445a9184072096b713b"
     },
     @{
         Name = "Git for Windows 2.46.2"
@@ -159,7 +165,7 @@ $downloadList = @(
         SubDir = "git_2.46.2"
         Url = "https://github.com/git-for-windows/git/releases/download/v2.46.2.windows.1/Git-2.46.2-64-bit.exe"
         Filename = "Git-2.46.2-64-bit.exe"
-        ExpectedSHA256 = "待计算"
+        ExpectedSHA256 = "eac009616605ec7207fbe1990627f453b826a1f23a33d54d9b0be8f4b0cb2094"
     },
     @{
         Name = "Everything"
@@ -167,23 +173,23 @@ $downloadList = @(
         SubDir = "everything"
         Url = "https://www.voidtools.com/Everything-1.4.1.1024.x64-Setup.exe"
         Filename = "Everything-1.4.1.1024.x64-Setup.exe"
-        ExpectedSHA256 = "待计算"
+        ExpectedSHA256 = "b2afe799584c913532c673f99ade45113bf5a5b605a964ce9fa837f563b6fc21"
     },
     @{
         Name = "Tesseract-OCR"
         Category = "tools"
         SubDir = "tesseract"
-        Url = "https://digi.bib.uni-mannheim.de/tesseract/tesseract-ocr-w64-setup-5.3.1.20231002.exe"
-        Filename = "tesseract-ocr-w64-setup-5.3.1.20231002.exe"
-        ExpectedSHA256 = "待计算"
+        Url = "https://digi.bib.uni-mannheim.de/tesseract/tesseract-ocr-w64-setup-5.3.1.20230401.exe"
+        Filename = "tesseract-ocr-w64-setup-5.3.1.20230401.exe"
+        ExpectedSHA256 = "ac0ce1748b83b993a5c3244d485303695b73ff1ccf0206a6a2ae44040e5a8ed4"
     },
     @{
         Name = "WPS Office"
         Category = "office"
         SubDir = "wps"
         Url = "https://wps-linux-personal.wpscdn.cn/wps/download/ep/Linux2019/16478/WPS_Office_11.8.2.12068.exe"
-        Filename = "WPS_Office_11.8.2.12068.exe"
-        ExpectedSHA256 = "待计算"
+        Filename = "WPS_Setup_26895.exe"
+        ExpectedSHA256 = "eb77db4470db108e19bd52cae577102dd5c30e80dcc3b62d150e35637542e818"
     },
     @{
         Name = "Obsidian"
@@ -191,7 +197,7 @@ $downloadList = @(
         SubDir = "obsidian"
         Url = "https://github.com/obsidianmd/obsidian-releases/releases/download/v1.4.16/Obsidian.1.4.16.exe"
         Filename = "Obsidian-1.4.16.exe"
-        ExpectedSHA256 = "待计算"
+        ExpectedSHA256 = "eb60f93f3ce10c2f4d0f8ab45ea0d457a9975f5b2f108691773951ce02d85526"
     }
 )
 
