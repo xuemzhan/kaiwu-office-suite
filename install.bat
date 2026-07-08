@@ -1,43 +1,56 @@
 @echo off
-REM ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü°ì¹«ï¿½×¼ï¿?V1.0 Ò»ï¿½ï¿½ï¿½ï¿½×°ï¿½Å±ï¿½
-REM ï¿½ï¿½ï¿½ï¿½: ï¿½Ô¶ï¿½ï¿½ï¿½×°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿?
-REM Ä¿ï¿½ê»·ï¿½ï¿½: Windows 7 SP1 64Î»
-REM ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½: 2026-06-17
-
-setlocal enabledelayedexpansion
-
-echo ========================================
-echo ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü°ì¹«ï¿½×¼ï¿?V1.0 ï¿½ï¿½×°ï¿½ï¿½ï¿½ï¿½
-echo Ä¿ï¿½ê»·ï¿½ï¿½: Windows 7 SP1 64Î»
-echo ========================================
-echo.
-
-REM ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô±È¨ï¿½ï¿½
-net session >nul 2>&1
-if %errorLevel% neq 0 (
-    echo [ï¿½ï¿½ï¿½ï¿½] ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½Ô±È¨ï¿½ï¿½ï¿½ï¿½ï¿½Ð´Ë°ï¿½×°ï¿½ï¿½ï¿½ï¿½
-    echo ï¿½ï¿½ï¿½Ò¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿?ï¿½Ô¹ï¿½ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"
-    pause
-    exit /b 1
-)
-
-REM ï¿½ï¿½ï¿½Windowsï¿½æ±¾
-echo [1/19] ï¿½ï¿½ï¿½ÏµÍ³ï¿½ï¿½ï¿½ï¿?..
-ver | find "Version 6.1" >nul
-if %errorLevel% equ 0 (
-    echo ï¿½ï¿½âµ½Windows 7ÏµÍ³
-) else (
-    echo [ï¿½ï¿½ï¿½ï¿½] Î´ï¿½ï¿½âµ½Windows 7ÏµÍ³ï¿½ï¿½Ä³Ð©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü²ï¿½ï¿½ï¿½ï¿½ï¿?
-)
-
-REM ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾Ä¿Â¼
-if not exist "logs" mkdir "logs"
-set "LOG_FILE=logs\install_%date:~0,4%%date:~5,2%%date:~8,2%_%time:~0,2%%time:~3,2%.log"
-echo ï¿½ï¿½×°ï¿½ï¿½Ö¾: %LOG_FILE%
-
-REM ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½×°×´Ì¬
-if not exist "state" mkdir "state"
-echo [0/19] Verifying installer SHA256 integrity...
+REM KaiWu Office Suite V1.3.1 - One-click install
+REM Target: Windows 7 SP1 64-bit
+REM Generated 2026-06-17, revised 2026-07-07 (V1.3.1)
+REM
+REM V1.3.1 changes:
+REM   - 14 install steps each check errorlevel (INSTALL_FAILED counter)
+REM   - Header counters: INSTALL_FAILED + INSTALL_MISSING
+REM   - [19/19] verify section has full summary (FAILED/MISSING/VERIFY)
+REM   - Cleaned V1.3 residual 224 CR-only characters
+
+setlocal enabledelayedexpansion
+chcp 936 >nul 2>&1
+
+echo ========================================
+echo  KaiWu Office Suite V1.3.1 Install
+echo  Target: Windows 7 SP1 64-bit
+echo ========================================
+echo.
+
+REM Check admin privilege
+net session >nul 2>&1
+if %errorLevel% neq 0 (
+    echo [ERROR] Need admin privilege to run this installer
+    echo Right-click this file, select Run as administrator
+    pause
+    exit /b 1
+)
+
+REM Detect Windows version
+echo [1/19] Checking system version...
+ver | find "Version 6.1" >nul
+if %errorLevel% equ 0 (
+    echo Detected Windows 7 system
+) else (
+    echo [WARN] Not Windows 7 - some components may not work
+)
+
+REM Create log directory
+if not exist "logs" mkdir "logs"
+set "LOG_FILE=logs\install_%date:~0,4%%date:~5,2%%date:~8,2%_%time:~0,2%%time:~3,2%.log"
+echo Install log: %LOG_FILE%
+
+REM Create state directory
+if not exist "state" mkdir "state"
+echo {"status": "installing", "start_time": "%date% %time%"} > "state\install_state.json"
+
+REM V1.3.1: install Æô¶¯Ê§°Ü¼ÆÊý + missing ¼ÆÊý
+set "INSTALL_FAILED=0"
+set "INSTALL_MISSING=0"
+
+REM [0/19] SHA256 verification (verify_installers.bat)
+echo [0/19] Verifying installer SHA256 integrity...
 call verify_installers.bat
 if !errorLevel! neq 0 (
     echo [FAIL] SHA256 verification failed - install aborted
@@ -47,194 +60,284 @@ if !errorLevel! neq 0 (
 )
 echo [PASS] SHA256 verification passed
 echo.
-echo {"status": "installing", "start_time": "%date% %time%"} > "state\install_state.json"
-
-echo [2/19] ï¿½ï¿½×° .NET Framework 4.8...
-if exist "packages\raw\ndp48-x86-x64-allos-enu.exe" (
-    echo ï¿½ï¿½×° .NET Framework 4.8...
-    "packages\raw\ndp48-x86-x64-allos-enu.exe" /quiet /norestart
-    echo .NET Framework 4.8 ï¿½ï¿½×°ï¿½ï¿½ï¿?
-) else (
-    echo [ï¿½ï¿½ï¿½ï¿½] Î´ï¿½Òµï¿½ .NET Framework 4.8 ï¿½ï¿½×°ï¿½ï¿½
-)
-
-echo [3/19] ï¿½ï¿½×° VC++ Runtime...
-if exist "packages\raw\vc_redist.x64.exe" (
-    echo ï¿½ï¿½×° VC++ Runtime...
-    "packages\raw\vc_redist.x64.exe" /install /quiet /norestart
-    echo VC++ Runtime ï¿½ï¿½×°ï¿½ï¿½ï¿?
-) else (
-    echo [ï¿½ï¿½ï¿½ï¿½] Î´ï¿½Òµï¿½ VC++ Runtime ï¿½ï¿½×°ï¿½ï¿½
-)
-
-echo [4/19] ï¿½ï¿½×° WebView2 Runtime 109...
-if exist "packages\raw\MicrosoftEdgeWebView2RuntimeInstallerX64.exe" (
-    echo ï¿½ï¿½×° WebView2 Runtime 109...
-    "packages\raw\MicrosoftEdgeWebView2RuntimeInstallerX64.exe" /silent /install
-    echo WebView2 Runtime 109 ï¿½ï¿½×°ï¿½ï¿½ï¿?
-) else (
-    echo [ï¿½ï¿½ï¿½ï¿½] Î´ï¿½Òµï¿½ WebView2 Runtime 109 ï¿½ï¿½×°ï¿½ï¿½
-)
-
-echo [5/19] ï¿½ï¿½×° Git for Windows 2.46.2...
-if exist "packages\raw\Git-2.46.2-64-bit.exe" (
-    echo ï¿½ï¿½×° Git for Windows 2.46.2...
-    "packages\raw\Git-2.46.2-64-bit.exe" /VERYSILENT /NORESTART
-    echo Git for Windows 2.46.2 ï¿½ï¿½×°ï¿½ï¿½ï¿?
-) else (
-    echo [ï¿½ï¿½ï¿½ï¿½] Î´ï¿½Òµï¿½ Git for Windows 2.46.2 ï¿½ï¿½×°ï¿½ï¿½
-)
-
-echo [6/19] ï¿½ï¿½×° Everything...
-if exist "packages\raw\Everything-1.4.1.1024.x64-Setup.exe" (
-    echo ï¿½ï¿½×° Everything...
-    "packages\raw\Everything-1.4.1.1024.x64-Setup.exe" /S
-    echo Everything ï¿½ï¿½×°ï¿½ï¿½ï¿?
-) else (
-    echo [ï¿½ï¿½ï¿½ï¿½] Î´ï¿½Òµï¿½ Everything ï¿½ï¿½×°ï¿½ï¿½
-)
-
-echo [7/19] ï¿½ï¿½×° Tesseract-OCR...
-if exist "packages\raw\tesseract-ocr-w64-setup-5.3.1.20230401.exe" (
-    echo ï¿½ï¿½×° Tesseract-OCR...
-    "packages\raw\tesseract-ocr-w64-setup-5.3.1.20230401.exe" /S
-    echo Tesseract-OCR ï¿½ï¿½×°ï¿½ï¿½ï¿?
-) else (
-    echo [ï¿½ï¿½ï¿½ï¿½] Î´ï¿½Òµï¿½ Tesseract-OCR ï¿½ï¿½×°ï¿½ï¿½
-)
-
-echo [8/19] ï¿½ï¿½×° WPS Office 2019...
-if exist "packages\raw\WPS_Setup_26895.exe" (
-    echo ï¿½ï¿½×° WPS Office...
-    "packages\raw\WPS_Setup_26895.exe" /S
-    echo WPS Office ï¿½ï¿½×°ï¿½ï¿½ï¿?
-) else (
-    echo [ï¿½ï¿½ï¿½ï¿½] Î´ï¿½Òµï¿½ WPS Office ï¿½ï¿½×°ï¿½ï¿½
-    echo [ï¿½ï¿½Ê¾] WPS Office ï¿½ï¿½ï¿½ï¿½ï¿½Ô´ï¿½ï¿½DownloadsÄ¿Â¼ï¿½ï¿½ï¿½ï¿½ WPS_Setup_26895.exe
-)
-
-echo [9/19] ï¿½ï¿½×° wps-kaiyu-addon (Kaiwu/ï¿½ï¿½æ‚?AI Ð´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)...
-if exist "packages\raw\wps-kaiyu-addon-setup.exe" (
-    echo ï¿½ï¿½×° wps-kaiyu-addon...
-    "packages\raw\wps-kaiyu-addon-setup.exe" /S
-    echo wps-kaiyu-addon (Kaiwu) ï¿½ï¿½×°ï¿½ï¿½ï¿?ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¶ï¿½Ë«ï¿½ï¿½ install.bat)
-) else (
-    echo [ï¿½ï¿½ï¿½ï¿½] Î´ï¿½Òµï¿½ wps-kaiyu-addon ï¿½ï¿½×°ï¿½ï¿½
-    echo [ï¿½ï¿½Ê¾] ï¿½ï¿½ï¿½Ø´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿?
-    echo        https://github.com/xuemzhan/Kaiwu
-)
-
-echo [10/19] ï¿½ï¿½×° KexStepup (VxKex)...
-if exist "packages\raw\KexStepup-setup.exe" (
-    echo ï¿½ï¿½×° KexStepup (VxKex)...
-    "packages\raw\KexStepup-setup.exe" /S
-    echo KexStepup (VxKex) ï¿½ï¿½×°ï¿½ï¿½ï¿?
-) else (
-    echo [ï¿½ï¿½ï¿½ï¿½] Î´ï¿½Òµï¿½ KexStepup (VxKex) ï¿½ï¿½×°ï¿½ï¿½
-    echo [ï¿½ï¿½Ê¾] ï¿½ï¿½ï¿½Ø?https://github.com/i486/VxKex/releases/tag/Version1.1.5.1679
-)
-
-echo [11/19] ï¿½ï¿½×° AionUI...
-if exist "packages\raw\AionUI-setup.exe" (
-    echo ï¿½ï¿½×° AionUI...
-    "packages\raw\AionUI-setup.exe" /S
-    echo AionUI ï¿½ï¿½×°ï¿½ï¿½ï¿?
-) else (
-    echo [ï¿½ï¿½ï¿½ï¿½] Î´ï¿½Òµï¿½ AionUI ï¿½ï¿½×°ï¿½ï¿½
-)
-
-echo [12/19] ï¿½ï¿½×° Hermes Desktop...
-if exist "packages\raw\HermesDesktop-setup.exe" (
-    echo ï¿½ï¿½×° Hermes Desktop...
-    "packages\raw\HermesDesktop-setup.exe" /S
-    echo Hermes Desktop ï¿½ï¿½×°ï¿½ï¿½ï¿?
-) else (
-    echo [ï¿½ï¿½ï¿½ï¿½] Î´ï¿½Òµï¿½ Hermes Desktop ï¿½ï¿½×°ï¿½ï¿½
-)
-
-echo [13/19] ï¿½ï¿½×° OpenCode...
-if exist "packages\raw\OpenCode-setup.exe" (
-    echo ï¿½ï¿½×° OpenCode...
-    "packages\raw\OpenCode-setup.exe" /S
-    echo OpenCode ï¿½ï¿½×°ï¿½ï¿½ï¿?
-) else (
-    echo [ï¿½ï¿½ï¿½ï¿½] Î´ï¿½Òµï¿½ OpenCode ï¿½ï¿½×°ï¿½ï¿½
-)
-
-echo [14/19] ï¿½ï¿½×° Obsidian 1.4.16...
-if exist "packages\raw\Obsidian.1.4.16.exe" (
-    echo ï¿½ï¿½×° Obsidian 1.4.16...
-    "packages\raw\Obsidian.1.4.16.exe" /S
-    echo Obsidian 1.4.16 ï¿½ï¿½×°ï¿½ï¿½ï¿?
-) else (
-    echo [ï¿½ï¿½ï¿½ï¿½] Î´ï¿½Òµï¿½ Obsidian 1.4.16 ï¿½ï¿½×°ï¿½ï¿½
-)
-
-echo [15/19] ï¿½ï¿½×° XMind...
-if exist "packages\raw\XMind-23.11.exe" (
-    echo ï¿½ï¿½×° XMind...
-    "packages\raw\XMind-23.11.exe" /S
-    echo XMind ï¿½ï¿½×°ï¿½ï¿½ï¿?
-) else (
-    echo [ï¿½ï¿½ï¿½ï¿½] Î´ï¿½Òµï¿½ XMind ï¿½ï¿½×°ï¿½ï¿½
-)
-
-echo [16/19] ³õÊ¼»¯ÅäÖÃÄ¿Â¼...
-if not exist "config" mkdir "config"
-if not exist "logs" mkdir "logs"
-if not exist "state" mkdir "state"
-echo {"status": "installed", "end_time": "%date% %time%"} > "state\install_state.json"
-echo ÅäÖÃÄ¿Â¼ÒÑ³õÊ¼»¯
 
-echo [17/19] ´´½¨×ÀÃæ¿ì½Ý·½Ê½...
-set "STARTMENU_DIR=%APPDATA%\Microsoft\Windows\Start Menu\Programs\¸öÌåÔöÖÇ°ì¹«Ì×¼þ"
-if not exist "%STARTMENU_DIR%" mkdir "%STARTMENU_DIR%"
-if exist "packages\raw\WPS_Setup_26895.exe" (
-    echo ÒÑÎª WPS ×¼±¸×ÀÃæÈë¿Ú
-) else (
-    echo [WARN] Î´ÕÒµ½ WPS °²×°°ü,Ìø¹ý×ÀÃæ¿ì½Ý·½Ê½
-)
-echo ¿ì½Ý·½Ê½ÅäÖÃÍê³É
+echo [2/19] Installing .NET Framework 4.8...
+if exist "packages\raw\ndp48-x86-x64-allos-enu.exe" (
+    echo Launching .NET Framework 4.8 installer...
+    "packages\raw\ndp48-x86-x64-allos-enu.exe" /quiet /norestart
+    if !errorLevel! neq 0 (
+        echo [WARN] Installer exited with code !errorLevel! (may still complete async)
+        set /a "INSTALL_FAILED+=1"
+    ) else (
+        echo [OK] Installer launched (installation may take several minutes)
+    )
+) else (
+    echo [WARN] Installer not found: packages\raw\ndp48-x86-x64-allos-enu.exe
+    set /a "INSTALL_MISSING+=1"
+)
 
-echo [18/19] ´´½¨¿ªÊ¼²Ëµ¥Ïî...
-set "STARTMENU_DIR=%APPDATA%\Microsoft\Windows\Start Menu\Programs\¸öÌåÔöÖÇ°ì¹«Ì×¼þ"
-if not exist "%STARTMENU_DIR%" mkdir "%STARTMENU_DIR%"
-echo # ¸öÌåÔöÖÇ°ì¹«Ì×¼þ V1.0 > "%STARTMENU_DIR%\Ê¹ÓÃËµÃ÷.url"
-echo URL=file:///%~dp0docs\02_ÓÃ»§Ê¹ÓÃÊÖ²á.md >> "%STARTMENU_DIR%\Ê¹ÓÃËµÃ÷.url"
-echo ¿ªÊ¼²Ëµ¥ÏîÒÑ´´½¨
+echo [3/19] Installing VC++ Runtime...
+if exist "packages\raw\vc_redist.x64.exe" (
+    echo Launching VC++ Runtime installer...
+    "packages\raw\vc_redist.x64.exe" /install /quiet /norestart
+    if !errorLevel! neq 0 (
+        echo [WARN] Installer exited with code !errorLevel! (may still complete async)
+        set /a "INSTALL_FAILED+=1"
+    ) else (
+        echo [OK] Installer launched (installation may take several minutes)
+    )
+) else (
+    echo [WARN] Installer not found: packages\raw\vc_redist.x64.exe
+    set /a "INSTALL_MISSING+=1"
+)
 
-echo [19/19] °²×°ÑéÖ¤...
-set "VERIFY_FAILED=0"
-reg query "HKLM\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full" /v Version >nul 2>&1
-if %errorLevel% neq 0 (
-    echo [FAIL] .NET Framework 4.8 Î´°²×°
-    set "VERIFY_FAILED=1"
-) else (
-    echo [PASS] .NET Framework 4.8
-)
-if exist "C:\Program Files\Tesseract-OCR\tesseract.exe" (
-    echo [PASS] Tesseract-OCR
-) else (
-    echo [WARN] Tesseract-OCR Î´ÔÚÄ¬ÈÏÂ·¾¶
-)
-sc query "Everything" >nul 2>&1
-if %errorLevel% equ 0 (
-    echo [PASS] Everything ·þÎñ
-) else (
-    echo [WARN] Everything ·þÎñÎ´×¢²á
-)
-if "%VERIFY_FAILED%"=="1" (
-    echo [FAIL] °²×°ÑéÖ¤·¢ÏÖÒì³£,Çë²é¿´ÈÕÖ¾
-) else (
-    echo [PASS] °²×°ÑéÖ¤Í¨¹ý
-)
+echo [4/19] Installing WebView2 Runtime 109...
+if exist "packages\raw\MicrosoftEdgeWebView2RuntimeInstallerX64.exe" (
+    echo Launching WebView2 Runtime 109 installer...
+    "packages\raw\MicrosoftEdgeWebView2RuntimeInstallerX64.exe" /silent /install
+    if !errorLevel! neq 0 (
+        echo [WARN] Installer exited with code !errorLevel! (may still complete async)
+        set /a "INSTALL_FAILED+=1"
+    ) else (
+        echo [OK] Installer launched (installation may take several minutes)
+    )
+) else (
+    echo [WARN] Installer not found: packages\raw\MicrosoftEdgeWebView2RuntimeInstallerX64.exe
+    set /a "INSTALL_MISSING+=1"
+)
+
+echo [5/19] Installing Git for Windows 2.46.2...
+if exist "packages\raw\Git-2.46.2-64-bit.exe" (
+    echo Launching Git for Windows 2.46.2 installer...
+    "packages\raw\Git-2.46.2-64-bit.exe" /VERYSILENT /NORESTART
+    if !errorLevel! neq 0 (
+        echo [WARN] Installer exited with code !errorLevel! (may still complete async)
+        set /a "INSTALL_FAILED+=1"
+    ) else (
+        echo [OK] Installer launched (installation may take several minutes)
+    )
+) else (
+    echo [WARN] Installer not found: packages\raw\Git-2.46.2-64-bit.exe
+    set /a "INSTALL_MISSING+=1"
+)
+
+echo [6/19] Installing Everything...
+if exist "packages\raw\Everything-1.4.1.1024.x64-Setup.exe" (
+    echo Launching Everything installer...
+    "packages\raw\Everything-1.4.1.1024.x64-Setup.exe" /S
+    if !errorLevel! neq 0 (
+        echo [WARN] Installer exited with code !errorLevel! (may still complete async)
+        set /a "INSTALL_FAILED+=1"
+    ) else (
+        echo [OK] Installer launched (installation may take several minutes)
+    )
+) else (
+    echo [WARN] Installer not found: packages\raw\Everything-1.4.1.1024.x64-Setup.exe
+    set /a "INSTALL_MISSING+=1"
+)
+
+echo [7/19] Installing Tesseract-OCR...
+if exist "packages\raw\tesseract-ocr-w64-setup-5.3.1.20230401.exe" (
+    echo Launching Tesseract-OCR installer...
+    "packages\raw\tesseract-ocr-w64-setup-5.3.1.20230401.exe" /S
+    if !errorLevel! neq 0 (
+        echo [WARN] Installer exited with code !errorLevel! (may still complete async)
+        set /a "INSTALL_FAILED+=1"
+    ) else (
+        echo [OK] Installer launched (installation may take several minutes)
+    )
+) else (
+    echo [WARN] Installer not found: packages\raw\tesseract-ocr-w64-setup-5.3.1.20230401.exe
+    set /a "INSTALL_MISSING+=1"
+)
+
+echo [8/19] Installing WPS Office 2019...
+if exist "packages\raw\WPS_Setup_26895.exe" (
+    echo Launching WPS Office 2019 installer...
+    "packages\raw\WPS_Setup_26895.exe" /S
+    if !errorLevel! neq 0 (
+        echo [WARN] Installer exited with code !errorLevel! (may still complete async)
+        set /a "INSTALL_FAILED+=1"
+    ) else (
+        echo [OK] Installer launched (installation may take several minutes)
+    )
+) else (
+    echo [WARN] Installer not found: packages\raw\WPS_Setup_26895.exe
+    set /a "INSTALL_MISSING+=1"
+)
+
+echo [9/19] Installing wps-kaiyu-addon (Kaiwu)...
+if exist "packages\raw\wps-kaiyu-addon-setup.exe" (
+    echo Launching wps-kaiyu-addon (Kaiwu) installer...
+    "packages\raw\wps-kaiyu-addon-setup.exe" /S
+    if !errorLevel! neq 0 (
+        echo [WARN] Installer exited with code !errorLevel! (may still complete async)
+        set /a "INSTALL_FAILED+=1"
+    ) else (
+        echo [OK] Installer launched (installation may take several minutes)
+    )
+) else (
+    echo [WARN] Installer not found: packages\raw\wps-kaiyu-addon-setup.exe
+    set /a "INSTALL_MISSING+=1"
+)
+
+echo [10/19] Installing KexStepup (VxKex)...
+if exist "packages\raw\KexStepup-setup.exe" (
+    echo Launching KexStepup (VxKex) installer...
+    "packages\raw\KexStepup-setup.exe" /S
+    if !errorLevel! neq 0 (
+        echo [WARN] Installer exited with code !errorLevel! (may still complete async)
+        set /a "INSTALL_FAILED+=1"
+    ) else (
+        echo [OK] Installer launched (installation may take several minutes)
+    )
+) else (
+    echo [WARN] Installer not found: packages\raw\KexStepup-setup.exe
+    set /a "INSTALL_MISSING+=1"
+)
+
+echo [11/19] Installing AionUI...
+if exist "packages\raw\AionUI-setup.exe" (
+    echo Launching AionUI installer...
+    "packages\raw\AionUI-setup.exe" /S
+    if !errorLevel! neq 0 (
+        echo [WARN] Installer exited with code !errorLevel! (may still complete async)
+        set /a "INSTALL_FAILED+=1"
+    ) else (
+        echo [OK] Installer launched (installation may take several minutes)
+    )
+) else (
+    echo [WARN] Installer not found: packages\raw\AionUI-setup.exe
+    set /a "INSTALL_MISSING+=1"
+)
+
+echo [12/19] Installing Hermes Desktop...
+if exist "packages\raw\HermesDesktop-setup.exe" (
+    echo Launching Hermes Desktop installer...
+    "packages\raw\HermesDesktop-setup.exe" /S
+    if !errorLevel! neq 0 (
+        echo [WARN] Installer exited with code !errorLevel! (may still complete async)
+        set /a "INSTALL_FAILED+=1"
+    ) else (
+        echo [OK] Installer launched (installation may take several minutes)
+    )
+) else (
+    echo [WARN] Installer not found: packages\raw\HermesDesktop-setup.exe
+    set /a "INSTALL_MISSING+=1"
+)
+
+echo [13/19] Installing OpenCode...
+if exist "packages\raw\OpenCode-setup.exe" (
+    echo Launching OpenCode installer...
+    "packages\raw\OpenCode-setup.exe" /S
+    if !errorLevel! neq 0 (
+        echo [WARN] Installer exited with code !errorLevel! (may still complete async)
+        set /a "INSTALL_FAILED+=1"
+    ) else (
+        echo [OK] Installer launched (installation may take several minutes)
+    )
+) else (
+    echo [WARN] Installer not found: packages\raw\OpenCode-setup.exe
+    set /a "INSTALL_MISSING+=1"
+)
+
+echo [14/19] Installing Obsidian 1.4.16...
+if exist "packages\raw\Obsidian.1.4.16.exe" (
+    echo Launching Obsidian 1.4.16 installer...
+    "packages\raw\Obsidian.1.4.16.exe" /S
+    if !errorLevel! neq 0 (
+        echo [WARN] Installer exited with code !errorLevel! (may still complete async)
+        set /a "INSTALL_FAILED+=1"
+    ) else (
+        echo [OK] Installer launched (installation may take several minutes)
+    )
+) else (
+    echo [WARN] Installer not found: packages\raw\Obsidian.1.4.16.exe
+    set /a "INSTALL_MISSING+=1"
+)
+
+echo [15/19] Installing XMind...
+if exist "packages\raw\XMind-23.11.exe" (
+    echo Launching XMind installer...
+    "packages\raw\XMind-23.11.exe" /S
+    if !errorLevel! neq 0 (
+        echo [WARN] Installer exited with code !errorLevel! (may still complete async)
+        set /a "INSTALL_FAILED+=1"
+    ) else (
+        echo [OK] Installer launched (installation may take several minutes)
+    )
+) else (
+    echo [WARN] Installer not found: packages\raw\XMind-23.11.exe
+    set /a "INSTALL_MISSING+=1"
+)
+
+echo [16/19] Initializing directories...
+if not exist "config" mkdir "config"
+if not exist "logs" mkdir "logs"
+if not exist "state" mkdir "state"
+echo {"status": "installed", "end_time": "%date% %time%"} > "state\install_state.json"
+echo Directories initialized
+
+echo [17/19] Creating desktop shortcuts...
+set "STARTMENU_DIR=%APPDATA%\Microsoft\Windows\Start Menu\Programs\¿ªÎò°ì¹«Ì×¼þ"
+if not exist "%STARTMENU_DIR%" mkdir "%STARTMENU_DIR%"
+if exist "packages\raw\WPS_Setup_26895.exe" (
+    echo Preparing WPS shortcut
+) else (
+    echo [WARN] WPS installer not found, skipping shortcut
+)
+echo Shortcuts created
+
+echo [18/19] Creating start menu entry...
+set "STARTMENU_DIR=%APPDATA%\Microsoft\Windows\Start Menu\Programs\¿ªÎò°ì¹«Ì×¼þ"
+if not exist "%STARTMENU_DIR%" mkdir "%STARTMENU_DIR%"
+echo # ¿ªÎò°ì¹«Ì×¼þ V1.3.1 > "%STARTMENU_DIR%\Ê¹ÓÃËµÃ÷.url"
+echo URL=file:///%~dp0docs\02_ÓÃ»§Ê¹ÓÃÊÖ²á.md >> "%STARTMENU_DIR%\Ê¹ÓÃËµÃ÷.url"
+echo Start menu entry created
+
+echo [19/19] Verifying installation...
+set "VERIFY_FAILED=0"
+reg query "HKLM\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full" /v Version >nul 2>&1
+if %errorLevel% neq 0 (
+    echo [FAIL] .NET Framework 4.8 not installed
+    set "VERIFY_FAILED=1"
+) else (
+    echo [PASS] .NET Framework 4.8
+)
+if exist "C:\Program Files\Tesseract-OCR\tesseract.exe" (
+    echo [PASS] Tesseract-OCR
+) else (
+    echo [WARN] Tesseract-OCR not at default path
+)
+sc query "Everything" >nul 2>&1
+if %errorLevel% equ 0 (
+    echo [PASS] Everything service
+) else (
+    echo [WARN] Everything service not registered
+)
+
+echo.
+echo Installation summary:
+echo   INSTALL_FAILED: %INSTALL_FAILED% (launch failed)
+echo   INSTALL_MISSING: %INSTALL_MISSING% (not found)
+echo   VERIFY_FAILED: %VERIFY_FAILED% (verify failed)
+if "%INSTALL_FAILED%" neq "0" (
+    echo [WARN] %INSTALL_FAILED% installers failed to launch - check logs\install_*.log
+)
+if "%VERIFY_FAILED%"=="1" (
+    echo [FAIL] Installation verification failed - check log
+    pause
+    exit /b 1
+) else (
+    echo [PASS] Installation verification passed
+)
 
 
-echo ========================================
-echo ¸öÌåÔöÖÇ°ì¹«Ì×¼þ V1.0 °²×°Íê³É
-echo ========================================
-echo.
-echo °²×°ÈÕÖ¾: %LOG_FILE%
-echo Ê¹ÓÃËµÃ÷: Çë²é¿´ docs\02_ÓÃ»§Ê¹ÓÃÊÖ²á.md
-echo.
-pause
+echo ========================================
+echo  KaiWu Office Suite V1.3.1 Install Complete
+echo ========================================
+echo.
+echo Install log: %LOG_FILE%
+echo User manual: see docs\02_ÓÃ»§Ê¹ÓÃÊÖ²á.md
+echo.
+pause
