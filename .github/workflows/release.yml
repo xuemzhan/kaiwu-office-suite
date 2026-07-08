@@ -1,0 +1,101 @@
+name: release
+
+# 触发: 推送 v* tag (如 v1.4, v1.3.1)
+on:
+  push:
+    tags:
+      - 'v*'
+
+# 不取消 release
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+# 必需 README 改动才能改 release notes, 简单起见不加
+permissions:
+  contents: write   # 创建 release
+  issues: write     # 可选
+
+jobs:
+  build-and-release:
+    name: Build .zip + create GitHub release
+    runs-on: windows-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # 取所有 tag
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Extract version from tag
+        id: get_version
+        run: |
+          $tag = "${{ github.ref_name }}"
+          $version = $tag -replace '^v', ''
+          echo "VERSION=$version" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          Write-Host "Building version: $version"
+
+      - name: Prepare installers/ (placeholder, real CI uploads separately)
+        run: |
+          Write-Host "Note: installers/ is .gitignore'd. Real release needs internal artifact upload."
+          Write-Host "This CI step is for tag-triggered documentation releases only."
+
+      - name: Verify SHA256 (skip if no installers)
+        run: |
+          cd "${{ github.workspace }}\kaiwu-office-suite-v1.0"
+          python verify_installers.py
+          $rc = $LASTEXITCODE
+          if ($rc -eq 1) {
+            Write-Error "SHA256 mismatch - abort release"
+            exit 1
+          }
+          Write-Host "SHA256 verify exit code: $rc (0=ok, 2=no installers)"
+
+      - name: Create .zip (without installers/ for tag-only release)
+        run: |
+          cd "${{ github.workspace }}"
+          $version = "${{ steps.get_version.outputs.VERSION }}"
+          $zipName = "kaiwu-office-suite-v$version.zip"
+          # 排除: installers/ packages/raw/ logs/ results/ state/ tests/stdout.txt 等
+          # 用 7-Zip (Windows Server 自带)
+          $filesToInclude = @(
+            "kaiwu-office-suite-v1.0\*"
+            "kaiwu-office-suite-v1.0\.[a-z]*"
+            "kaiwu-office-suite-v1.0\.[A-Z]*"
+          )
+          # 用 Compress-Archive (PowerShell 内置)
+          Compress-Archive -Path "kaiwu-office-suite-v1.0\*" -DestinationPath $zipName -Force
+          Write-Host "Created: $zipName"
+          Get-Item $zipName | Select-Object Name, Length
+
+      - name: Compute SHA256 of .zip
+        run: |
+          $zip = Get-ChildItem "kaiwu-office-suite-v${{ steps.get_version.outputs.VERSION }}.zip"
+          $hash = (Get-FileHash -Path $zip.FullName -Algorithm SHA256).Hash.ToLower()
+          $hash | Out-File -FilePath "kaiwu-office-suite-v${{ steps.get_version.outputs.VERSION }}.sha256" -Encoding ascii
+          Write-Host "SHA256: $hash"
+
+      - name: Upload .zip as release asset
+        uses: softprops/action-gh-release@v2
+        with:
+          name: KaiWu Office Suite V${{ steps.get_version.outputs.VERSION }}
+          body: |
+            KaiWu Office Suite V${{ steps.get_version.outputs.VERSION }}
+
+            See [CHANGELOG](https://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/manifest/package-info.json) for changes.
+
+            ## Installation
+            1. Download `kaiwu-office-suite-v${{ steps.get_version.outputs.VERSION }}.zip`
+            2. Extract to `C:\KaiwuOfficeSuite\`
+            3. Run `verify_installers.bat` (15/15 PASS)
+            4. Run `install.bat` as Administrator
+            5. Reboot (recommended)
+          files: |
+            kaiwu-office-suite-v${{ steps.get_version.outputs.VERSION }}.zip
+            kaiwu-office-suite-v${{ steps.get_version.outputs.VERSION }}.sha256
+          draft: false
+          prerelease: false
+          fail_on_unmatched_files: true

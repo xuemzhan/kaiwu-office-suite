@@ -1,0 +1,30 @@
+# Dependabot 配置 (V1.4+)
+# 自动检测 GitHub Actions 版本更新, 每周一上午 9 点 (UTC) 创建 PR
+# 邮箱通知: 不设置 (默认 dependabot[bot] 创建 PR)
+version: 2
+updates:
+  # GitHub Actions 版本
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    commit-message:
+      prefix: "ci"
+      prefix-development: "ci dev"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "ci"
+    # 自动批准 minor/patch, major 需人工
+    # (GitHub 自动 merge 要求先启用)
+    # open-pull-requests-limit: 5
+    # target-branch: master
+    # commit-message: ...
+
+  # GitHub Actions 内嵌脚本 (Python) 暂不开, 因为 repo 无 requirements.txt
+  # - package-ecosystem: "pip"
+  #   directory: "/"
+  #   schedule:
+  #     interval: "weekly"

@@ -1,0 +1,196 @@
+name: test
+
+# CI for KaiWu Office Suite
+# - 触发: push / PR 到 master, 手动触发
+# - 5 jobs: python-smoke, pwsh-tests, installer-verify, lint, all-jobs-must-pass
+# - 中文路径兼容: pwsh tests 用 [Console]::OutputEncoding = UTF-8
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+# 取消旧 run (同 ref)
+concurrency:
+  group: test-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Job 1: Python 工具链 smoke
+  python-smoke:
+    name: Python smoke (verify_installers.py)
+    runs-on: windows-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify SHA256 (smoke test)
+        run: |
+          cd "${{ github.workspace }}\kaiwu-office-suite-v1.0"
+          # 0=全匹配, 1=有不匹配, 2=文件未找到(可接受)
+          python verify_installers.py
+          $rc = $LASTEXITCODE
+          if ($rc -eq 0) {
+            Write-Host "All installers verified"
+          } elseif ($rc -eq 1) {
+            Write-Error "SHA256 mismatch"
+            exit 1
+          } else {
+            Write-Host "No installers/ in repo (acceptable)"
+          }
+
+  # Job 2: PowerShell 测试 (39 用例, 期望 100% PASS)
+  pwsh-tests:
+    name: PowerShell tests (run_tests.ps1)
+    runs-on: windows-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup encoding (中文路径 + UTF-8)
+        run: |
+          [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+          $OutputEncoding = [System.Text.Encoding]::UTF8
+          chcp 65001 | Out-Null
+          Write-Host "Console encoding: $([Console]::OutputEncoding.EncodingName)"
+      - name: Run unit tests
+        run: |
+          cd "${{ github.workspace }}\kaiwu-office-suite-v1.0"
+          $env:KAIWU_BASE = (Get-Location).Path
+          .\tests\run_tests.ps1
+      - name: Verify pass rate from report
+        if: always()
+        run: |
+          $reportPath = "${{ github.workspace }}\kaiwu-office-suite-v1.0\tests\TEST_REPORT.md"
+          if (-not (Test-Path $reportPath)) {
+            Write-Error "TEST_REPORT.md not found"
+            exit 1
+          }
+          $report = Get-Content $reportPath -Raw
+          if ($report -match "Passed:\s+(\d+)\s+\|\s+Failed:\s+(\d+)") {
+            $passed = [int]$Matches[1]
+            $failed = [int]$Matches[2]
+            Write-Host "Test results: $passed passed, $failed failed"
+            if ($failed -gt 0) {
+              Write-Error "Test failures detected: $failed"
+              exit 1
+            }
+          } else {
+            Write-Error "Could not parse TEST_REPORT.md"
+            exit 1
+          }
+      - name: Upload TEST_REPORT.md
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-report
+          path: kaiwu-office-suite-v1.0/tests/TEST_REPORT.md
+          retention-days: 30
+
+  # Job 3: SHA256 验证 (需 prepare installers/ 才能跑)
+  installer-verify:
+    name: Installer SHA256 verification
+    runs-on: windows-latest
+    timeout-minutes: 5
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify installers
+        run: |
+          cd "${{ github.workspace }}\kaiwu-office-suite-v1.0"
+          python verify_installers.py 2>&1 | Tee-Object -FilePath $env:TEMP\verify.log
+          $rc = $LASTEXITCODE
+          if ($rc -eq 0) {
+            Write-Host "All 15 installers verified"
+          } elseif ($rc -eq 1) {
+            Write-Error "Some installers have SHA256 mismatches"
+            exit 1
+          } else {
+            Write-Host "verify exit $rc (no installers, expected in CI)"
+          }
+      - name: Upload verify log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: verify-log
+          path: ${{ env.TEMP }}/verify.log
+          retention-days: 7
+
+  # Job 4: Lint (YAML + Python + .bat 编码)
+  lint:
+    name: Lint (YAML + Python + .bat)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Check YAML syntax
+        run: |
+          python -c "
+          import yaml, glob, sys
+          errs = 0
+          for f in glob.glob('.github/**/*.yml', recursive=True) + glob.glob('.github/**/*.yaml', recursive=True):
+              try:
+                  with open(f) as h:
+                      yaml.safe_load(h)
+                  print(f'OK: {f}')
+              except Exception as e:
+                  print(f'FAIL: {f}: {e}', file=sys.stderr)
+                  errs += 1
+          sys.exit(errs)
+          "
+      - name: Check Python syntax
+        run: |
+          python -m py_compile kaiwu-office-suite-v1.0/verify_installers.py && echo "OK: verify_installers.py"
+      - name: Check .bat files (CRLF + no CR-only)
+        run: |
+          python -c "
+          from pathlib import Path
+          import sys
+          errs = 0
+          for f in Path('kaiwu-office-suite-v1.0').rglob('*.bat'):
+              raw = f.read_bytes()
+              if b'\r\n' not in raw:
+                  print(f'WARN: {f}: no CRLF (cmd may fail)')
+                  errs += 1
+              cr_only = raw.count(b'\r') - raw.count(b'\r\n')
+              if cr_only > 0:
+                  print(f'WARN: {f}: {cr_only} CR-only characters (V1.3.1 cleaned these up)')
+                  errs += 1
+              print(f'OK: {f}')
+          sys.exit(errs)
+          "
+
+  # Job 5: 汇总 - 任何 job 失败则 fail
+  all-jobs-must-pass:
+    name: All checks passed
+    runs-on: ubuntu-latest
+    needs: [python-smoke, pwsh-tests, installer-verify, lint]
+    if: always()
+    steps:
+      - name: Check all job results
+        run: |
+          if ('${{ needs.python-smoke.result }}' -ne 'success') -or \
+             ('${{ needs.pwsh-tests.result }}' -ne 'success') -or \
+             ('${{ needs.installer-verify.result }}' -ne 'success') -or \
+             ('${{ needs.lint.result }}' -ne 'success') {
+            echo "One or more jobs failed"
+            exit 1
+          }
+          echo "All jobs passed"
