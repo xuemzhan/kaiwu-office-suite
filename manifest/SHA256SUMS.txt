@@ -1,5 +1,5 @@
 # 开悟个体增智智能办公套件 V1.0 SHA256 校验清单
-# 生成时间: 2026-07-07 (基于 packages/raw/ 实测)
+# 生成时间: 2026-06-21 首次生成, 2026-07-07 V1.1 重写, 2026-07-08 V1.3.3 清理 (删 2 个冗余)
 # 目标环境: Windows 7 SP1 64位
 # 生成方式: scripts/verify_sha256.py 扫描 packages/raw/ 实际计算
 
@@ -15,13 +15,12 @@ eb60f93f3ce10c2f4d0f8ab45ea0d457a9975f5b2f108691773951ce02d85526  Obsidian.1.4.1
 eb77db4470db108e19bd52cae577102dd5c30e80dcc3b62d150e35637542e818  WPS_Setup_26895.exe  (size: 299,586,256 bytes)
 fc05d89ab31d8b4e226910f16a8bcbf78e43bae3e2580bb5feefd052efdab363  chi_sim.traineddata  (size: 44,366,093 bytes)
 daa0c97d651c19fba3b25e81317cd697e9908c8208090c94c3905381c23fc047  eng.traineddata  (size: 23,466,654 bytes)
-c02c9f4ced0c56abaceead0cb8fe33f783b0990216393eecf86abda7c5a42bfe  kaiwu_0.2.0.7z  (size: 883,814 bytes)
 0a3a390c47e639d0f7fc65b21195fee6b7f65b066f80f70c60fab191d14b7e40  ndp48-x86-x64-allos-enu.exe  (size: 121,346,568 bytes)
 ac0ce1748b83b993a5c3244d485303695b73ff1ccf0206a6a2ae44040e5a8ed4  tesseract-ocr-w64-setup-5.3.1.20230401.exe  (size: 49,945,840 bytes)
 cc0ff0eb1dc3f5188ae6300faef32bf5beeba4bdd6e8e445a9184072096b713b  vc_redist.x64.exe  (size: 25,635,768 bytes)
 b75a8bc8cc13967215726fa99a21e591ad32f45ad2fcfaf55087eed593cf5efd  wps-kaiyu-addon-setup.exe  (size: 1,011,982 bytes)
 # 58b4286c52c57b4c687f44598ad60b54422a5b74b8d2ae3bcd67c5fe26042775  kaiwu-office-suite-v1.0.zip  (NOT FOUND in packages/raw/)
-# b75a8bc8cc13967215726fa99a21e591ad32f45ad2fcfaf55087eed593cf5efd  kaiwu_0.2.0_installer.exe  (NOT FOUND in packages/raw/)
+# b75a8bc8cc13967215726fa99a21e591ad32f45ad2fcfaf55087eed593cf5efd  kaiwu_0.2.0_installer.exe  (历史冗余 - 与 wps-kaiyu-addon-setup.exe 同 SHA256, 2026-07-08 V1.3.3 删除)
 # 缺文件  KexStepup-setup.exe  (NOT FOUND in packages/raw/)
 # 缺文件  XMind-23.11.exe  (NOT FOUND in packages/raw/)
 
@@ -29,5 +28,7 @@ b75a8bc8cc13967215726fa99a21e591ad32f45ad2fcfaf55087eed593cf5efd  wps-kaiyu-addo
 # 1. SHA256通过 scripts/verify_sha256.py 用 hashlib.sha256 生成
 # 2. install.bat 使用本文件验证安装器完整性(下一步实现)
 # 3. 与上一版 SHA256SUMS.txt 的差异:
+#    - 2026-07-08 V1.3.3: 删 2 个冗余 (kaiwu_0.2.0.7z + kaiwu_0.2.0_installer.exe)
+#      kaiwu_0.2.0_installer.exe 与 wps-kaiyu-addon-setup.exe 同 SHA256 (b75a8bc8cc...)
 #    - 1 个文件旧清单中缺失
 # 4. 旧版备份在: SHA256SUMS.txt.bak

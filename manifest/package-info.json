@@ -30,6 +30,24 @@
       "fix: call_git_status.bat cd /d errorlevel bug 修 (改用 if not exist 显式检查)",
       "test: 4 处测试期望调整 (wps / tesseract / 3 lifecycle bat log / check.bat)",
       "test: 39/39 = 100% PASS (从 27% 基线 + 88% V1.1)"
+    ],
+    "changelog_v1_3_1": [
+      "fix: install.bat 14 个 install 步骤加 errorlevel 检查 (INSTALL_FAILED/MISSING 计数)",
+      "fix: install.bat 彻底清 224 个 CR-only 字符 (\\r\\r\\n -> \\r\\n)",
+      "feat: install.bat 末尾 [19/19] 段加完整总结 (FAILED/MISSING/VERIFY)",
+      "fix: install.bat 239 行 -> 344 行 (+105)"
+    ],
+    "changelog_v1_3_2": [
+      "docs: BUILD.md (11KB) - 可重放打包流程文档",
+      "docs: BUILD.md 含仓库布局 + 构建流程 + 验证矩阵 + CI 建议 + 版本号约定 + 已知问题"
+    ],
+    "changelog_v1_3_3": [
+      "chore: SHA256SUMS.txt 清理 - 删 2 个冗余 (kaiwu_0.2.0.7z + kaiwu_0.2.0_installer.exe)",
+      "chore: SHA256SUMS.txt 头部加 V1.3.3 修订记录 (V1.1 重写, V1.3.3 清理)",
+      "chore: 15 个文件 hash -> 13 个文件 hash (去掉 2 个冗余, 与 packages/raw/ 同步)",
+      "fix: 注释 kaiwu_0.2.0_installer.exe 与 wps-kaiyu-addon-setup.exe 同 SHA256 (历史冗余)",
+      "chore: installers/02_office/ 减 1.9MB (kaiwu_0.2.0_installer.exe 1MB + kaiwu_0.2.0.7z 884KB)",
+      "保留 installers/02_office/kaiwu_0.2.0/ (3.74MB, WPS 插件运行时必需)"
     ]
   },
   "components": {
