@@ -330,3 +330,6 @@ $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
 # Write UTF-8 no-BOM for cross-platform diff friendliness (PS 5.1 Out-File -Encoding UTF8 adds BOM; PS 6+ differs)
 [System.IO.File]::WriteAllText($reportPath, $reportContent, $utf8NoBom)
 Write-Host "Report saved to: $reportPath" -ForegroundColor Cyan
+
+# Exit with error code if any test failed (2026-07-08 fix)
+if ($script:failedTests -gt 0) { exit 1 } else { exit 0 }

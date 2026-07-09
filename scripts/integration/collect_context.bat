@@ -23,28 +23,8 @@ if not exist "results" mkdir "results"
 REM 记录日志
 echo [%date% %time%] 开始收集上下文: 类型=%CONTEXT_TYPE% >> "logs\collect_context.log"
 
-REM 创建上下文文件
-echo { > "%OUTPUT_FILE%"
-echo   "context_info": { >> "%OUTPUT_FILE%"
-echo     "type": "%CONTEXT_TYPE%", >> "%OUTPUT_FILE%"
-echo     "timestamp": "%date% %time%", >> "%OUTPUT_FILE%"
-echo     "computer_name": "%COMPUTERNAME%", >> "%OUTPUT_FILE%"
-echo     "username": "%USERNAME%", >> "%OUTPUT_FILE%"
-echo     "user_domain": "%USERDOMAIN%" >> "%OUTPUT_FILE%"
-echo   }, >> "%OUTPUT_FILE%"
-echo   "system_info": { >> "%OUTPUT_FILE%"
-echo     "os_version": "Windows", >> "%OUTPUT_FILE%"
-echo     "architecture": "%PROCESSOR_ARCHITECTURE%", >> "%OUTPUT_FILE%"
-echo     "processor_count": "%NUMBER_OF_PROCESSORS%", >> "%OUTPUT_FILE%"
-echo     "temp_folder": "%TEMP%", >> "%OUTPUT_FILE%"
-echo     "system_root": "%SYSTEMROOT%" >> "%OUTPUT_FILE%"
-echo   }, >> "%OUTPUT_FILE%"
-echo   "config_info": { >> "%OUTPUT_FILE%"
-echo     "suite_version": "V1.0", >> "%OUTPUT_FILE%"
-echo     "install_date": "2026-06-17", >> "%OUTPUT_FILE%"
-echo     "last_check": "%date% %time%" >> "%OUTPUT_FILE%"
-echo   } >> "%OUTPUT_FILE%"
-echo } >> "%OUTPUT_FILE%"
+REM Build JSON via PowerShell ConvertTo-Json (P2-3 hardening)
+powershell -command "$ver = 'V1.3.3'; try { $v = Get-Content 'config\version.json' -Raw | ConvertFrom-Json; $ver = $v.version } catch {}; $obj = @{ context_info = @{ type='%CONTEXT_TYPE%', timestamp=(Get-Date -Format 'yyyy-MM-dd HH:mm:ss'), computer_name=$env:COMPUTERNAME, username=$env:USERNAME, user_domain=$env:USERDOMAIN }; system_info = @{ os_version='Windows', architecture=$env:PROCESSOR_ARCHITECTURE, processor_count=$env:NUMBER_OF_PROCESSORS, temp_folder=$env:TEMP, system_root=$env:SYSTEMROOT }; config_info = @{ suite_version=$ver, last_check=(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') } }; $obj | ConvertTo-Json -Depth 5 | Set-Content '%OUTPUT_FILE%' -Encoding UTF8"
 
 echo 上下文收集完成，结果已保存到: %OUTPUT_FILE%
 

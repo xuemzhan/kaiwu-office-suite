@@ -1,85 +1,66 @@
 @echo off
-REM Everything ÎÄ¼þËÑË÷µ÷ÓÃ½Å±¾
-REM ¹¦ÄÜ: µ÷ÓÃEverything½øÐÐÎÄ¼þËÑË÷
-REM Ä¿±ê»·¾³: Windows 7 SP1 64Î»
-REM Éú³ÉÊ±¼ä: 2026-06-17
+REM Everything ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã½Å±ï¿½
+REM ï¿½ï¿½ï¿½ï¿½: ï¿½ï¿½ï¿½ï¿½Everythingï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
+REM Ä¿ï¿½ê»·ï¿½ï¿½: Windows 7 SP1 64Î»
+REM ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½: 2026-06-17
 
 setlocal enabledelayedexpansion
-REM È·±£ÈÕÖ¾ÓëÊä³öÄ¿Â¼´æÔÚ(2026-07-07 ÐÞ¸´: ´ËÇ°È±Ê§ mkdir µ¼ÖÂ 14 ¸ö log ¶ÏÑÔÈ« FAIL)
+REM È·ï¿½ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿Â¼ï¿½ï¿½ï¿½ï¿?2026-07-07 ï¿½Þ¸ï¿½: ï¿½ï¿½Ç°È±Ê§ mkdir ï¿½ï¿½ï¿½ï¿½ 14 ï¿½ï¿½ log ï¿½ï¿½ï¿½ï¿½È« FAIL)
 if not exist "logs" mkdir "logs"
 if not exist "results" mkdir "results"
 
 
-REM ²ÎÊýÉèÖÃ
+REM Parse arguments
 set "KEYWORD=%~1"
-set "PATH=%~2"
+set "SEARCH_PATH=%~2"
 set "OUTPUT_FILE=%~3"
 
 if "%KEYWORD%"=="" (
-    echo [´íÎó] ÇëÌá¹©ËÑË÷¹Ø¼ü´Ê
-    echo ÓÃ·¨: %0 "¹Ø¼ü´Ê" ["Â·¾¶"]
+    echo [ï¿½ï¿½ï¿½ï¿½] ï¿½ï¿½ï¿½á¹©ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ï¿½ï¿½
+    echo ï¿½Ã·ï¿½: %0 "ï¿½Ø¼ï¿½ï¿½ï¿½" ["Â·ï¿½ï¿½"]
     exit /b 1
 )
 
 if "%OUTPUT_FILE%"=="" set "OUTPUT_FILE=results\file_search_result.json"
 
-REM ´´½¨Êä³öÄ¿Â¼
+REM ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿Â?
 if not exist "results" mkdir "results"
 
-REM ¼ÇÂ¼ÈÕÖ¾
-echo [%date% %time%] ¿ªÊ¼ËÑË÷: ¹Ø¼ü´Ê=%KEYWORD% Â·¾¶=%PATH% >> "logs\everything_search.log"
+REM ï¿½ï¿½Â¼ï¿½ï¿½Ö¾
+echo [%date% %time%] Start search: keyword=%KEYWORD% path=%SEARCH_PATH% >> "logs\everything_search.log"
 
-REM ¼ì²éEverything·þÎñ
+REM ï¿½ï¿½ï¿½Everythingï¿½ï¿½ï¿½ï¿½
 sc query "Everything" >nul 2>&1
 if %errorLevel% neq 0 (
-    echo [´íÎó] Everything·þÎñÎ´ÔËÐÐ
-    echo ÇëÏÈÆô¶¯Everything·þÎñ
+    echo [ï¿½ï¿½ï¿½ï¿½] Everythingï¿½ï¿½ï¿½ï¿½Î´ï¿½ï¿½ï¿½ï¿½
+    echo ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Everythingï¿½ï¿½ï¿½ï¿½
     exit /b 1
 )
 
-REM Ê¹ÓÃes.exe½øÐÐËÑË÷£¨EverythingÃüÁîÐÐ¹¤¾ß£©
+REM Ê¹ï¿½ï¿½es.exeï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Everythingï¿½ï¿½ï¿½ï¿½ï¿½Ð¹ï¿½ï¿½ß£ï¿½
 if exist "C:\Program Files\Everything\es.exe" (
-    echo Ê¹ÓÃes.exe½øÐÐËÑË÷...
+    echo Ê¹ï¿½ï¿½es.exeï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½...
     "C:\Program Files\Everything\es.exe" "%KEYWORD%" > "results\temp_search.txt"
 ) else (
-    echo [¾¯¸æ] Î´ÕÒµ½es.exe£¬Ê¹ÓÃ±¸Ñ¡·½°¸
-    REM ±¸Ñ¡·½°¸£ºÊ¹ÓÃPowerShellµ÷ÓÃEverything
-    powershell -Command "Get-ChildItem -Path '%PATH%' -Recurse -Filter '*%KEYWORD%*' | Select-Object FullName, Length, LastWriteTime | ForEach-Object { '{0},{1},{2}' -f $_.FullName, $_.Length, $_.LastWriteTime }" > "results\temp_search.txt"
+    echo [ï¿½ï¿½ï¿½ï¿½] Î´ï¿½Òµï¿½es.exeï¿½ï¿½Ê¹ï¿½Ã±ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½
+    REM ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½PowerShellï¿½ï¿½ï¿½ï¿½Everything
+    powershell -Command "Get-ChildItem -Path '%SEARCH_PATH%' -Recurse -Filter '*%KEYWORD%*' | Select-Object FullName, Length, LastWriteTime | ForEach-Object { '{0},{1},{2}' -f $_.FullName, $_.Length, $_.LastWriteTime }" > "results\temp_search.txt"
 )
 
-REM ×ª»»ÎªJSON¸ñÊ½
-echo { > "%OUTPUT_FILE%"
-echo   "search_info": { >> "%OUTPUT_FILE%"
-echo     "keyword": "%KEYWORD%", >> "%OUTPUT_FILE%"
-echo     "path": "%PATH%", >> "%OUTPUT_FILE%"
-echo     "timestamp": "%date% %time%", >> "%OUTPUT_FILE%"
-echo     "result_count": 0 >> "%OUTPUT_FILE%"
-echo   }, >> "%OUTPUT_FILE%"
-echo   "results": [ >> "%OUTPUT_FILE%"
-
-REM Ìí¼ÓËÑË÷½á¹û
-set "count=0"
-for /f "tokens=*" %%i in ('type "results\temp_search.txt"') do (
-    if !count! gtr 0 echo , >> "%OUTPUT_FILE%"
-    echo     { >> "%OUTPUT_FILE%"
-    echo       "path": "%%i" >> "%OUTPUT_FILE%"
-    echo     } >> "%OUTPUT_FILE%"
-    set /a count+=1
+REM Build JSON via PowerShell ConvertTo-Json (P2-3 hardening)
+powershell -command "$results = @(); foreach ($line in Get-Content 'results\temp_search.txt' -ErrorAction SilentlyContinue) { if ($line.Trim()) { $results += @{path=$line.Trim()} } }; $obj = @{ search_info = @{ keyword='%KEYWORD%', path='%SEARCH_PATH%', timestamp=(Get-Date -Format 'yyyy-MM-dd HH:mm:ss'), result_count=$results.Count }; results=$results }; $obj | ConvertTo-Json -Depth 5 | Set-Content '%OUTPUT_FILE%' -Encoding UTF8"
+if %errorLevel% neq 0 (
+    echo [ERROR] JSON build failed
+    exit /b 1
 )
 
-echo   ] >> "%OUTPUT_FILE%"
-echo } >> "%OUTPUT_FILE%"
-
-REM ¸üÐÂ½á¹ûÊýÁ¿
-powershell -Command "$content = Get-Content '%OUTPUT_FILE%'; $content = $content -replace 'result_count: 0', 'result_count: %count%'; Set-Content '%OUTPUT_FILE%' $content"
-
-REM ÇåÀíÁÙÊ±ÎÄ¼þ
+REM ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½Ä¼ï¿½
 del "results\temp_search.txt" 2>nul
 
-echo ËÑË÷Íê³É£¬½á¹ûÒÑ±£´æµ½: %OUTPUT_FILE%
-echo ËÑË÷½á¹ûÊýÁ¿: %count%
+echo ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É£ï¿½ï¿½ï¿½ï¿½ï¿½Ñ±ï¿½ï¿½æµ½: %OUTPUT_FILE%
+echo Search complete. Output saved to: %OUTPUT_FILE%
 
-REM ¼ÇÂ¼ÈÕÖ¾
-echo [%date% %time%] ËÑË÷Íê³É: ½á¹ûÊýÁ¿=%count% >> "logs\everything_search.log"
+REM ï¿½ï¿½Â¼ï¿½ï¿½Ö¾
+echo Search complete. Output saved to: %OUTPUT_FILE%
 
 exit /b 0
