@@ -24,7 +24,7 @@ echo [STEP] Checking AionUI...
 echo [%date% %time%] Checking AionUI >> "%LOG_FILE%"
 
 set /a TOTAL+=1
-set "AIONUI_EXE=%INSTALL_DIR%\installers\01_agent\AionUI.exe"
+set "AIONUI_EXE=%INSTALL_DIR%\packages\raw\01_agent\AionUI.exe"
 if exist "%AIONUI_EXE%" (
     echo [PASS] AionUI found: %AIONUI_EXE%
     echo [%date% %time%] [PASS] AionUI found >> "%LOG_FILE%"
@@ -40,7 +40,7 @@ echo [STEP] Checking Hermes Desktop...
 echo [%date% %time%] Checking Hermes Desktop >> "%LOG_FILE%"
 
 set /a TOTAL+=1
-set "HERMES_EXE=%INSTALL_DIR%\installers\01_agent\HermesDesktop.exe"
+set "HERMES_EXE=%INSTALL_DIR%\packages\raw\01_agent\HermesDesktop.exe"
 if exist "%HERMES_EXE%" (
     echo [PASS] Hermes Desktop found: %HERMES_EXE%
     echo [%date% %time%] [PASS] Hermes Desktop found >> "%LOG_FILE%"
@@ -56,7 +56,7 @@ echo [STEP] Checking OpenCode...
 echo [%date% %time%] Checking OpenCode >> "%LOG_FILE%"
 
 set /a TOTAL+=1
-set "OPENCODE_EXE=%INSTALL_DIR%\installers\01_agent\OpenCode.exe"
+set "OPENCODE_EXE=%INSTALL_DIR%\packages\raw\01_agent\OpenCode.exe"
 if exist "%OPENCODE_EXE%" (
     echo [PASS] OpenCode found: %OPENCODE_EXE%
     echo [%date% %time%] [PASS] OpenCode found >> "%LOG_FILE%"

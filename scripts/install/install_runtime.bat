@@ -24,7 +24,7 @@ if %errorLevel% neq 0 (
 echo [信息] 检查到管理员权限 >> "%LOG_FILE%"
 
 REM 创建安装目录
-set "INSTALL_DIR=C:\KaiwuOfficeSuite"
+set "INSTALL_DIR=%~dp0..\.."
 if not exist "%INSTALL_DIR%" mkdir "%INSTALL_DIR%"
 if not exist "%INSTALL_DIR%\logs" mkdir "%INSTALL_DIR%\logs"
 

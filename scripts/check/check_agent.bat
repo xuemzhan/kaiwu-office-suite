@@ -13,7 +13,7 @@ if not exist "logs" mkdir "logs"
 echo [%date% %time%] 开始检测Agent组件 >> "%LOG_FILE%"
 
 REM 设置检测目录
-set "INSTALL_DIR=C:\KaiwuOfficeSuite"
+set "INSTALL_DIR=%~dp0..\.."
 
 REM 初始化计数器
 set "TOTAL=0"
@@ -26,7 +26,7 @@ echo [信息] 检测 AionUI...
 echo [%date% %time%] 检测 AionUI >> "%LOG_FILE%"
 
 set /a TOTAL+=1
-set "AIONUI_EXE=%INSTALL_DIR%\installers\01_agent\AionUI.exe"
+set "AIONUI_EXE=%INSTALL_DIR%\packages\raw\01_agent\AionUI.exe"
 if exist "%AIONUI_EXE%" (
     echo [通过] AionUI 存在: %AIONUI_EXE%
     echo [%date% %time%] [通过] AionUI 存在 >> "%LOG_FILE%"
@@ -42,7 +42,7 @@ echo [信息] 检测 Hermes Desktop...
 echo [%date% %time%] 检测 Hermes Desktop >> "%LOG_FILE%"
 
 set /a TOTAL+=1
-set "HERMES_EXE=%INSTALL_DIR%\installers\01_agent\HermesDesktop.exe"
+set "HERMES_EXE=%INSTALL_DIR%\packages\raw\01_agent\HermesDesktop.exe"
 if exist "%HERMES_EXE%" (
     echo [通过] Hermes Desktop 存在: %HERMES_EXE%
     echo [%date% %time%] [通过] Hermes Desktop 存在 >> "%LOG_FILE%"
@@ -58,7 +58,7 @@ echo [信息] 检测 OpenCode...
 echo [%date% %time%] 检测 OpenCode >> "%LOG_FILE%"
 
 set /a TOTAL+=1
-set "OPENCODE_EXE=%INSTALL_DIR%\installers\01_agent\OpenCode.exe"
+set "OPENCODE_EXE=%INSTALL_DIR%\packages\raw\01_agent\OpenCode.exe"
 if exist "%OPENCODE_EXE%" (
     echo [通过] OpenCode 存在: %OPENCODE_EXE%
     echo [%date% %time%] [通过] OpenCode 存在 >> "%LOG_FILE%"

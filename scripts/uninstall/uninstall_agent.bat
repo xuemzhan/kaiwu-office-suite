@@ -24,13 +24,13 @@ if %errorLevel% neq 0 (
 echo [信息] 检查到管理员权限 >> "%LOG_FILE%"
 
 REM 设置卸载目录
-set "INSTALL_DIR=C:\KaiwuOfficeSuite"
+set "INSTALL_DIR=%~dp0..\.."
 
 REM 1. 卸载 AionUI
 echo [信息] 卸载 AionUI...
 echo [%date% %time%] 卸载 AionUI >> "%LOG_FILE%"
 
-set "AIONUI_EXE=%INSTALL_DIR%\installers\01_agent\AionUI.exe"
+set "AIONUI_EXE=%INSTALL_DIR%\packages\raw\01_agent\AionUI.exe"
 if exist "%AIONUI_EXE%" (
     echo [信息] 找到AionUI: %AIONUI_EXE%
     echo [%date% %time%] 找到AionUI: %AIONUI_EXE% >> "%LOG_FILE%"
@@ -53,7 +53,7 @@ REM 2. 卸载 Hermes Desktop
 echo [信息] 卸载 Hermes Desktop...
 echo [%date% %time%] 卸载 Hermes Desktop >> "%LOG_FILE%"
 
-set "HERMES_EXE=%INSTALL_DIR%\installers\01_agent\HermesDesktop.exe"
+set "HERMES_EXE=%INSTALL_DIR%\packages\raw\01_agent\HermesDesktop.exe"
 if exist "%HERMES_EXE%" (
     echo [信息] 找到Hermes Desktop: %HERMES_EXE%
     echo [%date% %time%] 找到Hermes Desktop: %HERMES_EXE% >> "%LOG_FILE%"
@@ -76,7 +76,7 @@ REM 3. 卸载 OpenCode
 echo [信息] 卸载 OpenCode...
 echo [%date% %time%] 卸载 OpenCode >> "%LOG_FILE%"
 
-set "OPENCODE_EXE=%INSTALL_DIR%\installers\01_agent\OpenCode.exe"
+set "OPENCODE_EXE=%INSTALL_DIR%\packages\raw\01_agent\OpenCode.exe"
 if exist "%OPENCODE_EXE%" (
     echo [信息] 找到OpenCode: %OPENCODE_EXE%
     echo [%date% %time%] 找到OpenCode: %OPENCODE_EXE% >> "%LOG_FILE%"

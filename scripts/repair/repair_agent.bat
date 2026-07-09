@@ -24,7 +24,7 @@ if %errorLevel% neq 0 (
 echo [信息] 检查到管理员权限 >> "%LOG_FILE%"
 
 REM 设置修复目录
-set "INSTALL_DIR=C:\KaiwuOfficeSuite"
+set "INSTALL_DIR=%~dp0..\.."
 set "BACKUP_DIR=%INSTALL_DIR%\backup"
 
 REM 1. 创建备份目录
@@ -38,7 +38,7 @@ REM 2. 备份现有文件
 echo [信息] 备份现有文件...
 echo [%date% %time%] 备份现有文件 >> "%LOG_FILE%"
 
-set "AGENT_DIR=%INSTALL_DIR%\installers\01_agent"
+set "AGENT_DIR=%INSTALL_DIR%\packages\raw\01_agent"
 if exist "%AGENT_DIR%" (
     echo [信息] 备份Agent目录: %AGENT_DIR%
     echo [%date% %time%] 备份Agent目录: %AGENT_DIR% >> "%LOG_FILE%"
@@ -59,12 +59,12 @@ echo [信息] 检查目录结构...
 echo [%date% %time%] 检查目录结构 >> "%LOG_FILE%"
 
 set "REQUIRED_DIRS=(
-    installers\00_runtime
-    installers\01_agent
-    installers\02_office
-    installers\03_tools
-    installers\04_knowledge
-    installers\05_optional
+    packages\raw\00_runtime
+    packages\raw\01_agent
+    packages\raw\02_office
+    packages\raw\03_tools
+    packages\raw\04_knowledge
+    packages\raw\05_optional
     config\aionui
     config\hermes
     config\opencode

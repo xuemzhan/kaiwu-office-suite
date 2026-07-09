@@ -31,7 +31,7 @@ REM 1. Install .NET Framework 4.8
 echo [STEP] Installing .NET Framework 4.8...
 echo [%date% %time%] Installing .NET Framework 4.8 >> "%LOG_FILE%"
 
-set "DOTNET_INSTALLER=installers\00_runtime\ndp48-x86-x64-allos-enu.exe"
+set "DOTNET_INSTALLER=packages\raw\00_runtime\ndp48-x86-x64-allos-enu.exe"
 if exist "%DOTNET_INSTALLER%" (
     echo [INFO] Found installer: %DOTNET_INSTALLER%
     echo [%date% %time%] Found installer: %DOTNET_INSTALLER% >> "%LOG_FILE%"
@@ -56,7 +56,7 @@ REM 2. Install VC++ Runtime
 echo [STEP] Installing VC++ Runtime...
 echo [%date% %time%] Installing VC++ Runtime >> "%LOG_FILE%"
 
-set "VC_INSTALLER=installers\00_runtime\vc_redist.x64.exe"
+set "VC_INSTALLER=packages\raw\00_runtime\vc_redist.x64.exe"
 if exist "%VC_INSTALLER%" (
     echo [INFO] Found installer: %VC_INSTALLER%
     echo [%date% %time%] Found installer: %VC_INSTALLER% >> "%LOG_FILE%"
@@ -81,7 +81,7 @@ REM 3. Install WebView2 Runtime
 echo [STEP] Installing WebView2 Runtime...
 echo [%date% %time%] Installing WebView2 Runtime >> "%LOG_FILE%"
 
-set "WEBVIEW2_INSTALLER=installers\00_runtime\MicrosoftEdgeWebView2RuntimeInstallerX64.exe"
+set "WEBVIEW2_INSTALLER=packages\raw\00_runtime\MicrosoftEdgeWebView2RuntimeInstallerX64.exe"
 if exist "%WEBVIEW2_INSTALLER%" (
     echo [INFO] Found installer: %WEBVIEW2_INSTALLER%
     echo [%date% %time%] Found installer: %WEBVIEW2_INSTALLER% >> "%LOG_FILE%"

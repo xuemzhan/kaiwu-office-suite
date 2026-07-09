@@ -37,7 +37,7 @@ REM 2. Backup existing Agent components
 echo [STEP] Backing up Agent components...
 echo [%date% %time%] Backing up Agent components >> "%LOG_FILE%"
 
-set "AGENT_DIR=%INSTALL_DIR%\installers\01_agent"
+set "AGENT_DIR=%INSTALL_DIR%\packages\raw\01_agent"
 if exist "%AGENT_DIR%" (
     echo [INFO] Found Agent directory: %AGENT_DIR%
     echo [%date% %time%] Found Agent directory: %AGENT_DIR% >> "%LOG_FILE%"
@@ -57,12 +57,12 @@ echo [STEP] Verifying directory structure...
 echo [%date% %time%] Verifying directory structure >> "%LOG_FILE%"
 
 for %%d in (
-    installers\00_runtime
-    installers\01_agent
-    installers\02_office
-    installers\03_tools
-    installers\04_knowledge
-    installers\05_optional
+    packages\raw\00_runtime
+    packages\raw\01_agent
+    packages\raw\02_office
+    packages\raw\03_tools
+    packages\raw\04_knowledge
+    packages\raw\05_optional
     config\aionui
     config\hermes
     config\opencode
