@@ -94,11 +94,19 @@ if %errorLevel% equ 0 (
 goto :eof
 
 :try_wmic_uninst
-REM wmic uninstall by product name
-wmic product where "name like '%~1'" call uninstall /nointeractive >nul 2>&1
+REM wmic uninstall by product name (P3-4: exact match first, then wildcard)
+REM Try exact match first
+wmic product where "name='%~1'" call uninstall /nointeractive >nul 2>&1
 if %errorLevel% equ 0 (
-    echo [OK] WMIC %~1 removed
-    echo [%date% %time%] OK WMIC %~1 removed >> "%LOG_FILE%"
+    echo [OK] WMIC: %~1 removed (exact)
+    echo [%date% %time%] OK WMIC %~1 removed (exact) >> "%LOG_FILE%"
+    goto :eof
+)
+REM Fallback: wildcard match
+wmic product where "name like '%%%~1%%%'" call uninstall /nointeractive >nul 2>&1
+if %errorLevel% equ 0 (
+    echo [OK] WMIC: %~1 removed (wildcard)
+    echo [%date% %time%] OK WMIC %~1 removed (wildcard) >> "%LOG_FILE%"
 ) else (
     echo [INFO] WMIC: %~1 not found or already removed
     echo [%date% %time%] INFO WMIC %~1 not found >> "%LOG_FILE%"

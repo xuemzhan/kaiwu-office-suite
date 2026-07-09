@@ -70,12 +70,12 @@ echo.
 echo [2/8] Rebuild shortcuts
 echo [%date% %time%] Fix shortcuts >> "%LOG_FILE%"
 
-set "STARTMENU_DIR=%APPDATA%\Microsoft\Windows\Start Menu\Programs\¿ªÎò°ì¹«Ì×¼þ"
+set "STARTMENU_DIR=%APPDATA%\Microsoft\Windows\Start Menu\Programs\ï¿½ï¿½ï¿½ï¿½ì¹«ï¿½×¼ï¿?
 if not exist "%STARTMENU_DIR%" mkdir "%STARTMENU_DIR%"
 
-REM Ð´Ê¹ÓÃËµÃ÷ URL
-> "%STARTMENU_DIR%\Ê¹ÓÃËµÃ÷.url" echo [InternetShortcut]
->> "%STARTMENU_DIR%\Ê¹ÓÃËµÃ÷.url" echo URL=file:///%~dp0docs\02_ÓÃ»§Ê¹ÓÃÊÖ²á.md
+REM Ð´Ê¹ï¿½ï¿½Ëµï¿½ï¿½ URL
+> "%STARTMENU_DIR%\Ê¹ï¿½ï¿½Ëµï¿½ï¿½.url" echo [InternetShortcut]
+>> "%STARTMENU_DIR%\Ê¹ï¿½ï¿½Ëµï¿½ï¿½.url" echo URL=file:///%~dp0docs\02_ï¿½Ã»ï¿½Ê¹ï¿½ï¿½ï¿½Ö²ï¿½.md
 echo [OK] Start menu shortcut created: %STARTMENU_DIR%
 echo [%date% %time%] OK start menu shortcut >> "%LOG_FILE%"
 goto end
@@ -87,22 +87,17 @@ echo [%date% %time%] Fix tool registry >> "%LOG_FILE%"
 
 if not exist "scripts\integration" mkdir "scripts\integration"
 if not exist "scripts\integration\tool_registry.json" (
-    REM ´ÓÄ£°åÖØ½¨(8 ¸ö¹¤¾ßÌõÄ¿)
+    REM ï¿½ï¿½Ä£ï¿½ï¿½ï¿½Ø½ï¿½(8 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿)
     echo [WARN] tool_registry.json missing, creating template
     echo [%date% %time%] WARN tool_registry missing >> "%LOG_FILE%"
 )
 if exist "scripts\integration\tool_registry.json" (
-    REM ÑéÖ¤ JSON ºÏ·¨ÐÔ(´ÖÂÔ: ¼ì²é {} Åä¶Ô)
-    set "OPEN=0"
-    set "CLOSE=0"
-    for /f %%a in ('type "scripts\integration\tool_registry.json" ^| find /c "{"') do set "OPEN=%%a"
-    for /f %%a in ('type "scripts\integration\tool_registry.json" ^| find /c "}"') do set "CLOSE=%%a"
-    if "!OPEN!"=="!CLOSE!" (
-        echo [OK] tool_registry.json valid (!OPEN! brace pairs)
-        echo [%date% %time%] OK tool_registry valid >> "%LOG_FILE%"
+    REM ï¿½ï¿½Ö¤ JSON ï¿½Ï·ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½: ï¿½ï¿½ï¿?{} ï¿½ï¿½ï¿?
+    powershell -command "try { $j = Get-Content 'scripts\integration\tool_registry.json' -Raw | ConvertFrom-Json; Write-Host '[OK] tool_registry.json is valid JSON' } catch { Write-Host '[WARN] tool_registry.json is invalid JSON: ' + $_.Exception.Message; exit 1 }"
+    if %errorLevel% neq 0 (
+        echo [%date% %time%] WARN tool_registry invalid JSON >> "%LOG_FILE%"
     ) else (
-        echo [WARN] tool_registry.json brace mismatch: {!OPEN!} vs {!CLOSE!}
-        echo [%date% %time%] WARN tool_registry braces mismatch >> "%LOG_FILE%"
+        echo [%date% %time%] OK tool_registry valid JSON >> "%LOG_FILE%"
     )
 )
 goto end
@@ -114,7 +109,7 @@ echo [%date% %time%] Fix Obsidian vault >> "%LOG_FILE%"
 
 set "VAULT_PATH=%USERPROFILE%\Documents\KaiwuVault"
 if not exist "%VAULT_PATH%" mkdir "%VAULT_PATH%"
-for %%d in ("00_Inbox" "01_ÏîÄ¿¼ÇÂ¼" "02_»áÒé¼ÍÒª" "03_OCRÊ¶±ð" "04_Í¨ÓÃÖªÊ¶" "05_Ä£°å¿â" "99_¹éµµ") do (
+for %%d in ("00_Inbox" "01_ï¿½ï¿½Ä¿ï¿½ï¿½Â¼" "02_ï¿½ï¿½ï¿½ï¿½ï¿½Ò? "03_OCRÊ¶ï¿½ï¿½" "04_Í¨ï¿½ï¿½ÖªÊ¶" "05_Ä£ï¿½ï¿½ï¿? "99_ï¿½éµµ") do (
     if not exist "%VAULT_PATH%\%%~d" mkdir "%VAULT_PATH%\%%~d" 2>nul
 )
 echo [OK] Vault folders ensured at %VAULT_PATH%
@@ -223,5 +218,14 @@ echo ========================================
 echo.
 echo Log: %LOG_FILE%
 echo.
+
+REM Auto-run check.bat to verify repairs (P3-9)
+if exist "check.bat" (
+    echo Running system check...
+    call check.bat
+) else (
+    echo [WARN] check.bat not found, skipping auto-check
+)
+
 pause
 exit /b 0
