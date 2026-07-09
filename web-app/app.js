@@ -333,12 +333,12 @@ function renderDocs() {
 // Open App
 function openApp(app) {
     var paths = {
-        'wps': '../installers/02_office/wps/',
-        'everything': '../installers/03_tools/everything/',
-        'ocr': '../installers/03_tools/tesseract/',
-        'obsidian': '../installers/04_knowledge/obsidian/',
-        'xmind': '../installers/04_knowledge/xmind/',
-        'aionui': '../installers/01_agent/aionui/',
+        'wps': '../packages/raw/WPS_Setup_26895.exe',
+        'everything': '../packages/raw/Everything-1.4.1.1024.x64-Setup.exe',
+        'ocr': '../packages/raw/tesseract-ocr-w64-setup-5.3.1.20230401.exe',
+        'obsidian': '../packages/raw/Obsidian.1.4.16.exe',
+        'xmind': '../packages/raw/',
+        'aionui': '../packages/raw/AionUI-setup.exe',
         'check': '../check.bat',
         'repair': '../repair.bat'
     };

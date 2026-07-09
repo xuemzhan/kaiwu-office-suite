@@ -1,8 +1,8 @@
 {
   "package_info": {
     "name": "开悟个体增智智能办公套件",
-    "version": "V1.2",
-    "release_date": "2026-07-07",
+    "version": "V1.3.3",
+    "release_date": "2026-07-08",
     "target_environment": "Windows 7 SP1 64位",
     "description": "面向Windows 7 SP1 64位办公环境的智能办公解决方案",
     "publisher": "OpenCode",
@@ -44,7 +44,7 @@
     "changelog_v1_3_3": [
       "chore: SHA256SUMS.txt 清理 - 删 2 个冗余 (kaiwu_0.2.0.7z + kaiwu_0.2.0_installer.exe)",
       "chore: SHA256SUMS.txt 头部加 V1.3.3 修订记录 (V1.1 重写, V1.3.3 清理)",
-      "chore: 15 个文件 hash -> 13 个文件 hash (去掉 2 个冗余, 与 packages/raw/ 同步)",
+      "chore: 15 个文件 hash -> 14 个文件 hash (去掉 2 个冗余, 与 packages/raw/ 同步)",
       "fix: 注释 kaiwu_0.2.0_installer.exe 与 wps-kaiyu-addon-setup.exe 同 SHA256 (历史冗余)",
       "chore: installers/02_office/ 减 1.9MB (kaiwu_0.2.0_installer.exe 1MB + kaiwu_0.2.0.7z 884KB)",
       "保留 installers/02_office/kaiwu_0.2.0/ (3.74MB, WPS 插件运行时必需)"
