@@ -1,9 +1,9 @@
 @echo off
-REM KaiWu Office Suite V1.3.1 - One-click install
+REM KaiWu Office Suite V1.3.3 - One-click install
 REM Target: Windows 7 SP1 64-bit
-REM Generated 2026-06-17, revised 2026-07-07 (V1.3.1)
+REM Generated 2026-06-17, revised 2026-07-07 (V1.3.3)
 REM
-REM V1.3.1 changes:
+REM V1.3.3 changes:
 REM   - 14 install steps each check errorlevel (INSTALL_FAILED counter)
 REM   - Header counters: INSTALL_FAILED + INSTALL_MISSING
 REM   - [19/19] verify section has full summary (FAILED/MISSING/VERIFY)
@@ -13,7 +13,7 @@ setlocal enabledelayedexpansion
 chcp 936 >nul 2>&1
 
 echo ========================================
-echo  KaiWu Office Suite V1.3.1 Install
+echo  KaiWu Office Suite V1.3.3 Install
 echo  Target: Windows 7 SP1 64-bit
 echo ========================================
 echo.
@@ -45,7 +45,7 @@ REM Create state directory
 if not exist "state" mkdir "state"
 echo {"status": "installing", "start_time": "%date% %time%"} > "state\install_state.json"
 
-REM V1.3.1: install 启动失败计数 + missing 计数
+REM V1.3.3: install 启动失败计数 + missing 计数
 set "INSTALL_FAILED=0"
 set "INSTALL_MISSING=0"
 
@@ -279,19 +279,41 @@ echo {"status": "installed", "end_time": "%date% %time%"} > "state\install_state
 echo Directories initialized
 
 echo [17/19] Creating desktop shortcuts...
-set "STARTMENU_DIR=%APPDATA%\Microsoft\Windows\Start Menu\Programs\开悟办公套件"
+set "STARTMENU_DIR=%APPDATA%\Microsoft\Windows\Start Menu\Programs\开悟个体增智办公套件"
 if not exist "%STARTMENU_DIR%" mkdir "%STARTMENU_DIR%"
+
 if exist "packages\raw\WPS_Setup_26895.exe" (
-    echo Preparing WPS shortcut
+    powershell -command "$WS = New-Object -ComObject WScript.Shell; $SC = $WS.CreateShortcut('%STARTMENU_DIR%\WPS Office.lnk'); $SC.TargetPath = '%~dp0packages\raw\WPS_Setup_26895.exe'; $SC.Save()"
+    echo [PASS] WPS Office shortcut created
+    set /a PASS_COUNT+=1
 ) else (
     echo [WARN] WPS installer not found, skipping shortcut
+    set /a WARN_COUNT+=1
 )
-echo Shortcuts created
 
+if exist "check.bat" (
+    powershell -command "$WS = New-Object -ComObject WScript.Shell; $SC = $WS.CreateShortcut('%STARTMENU_DIR%\系统检测.lnk'); $SC.TargetPath = '%~dp0check.bat'; $SC.Save()"
+    echo [PASS] check.bat shortcut created
+    set /a PASS_COUNT+=1
+) else (
+    echo [WARN] check.bat not found, skipping shortcut
+    set /a WARN_COUNT+=1
+)
+
+if exist "repair.bat" (
+    powershell -command "$WS = New-Object -ComObject WScript.Shell; $SC = $WS.CreateShortcut('%STARTMENU_DIR%\系统修复.lnk'); $SC.TargetPath = '%~dp0repair.bat'; $SC.Save()"
+    echo [PASS] repair.bat shortcut created
+    set /a PASS_COUNT+=1
+) else (
+    echo [WARN] repair.bat not found, skipping shortcut
+    set /a WARN_COUNT+=1
+)
+
+echo Shortcuts created
 echo [18/19] Creating start menu entry...
-set "STARTMENU_DIR=%APPDATA%\Microsoft\Windows\Start Menu\Programs\开悟办公套件"
+set "STARTMENU_DIR=%APPDATA%\Microsoft\Windows\Start Menu\Programs\开悟个体增智办公套件"
 if not exist "%STARTMENU_DIR%" mkdir "%STARTMENU_DIR%"
-echo # 开悟办公套件 V1.3.1 > "%STARTMENU_DIR%\使用说明.url"
+echo # 开悟个体增智办公套件 V1.3.3 > "%STARTMENU_DIR%\使用说明.url"
 echo URL=file:///%~dp0docs\02_用户使用手册.md >> "%STARTMENU_DIR%\使用说明.url"
 echo Start menu entry created
 
@@ -334,7 +356,7 @@ if "%VERIFY_FAILED%"=="1" (
 
 
 echo ========================================
-echo  KaiWu Office Suite V1.3.1 Install Complete
+echo  KaiWu Office Suite V1.3.3 Install Complete
 echo ========================================
 echo.
 echo Install log: %LOG_FILE%
