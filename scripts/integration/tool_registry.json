@@ -27,7 +27,8 @@
       "need_admin": false,
       "log": "logs/wps_summary.log",
       "experimental": true,
-      "status_note": "2026-07-07: 当前为占位实现。需要 Python 3.7+ + python-docx + 本地 LLM 服务才能实装。详见 release_note.md 第七节。"
+      "status_note": "2026-07-07: 当前为占位实现。需要 Python 3.7+ + python-docx + 本地 LLM 服务才能实装。详见 release_note.md 第七节。",
+      "status_note_v133": "2026-07-08: 仍为占位实现。在 Python + LLM 部署就绪前始终为 experimental。所有输入均通过，输出诚实占位消息。"
     },
     {
       "name": "obsidian_note",
@@ -73,6 +74,24 @@
       "output": "results/context.json",
       "need_admin": false,
       "log": "logs/collect_context.log"
+    },
+    {
+      "name": "ocr_to_markdown",
+      "display_name": "OCR转Markdown",
+      "command": "scripts/integration/ocr_to_markdown.bat",
+      "input": ["image_path", "language"],
+      "output": "results/ocr_result.md",
+      "need_admin": false,
+      "log": "logs/ocr_to_markdown.log"
+    },
+    {
+      "name": "ocr_to_obsidian",
+      "display_name": "OCR转Obsidian笔记",
+      "command": "scripts/integration/ocr_to_obsidian.bat",
+      "input": ["image_path", "language"],
+      "output": "results/note_path.txt",
+      "need_admin": false,
+      "log": "logs/ocr_to_obsidian.log"
     }
   ]
 }
