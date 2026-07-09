@@ -1,6 +1,6 @@
-# KaiWu Office Suite V1.3.1 - Build Guide
+# KaiWu Office Suite V1.3.3 - Build Guide
 
-**Last updated**: 2026-07-07
+**Last updated**: 2026-07-08
 **Target audience**: 套件维护者, 自动化打包 CI 工程师
 
 本文档说明如何从 git 仓库**可重放地**构建出 `kaiwu-office-suite-v1.0.zip` 交付物。
@@ -14,13 +14,15 @@ kaiwu-office-suite/                  ← Git 仓库根
 ├── .git/                            ← Git 元数据
 ├── .gitignore                       ← 排除 installers/ packages/raw/ 等
 ├── README.md                        ← 套件说明 (V1.2 实测 100% PASS)
-├── install.bat                      ← 一键安装 (V1.3.1: errorlevel 检查)
+├── install.bat                      ← 一键安装 (V1.3.3: errorlevel 检查)
 ├── uninstall.bat                    ← 一键卸载 (V1.1 实装)
 ├── repair.bat                       ← 一键修复 (V1.1 实装)
 ├── check.bat                        ← 一键检测
 ├── verify_installers.bat            ← 装前 SHA256 校验 (V1.1)
 ├── verify_installers.py             ← 装前 SHA256 Python 后端
-├── kaiwu-office-suite-v1.0.sha256   ← 套件 ZIP 的 SHA256
+├── manifest/                         ← 版本锁定清单
+│   ├── package-info.json
+│   ├── SHA256SUMS.txt                ← 14 个安装包 SHA256
 ├── web-app/                         ← Web 入口应用
 │   ├── index.html
 │   ├── styles.css
@@ -29,7 +31,7 @@ kaiwu-office-suite/                  ← Git 仓库根
 │   ├── software-lock.yaml           ← 主清单 (YAML, 机器读)
 │   ├── software-lock.md             ← 人读版本
 │   ├── SHA256SUMS.txt               ← 14 个安装包 SHA256
-│   └── package-info.json            ← V1.3.1 版本信息
+│   └── package-info.json            ← V1.3.3 版本信息
 ├── scripts/
 │   ├── integration/                 ← 8 个 integration .bat
 │   │   ├── collect_context.bat
@@ -218,8 +220,8 @@ Compress-Archive -Path .\install.bat,.\uninstall.bat,... -DestinationPath kaiwu-
 # 1. 算 SHA256
 certutil -hashfile kaiwu-office-suite-v1.0.zip SHA256
 
-# 2. 对比根目录 kaiwu-office-suite-v1.0.sha256
-type kaiwu-office-suite-v1.0.sha256
+# 2. 对比 manifest/SHA256SUMS.txt
+type manifest\SHA256SUMS.txt
 
 # 3. (可选) 解压到临时目录, 跑 install.bat 测试
 mkdir test-extract
@@ -233,7 +235,7 @@ verify_installers.bat
 ```bash
 # 1. 创建 GitHub release
 gh release create v1.3.1 kaiwu-office-suite-v1.0.zip ^
-  --title "V1.3.1" ^
+  --title "V1.3.3" ^
   --notes-file release_notes_v1.3.1.md
 
 # 2. 上传 SHA256SUMS.txt
@@ -268,7 +270,7 @@ jobs:
         shell: pwsh
         run: |
           $hash = (Get-FileHash kaiwu-office-suite-v1.0.zip -Algorithm SHA256).Hash
-          $expected = Get-Content kaiwu-office-suite-v1.0.sha256
+          $expected = (Get-Content manifest\SHA256SUMS.txt | Select-String "kaiwu-office-suite-v1.0.zip").Line.Split()[0]
           if ($hash -ne $expected) { throw "SHA256 mismatch" }
 ```
 
@@ -286,24 +288,24 @@ jobs:
 V1.x.y 语义:
 - **x** 大版本: 组件大升级 (Win7 → Win10, 或 加新组件)
 - **y** 小版本: bug 修复 + 文档清理
-- 当前: **V1.3.1** (V1.3 + install.bat errorlevel 修)
+- 当前: **V1.3.3** (V1.3 + install.bat errorlevel 修)
 
 每次 tag 都要:
 1. 改 `manifest/package-info.json` (version + release_date + changelog)
 2. 改 `README.md` 加版本历史段
 3. 重新跑 `run_tests.ps1` 确认通过率
-4. 重新算 `kaiwu-office-suite-v1.0.sha256` (zip 重新打包后)
+4. 重新跑 `manifest/SHA256SUMS.txt` 校验 (zip 重新打包后)
 5. tag + push
 
 ---
 
-## 5. 已知问题 (V1.3.1)
+## 5. 已知问题 (V1.3.3)
 
 1. **CI 没接** — 没有 `.github/workflows/` —— 上面 §3 是建议配置
 2. **packages/raw/ vs installers/** — 实际打包用 `installers/`, 但根目录 `packages/raw/` 也存在 (历史)
 3. **kaiwu_0.2.0_installer.exe 同 SHA256 = wps-kaiyu-addon-setup.exe** — 这 2 个是同一文件, manifest 注释已说明
 4. **run_tests.ps1 在 PS 5.1 + 中文路径下** — V1.2 已修 (chcp 65001 + UTF-8), 当前 100% PASS
-5. **install.bat 异步安装器** — `.NET / Git / WPS` 启动后立即返回 0, 实际安装 5-30 分钟. V1.3.1 只验启动成功, 完整验证在 [19/19] 段
+5. **install.bat 异步安装器** — `.NET / Git / WPS` 启动后立即返回 0, 实际安装 5-30 分钟. V1.3.3 只验启动成功, 完整验证在 [19/19] 段
 
 ---
 

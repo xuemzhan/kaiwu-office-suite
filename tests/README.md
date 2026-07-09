@@ -1,7 +1,7 @@
 # 开悟个体增智智能办公套件 V1.0 - 测试套件
 
 > 在 Windows 7 SP1 64-bit / PowerShell 5.1 环境下验证通过（`check.bat` 子项除外，见下）
-> 用例总数：**38** / **断言严格**：缺组件环境 `check.bat` 子项报 FAIL（不再虚报 PASS）
+> 用例总数：**39** / **断言严格**：缺组件环境 `check.bat` 子项报 FAIL（不再虚报 PASS）
 
 ## 目录结构
 
@@ -45,7 +45,7 @@ powershell -ExecutionPolicy Bypass -File tests\run_tests.ps1
 | 编号 | 测试组 | 用例数 | 目标 |
 |---|---|---|---|
 | 1 | collect_context | 5 | `scripts\integration\collect_context.bat` |
-| 2 | call_xmind_outline | 6 | `scripts\integration\call_xmind_outline.bat` |
+| 2 | call_xmind_outline | 7 | `scripts\integration\call_xmind_outline.bat` |
 | 3 | call_obsidian_note | 6 | `scripts\integration\call_obsidian_note.bat` |
 | 4 | call_wps_summary | 3 | `scripts\integration\call_wps_summary.bat` |
 | 5 | call_git_status | 4 | `scripts\integration\call_git_status.bat` |
@@ -56,7 +56,7 @@ powershell -ExecutionPolicy Bypass -File tests\run_tests.ps1
 | 10 | repair_agent | 1 | `scripts\repair\repair_agent.bat` |
 | 11 | install_runtime | 1 | `scripts\install\install_runtime.bat` |
 | 12 | check (root) | 2 | `check.bat` |
-| **合计** | | **38** | |
+| **合计** | | **39** | |
 
 ## 实现机制
 

@@ -1,16 +1,16 @@
-# 开悟个体增智智能办公套件 V1.2
+# 开悟个体增智智能办公套件 V1.3.3
 
 ## 版本信息
 
-- **版本:** V1.2
-- **发布日期:** 2026-07-07
+- **版本:** V1.3.3
+- **发布日期:** 2026-07-08
 - **基于:** V1.0 (2026-06-17)
 - **目标环境:** Windows 7 SP1 64位
 - **测试通过率:** **39/39 = 100%** ✅
 
 ## 套件概述
 
-开悟个体增智智能办公套件 V1.2 是一套面向Windows 7 SP1 64位办公环境的智能办公解决方案。本套件整合了多种办公工具，提供一键安装、一键检测、一键修复和一键卸载功能。
+开悟个体增智智能办公套件 V1.3.3 是一套面向Windows 7 SP1 64位办公环境的智能办公解决方案。本套件整合了多种办公工具，提供一键安装、一键检测、一键修复和一键卸载功能。
 
 ## 组件列表
 
@@ -110,10 +110,10 @@ python -m http.server 8080
 
 ```
 kaiwu-office-suite-v1.0/
-├── install.bat              # 一键安装脚本 (V1.1: 路径 installers/→packages/raw/, V1.2: 加 SHA256 校验步骤)
+├── install.bat              # 一键安装脚本 (V1.3.3: Chinese filename fix, shortcut via WScript.Shell COM)
 ├── uninstall.bat            # 一键卸载脚本 (V1.1: 8 步实装, Y/N 询问)
-├── repair.bat               # 一键修复脚本 (V1.1: 9 种修复实装)
-├── check.bat                # 一键检测脚本
+├── repair.bat               # 一键修复脚本 (V1.3.3: JSON validation via ConvertFrom-Json, auto-runs check.bat)
+├── check.bat                # 一键检测脚本 (V1.3.3: chcp 936, PASS/FAIL/WARN counters)
 ├── verify_installers.bat    # 【V1.2 新增】装前 SHA256 校验 (15/15 PASS)
 ├── verify_installers.py     # 【V1.2 新增】Python 后端
 ├── README.md                # 本文件
@@ -127,7 +127,7 @@ kaiwu-office-suite-v1.0/
 ├── packages/                # 实际安装包 (1.4 GB, 15 个 .exe)
 │   └── raw/                 # ← install.bat 实际读这里
 ├── scripts/
-│   ├── integration/         # 8 个 integration .bat (V1.1: 加 mkdir, V1.2: git_status cd/d 修)
+│   ├── integration/         # 12 个 integration .bat (V1.1: 加 mkdir, V1.2: git_status cd/d 修, V1.3.3: +ocr_to_markdown/obsidian)
 │   ├── check/               # check_agent.bat
 │   ├── repair/              # repair_agent.bat
 │   ├── install/             # install_runtime.bat
@@ -192,6 +192,13 @@ powershell -ExecutionPolicy Bypass -File tests\run_tests.ps1
 3. 用户使用手册：`docs/02_用户使用手册.md`
 
 ## 版本历史
+
+### V1.3.3 (2026-07-08)
+- SHA256SUMS.txt 清理，BUILD.md 文档，PATH 遮蔽 bug 修复，交付 ZIP 生成
+- `install.bat` Chinese filename garbling fixed (7 GBK strings corrected)
+- `repair.bat` now auto-runs `check.bat` after repair completes
+- New integration scripts: `ocr_to_markdown.bat`, `ocr_to_obsidian.bat`
+- README.md updated to V1.3.3
 
 ### V1.3 (2026-07-07)
 - 删 6 个死代码空 `examples/0[1-6]_*` 目录 — web-app 用 `data.js` CASES_DATA 静态数组, 5 个场景,不读文件系统
