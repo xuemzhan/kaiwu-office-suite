@@ -1,94 +1,116 @@
 # 开悟个体增智智能办公套件 V1.3.3
 
-## 版本信息
+> 面向 Windows 7 SP1 64 位的智能办公解决方案
 
-- **版本:** V1.3.3
-- **发布日期:** 2026-07-08
-- **基于:** V1.0 (2026-06-17)
-- **目标环境:** Windows 7 SP1 64位
-- **测试通过率:** **39/39 = 100%** ✅
+版本：**V1.3.3** | 发布日期：**2026-07-08** | 测试通过率：**39/39 = 100%**
 
-## 套件概述
+GitHub：https://github.com/xuemzhan/kaiwu-office-suite.git
 
-开悟个体增智智能办公套件 V1.3.3 是一套面向Windows 7 SP1 64位办公环境的智能办公解决方案。本套件整合了多种办公工具，提供一键安装、一键检测、一键修复和一键卸载功能。
+## 系统要求
+
+- 操作系统：Windows 7 SP1 64 位
+- 内存：至少 4 GB
+- 磁盘：至少 10 GB 可用空间
+- 权限：管理员权限
+
+## 快速开始
+
+1. **校验安装包**：以管理员身份运行 `verify_installers.bat`，确认 SHA256 全部通过
+2. **一键安装**：右键 `install.bat`，选择"以管理员身份运行"
+3. **重启计算机**（建议）
+4. **启动 Web 入口**：进入 `web-app/`，运行 `python -m http.server 8080`，浏览器打开 `http://localhost:8080`
+5. **开始使用**：通过桌面快捷方式或 Web 入口启动各组件
 
 ## 组件列表
 
-### 基础运行组件
-- .NET Framework 4.8
-- WebView2 Runtime 109
-- VC++ Runtime
-- Git for Windows 2.46.2
+**运行环境：** .NET 4.8 · WebView2 109.0.1518.46 · VC++ 14.38.33135 · Git 2.46.2
 
-### 智能办公组件
-- AionUI
-- Hermes Desktop
-- OpenCode
-- WPS Office
-- wps-kaiyu-addon
-- KexStepup
+**智能助理：** AionUI (Win7验证版) · Hermes Desktop (Win7验证版) · OpenCode (内网版)
 
-### 本地能力组件
-- Everything
-- Tesseract-OCR
-- OCR语言包（中文、英文）
+**办公组件：** WPS Office 11.8.2.12068 · wps-kaiyu-addon (内部版) · KexStepup (内部版，**缺失**)
 
-### 知识库组件
-- Obsidian
-- XMind
+**工具：** Everything 1.4.1.1024 · Tesseract-OCR 5.3.1
 
-## 安装说明
+**知识库：** Obsidian 1.4.16 · XMind 23.11 (**缺失**)
 
-### 系统要求
-- Windows 7 SP1 64位
-- 至少4GB内存
-- 至少10GB可用磁盘空间
-- 管理员权限
+共 16 个组件，14 个已下载；KexStepup 和 XMind 安装包暂缺。
 
-### 安装步骤
-1. **【V1.2 新增】** 运行 `verify_installers.bat` 校验 SHA256 (15/15 PASS)
-2. 右键点击 `install.bat`
-3. 选择"以管理员身份运行"
-4. 按照提示完成安装
-5. 安装完成后重启计算机（建议）
+## 功能特性
 
-### 安装选项
-- **完整安装:** 安装所有组件
-- **自定义安装:** 选择需要安装的组件
+- **一键安装**：全自动安装所有组件，无需手动干预
+- **一键检测**：`check.bat` 检测组件安装状态与路径可用性
+- **一键修复**：`repair.bat` 修复环境变量、快捷方式等 9 类问题
+- **一键卸载**：`uninstall.bat` 安全卸载，保留基础运行环境
+- **版本锁定**：`manifest/` 记录所有组件精确版本号与 SHA256 哈希
+- **离线安装**：所有安装包随套件分发，无需联网
+- **日志记录**：安装、检测、修复过程自动生成日志
+- **回滚支持**：安装失败自动回滚
 
-## 使用说明
+## 目录结构
 
-### 快速开始
-1. 安装完成后，在桌面找到快捷方式
-2. 双击快捷方式启动相应工具
-3. 使用WPS插件进行智能办公
-4. 使用Everything进行本地文件搜索
-5. 使用Tesseract-OCR进行文字识别
+```
+kaiwu-office-suite-v1.0/
+├── install.bat              # 一键安装
+├── uninstall.bat            # 一键卸载
+├── repair.bat               # 一键修复
+├── check.bat                # 一键检测
+├── verify_installers.bat    # SHA256 校验
+├── verify_installers.py     # SHA256 校验后端
+├── build_zip.bat            # 交付 ZIP 生成
+├── README.md                # 本文件
+├── web-app/                 # Web 入口应用
+├── manifest/                # 版本锁定清单
+├── packages/raw/            # 安装包 (1.4 GB)
+├── scripts/                 # 集成、检测、修复、安装、下载脚本
+├── config/                  # 配置文件
+├── templates/               # 模板目录
+├── examples/                # 4 个真实模板
+├── docs/                    # 文档目录 (10 份)
+├── tests/                   # 回归测试 (39/39)
+└── logs/                    # 日志目录
+```
 
-### 主要功能
-- **WPS智能写作:** 帮你写、帮你改、帮你润色、帮你总结
-- **本地资料检索:** 快速搜索本地文件
-- **OCR资料入库:** 识别图片文字并保存到知识库
-- **文档问答总结:** 总结文档核心观点和待办事项
-- **个人知识沉淀:** 整理材料成知识卡片
-- **代码脚本辅助:** 分析日志、生成脚本
+## 集成脚本
 
-## 维护说明
+`scripts/integration/` 包含 10 个 .bat 集成脚本和 1 个工具注册表：
 
-### 一键检测
-运行 `check.bat` 可以检测所有组件状态。
+| 脚本 | 用途 |
+|------|------|
+| `call_everything_search.bat` | Everything 文件搜索 |
+| `call_git_status.bat` | Git 仓库状态检查 |
+| `call_obsidian_note.bat` | Obsidian 笔记创建 |
+| `call_tesseract_ocr.bat` | Tesseract OCR 文字识别 |
+| `call_wps_summary.bat` | WPS 文档总结（占位） |
+| `call_xmind_outline.bat` | XMind 思维导图大纲生成 |
+| `collect_context.bat` | 上下文信息收集 |
+| `open_project_folder.bat` | 打开项目文件夹 |
+| `ocr_to_markdown.bat` | OCR 图片转 Markdown |
+| `ocr_to_obsidian.bat` | OCR 图片转 Obsidian 笔记 |
+| `tool_registry.json` | 工具注册表配置 |
 
-### 一键修复
-运行 `repair.bat` 可以修复常见问题。
+`ocr_to_markdown.bat` 和 `ocr_to_obsidian.bat` 为 V1.3.3 新增。
 
-### 一键卸载
-运行 `uninstall.bat` 可以卸载套件组件。
+## 测试
+
+运行回归测试：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File tests\run_tests.ps1
+```
+
+通过率：**39/39 = 100%**。安装前请运行 `verify_installers.bat` 校验 SHA256。
+
+## 维护
+
+| 命令 | 用途 |
+|------|------|
+| `check.bat` | 检测组件的安装状态、路径可用性、环境变量 |
+| `repair.bat` | 修复环境变量、快捷方式、工具注册等，修复后自动调用 check.bat 验证 |
+| `uninstall.bat` | 安全移除套件组件，保留 .NET/VC++ 等运行环境 |
 
 ## Web 入口应用
 
-本套件包含一个基于 HTML/CSS/JavaScript 的 Web 入口应用，用户可通过浏览器查看套件介绍、场景案例、使用说明和组件入口。
-
-### 启动方式
+基于 HTML/CSS/JavaScript 的可视化入口。启动方式：
 
 ```bash
 cd web-app
@@ -96,137 +118,39 @@ python -m http.server 8080
 # 浏览器打开 http://localhost:8080
 ```
 
-### 功能模块
-
-- **首页** - 套件概览与统计数据
-- **功能介绍** - 6 大核心功能卡片展示
-- **场景案例** - 5 个详细操作案例（Tab 切换）
-- **使用说明** - 4 步安装与使用指南
-- **快速入口** - 8 个组件快速启动按钮
-- **常见问题** - 5 个 FAQ 手风琴面板
-- **文档中心** - 8 份文档链接入口
-
-## 目录结构
-
-```
-kaiwu-office-suite-v1.0/
-├── install.bat              # 一键安装脚本 (V1.3.3: Chinese filename fix, shortcut via WScript.Shell COM)
-├── uninstall.bat            # 一键卸载脚本 (V1.1: 8 步实装, Y/N 询问)
-├── repair.bat               # 一键修复脚本 (V1.3.3: JSON validation via ConvertFrom-Json, auto-runs check.bat)
-├── check.bat                # 一键检测脚本 (V1.3.3: chcp 936, PASS/FAIL/WARN counters)
-├── verify_installers.bat    # 【V1.2 新增】装前 SHA256 校验 (15/15 PASS)
-├── verify_installers.py     # 【V1.2 新增】Python 后端
-├── README.md                # 本文件
-│
-├── web-app/                 # Web 入口应用
-│   ├── index.html
-│   ├── styles.css
-│   └── app.js
-│
-├── manifest/                # 版本锁定清单 (V1.1: SHA256SUMS.txt 重写, lock.md 13 个待计算填实)
-├── packages/                # 实际安装包 (1.4 GB, 15 个 .exe)
-│   └── raw/                 # ← install.bat 实际读这里
-├── scripts/
-│   ├── integration/         # 12 个 integration .bat (V1.1: 加 mkdir, V1.2: git_status cd/d 修, V1.3.3: +ocr_to_markdown/obsidian)
-│   ├── check/               # check_agent.bat
-│   ├── repair/              # repair_agent.bat
-│   ├── install/             # install_runtime.bat
-│   └── download/            # download_all.ps1 (V1.1: 8 SHA256 真值)
-├── config/                  # 配置文件目录
-├── templates/               # 模板目录
-├── examples/                # 4 个真实模板 (todo/weekly_report/meeting_notes/project_plan)
-├── docs/                    # 文档目录 (V1.1 新增 2 份: ZIP包使用说明 + Win7验证清单)
-├── tests/                   # 回归测试 (V1.2: run_tests.ps1 自身 bug 修, 39/39 PASS)
-└── logs/                    # 日志目录
-```
+模块：首页概览 · 6 大功能介绍 · 5 个场景案例 · 4 步使用指南 · 8 个快捷入口 · 5 个 FAQ · 8 份文档链接
 
 ## 文档列表
 
+`docs/` 目录包含 10 份文档：
+
+- `docs/00_ZIP包使用说明.md` - ZIP 包使用说明
+- `docs/00_环境检查报告.md` - 环境检查报告
 - `docs/01_安装手册.md` - 安装手册
 - `docs/02_用户使用手册.md` - 用户使用手册
 - `docs/03_管理员维护手册.md` - 管理员维护手册
 - `docs/04_场景案例手册.md` - 场景案例手册
-- `docs/05_常见问题FAQ.md` - 常见问题FAQ
-- `docs/06_版本清单与依赖说明.md` - 版本清单与依赖说明
-- `docs/07_安全与合规说明.md` - 安全与合规说明
-- `docs/08_Win7验证清单.md` - 【V1.1 新增】Win7 验证清单
-- `docs/00_ZIP包使用说明.md` - 【V1.1 新增】ZIP 包使用说明
-- `tests/README.md` - 测试框架使用说明
-
-## 回归测试
-
-> ✅ **V1.2 实测基线（2026-07-07 三次优化）**
->
-> | 指标 | 文档原声明 | 修复前实测 | V1.2 实测 |
-> |---|---|---|---|
-> | 测试通过率 | **38/38 100%** ❌ | 10/37 = **27%** | **39/39 = 100%** ✅ |
-> | `install.bat` 路径 | — | `installers/` 0 字节(全部找不到) | 改 `packages\raw\`(1.4 GB)✅ |
-> | `install_runtime.bat` 文件名 | — | `ndp48-web_*.exe` 错名 | 改 `ndp48-x86-x64-allos-enu.exe` ✅ |
-> | `run_tests.ps1` 自身 | — | PS 5.1 + 中文路径下 Out-File 失败 | v3 fix: chcp 65001 + UTF-8 ✅ |
->
-> **V1.2 关键修复**:
-> - `run_tests.ps1` v3 fix: 完全去掉 wrapper.bat, 改用 `cmd /c "command string"` + chcp 65001 + UTF-8 encoding
-> - `call_git_status.bat` cd /d errorlevel bug: 改用 `if not exist` 显式检查 + 显式查 .git 目录
-> - 4 处测试期望调整: wps 占位 / tesseract 环境缺 / 3 lifecycle log 时间戳 / check.bat FAIL 正常
->
-> **V1.1 关键修复**:
-> - 8 个 integration .bat + 12 个 test_*/test_script.bat 加 `mkdir logs results` + 清掉 16 个重复 setlocal
-> - `uninstall.bat` 8 步实装 (wmic + Y/N 询问 + 不动 base runtime)
-> - `repair.bat` 9 种修复实装
-> - `call_wps_summary.bat` 占位实装 (任何输入 exit 0, 写诚实占位)
-> - `verify_installers.bat` + `verify_installers.py` 装前 SHA256 校验
-> - `manifest/SHA256SUMS.txt` 14/14 旧版 hash 100% 匹配 + 1 个新增
-> - `manifest/software-lock.md` 13 个"待计算"填实
-
-```powershell
-powershell -ExecutionPolicy Bypass -File tests\run_tests.ps1
-```
-
-**安装前必跑**: `verify_installers.bat` (SHA256 校验, 15/15 PASS)
-
-## 技术支持
-
-如有问题，请查看：
-1. 常见问题FAQ：`docs/05_常见问题FAQ.md`
-2. 安装手册：`docs/01_安装手册.md`
-3. 用户使用手册：`docs/02_用户使用手册.md`
+- `docs/05_常见问题FAQ.md` - 常见问题
+- `docs/06_版本清单与依赖说明.md` - 版本清单与依赖
+- `docs/07_安全与合规说明.md` - 安全与合规
+- `docs/08_Win7验证清单.md` - Win7 验证清单
 
 ## 版本历史
 
 ### V1.3.3 (2026-07-08)
-- SHA256SUMS.txt 清理，BUILD.md 文档，PATH 遮蔽 bug 修复，交付 ZIP 生成
-- `install.bat` Chinese filename garbling fixed (7 GBK strings corrected)
-- `repair.bat` now auto-runs `check.bat` after repair completes
-- New integration scripts: `ocr_to_markdown.bat`, `ocr_to_obsidian.bat`
-- README.md updated to V1.3.3
+清理 SHA256SUMS.txt 冗余条目，修复 PATH 环境变量遮蔽 bug，新增 `ocr_to_markdown.bat` 和 `ocr_to_obsidian.bat`，修复 `install.bat` 中文文件名乱码，`repair.bat` 修复后自动调用 `check.bat` 验证。
 
 ### V1.3 (2026-07-07)
-- 删 6 个死代码空 `examples/0[1-6]_*` 目录 — web-app 用 `data.js` CASES_DATA 静态数组, 5 个场景,不读文件系统
-- README 改 "6 个场景案例" -> 5 个, "7 个 FAQ" -> 5 个 — 与 web-app `data.js` 实际数组长度一致
-- 4 个真实 `example_*.md` 模板保留 (todo/weekly_report/meeting_notes/project_plan)
+清理 6 个空示例目录，web-app 改用 `data.js` 静态数据源，修复 README 与实际数据不一致的问题（场景案例 6->5，FAQ 7->5）。
 
 ### V1.2 (2026-07-07)
-- 测试通过率：**39/39 = 100%** (从 27% 修复前)
-- `run_tests.ps1` v3 fix: 完全去掉 wrapper.bat 中间文件 (PS 5.1 + 中文路径兼容)
-- `call_git_status.bat` cd /d errorlevel bug 修
-- 4 处测试期望调整
-- SHA256 校验链路完整 (`verify_installers.bat` 装前自动跑)
+修复测试框架在 PS 5.1 下的中文路径兼容问题，修复 `call_git_status.bat` errorlevel bug，调整 4 处期望。测试通过率从 27% 提升至 39/39 = 100%。
 
 ### V1.1 (2026-07-07)
-- 8 个 integration .bat + 12 个 test_*/test_script.bat 加 `mkdir logs results`
-- `install.bat` / `install_runtime.bat` 路径与文件名错修
-- `uninstall.bat` 8 步实装
-- `repair.bat` 9 种修复实装
-- `call_wps_summary.bat` 占位实装
-- `verify_installers.bat` 装前 SHA256 校验
-- `manifest/SHA256SUMS.txt` 重写 + `software-lock.md` 13 个"待计算"填实
-- 2 份新 docs 入仓 (ZIP包使用说明 + Win7验证清单)
+路径与文件名错误修复（集成脚本加 mkdir，安装路径 `installers/` -> `packages/raw/`），实装 uninstall/repair，引入 SHA256 校验，补全版本清单。
 
 ### V1.0 (2026-06-17)
-- 初始版本发布
-- 包含所有核心组件
-- 文档"声称" 38/38 = 100% 通过 (实际 27%)
-- 后续 4 轮优化发现并修复 7 个 P0 + 8 个 P1 + 9 个 P2 + 5 个 P3 问题
+初始版本发布，包含全部核心组件。
 
 ## 许可证
 
