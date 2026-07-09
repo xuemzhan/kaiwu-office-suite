@@ -41,4 +41,4 @@ tests/stderr.txt
 tests/TEST_REPORT.md
 tests/test_*/stdout.txt
 tests/test_*/stderr.txt
-tests/test_git/temprepo/
+tests/test_git/temprepo/fix_p0_1.py
