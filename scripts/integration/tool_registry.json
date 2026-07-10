@@ -4,7 +4,10 @@
       "name": "everything_search",
       "display_name": "本地文件检索",
       "command": "scripts/integration/call_everything_search.bat",
-      "input": ["keyword", "path"],
+      "input": [
+        "keyword",
+        "path"
+      ],
       "output": "results/file_search_result.json",
       "need_admin": false,
       "log": "logs/everything_search.log"
@@ -13,7 +16,10 @@
       "name": "tesseract_ocr",
       "display_name": "OCR文字识别",
       "command": "scripts/integration/call_tesseract_ocr.bat",
-      "input": ["image_path", "language"],
+      "input": [
+        "image_path",
+        "language"
+      ],
       "output": "results/ocr_result.txt",
       "need_admin": false,
       "log": "logs/tesseract_ocr.log"
@@ -22,19 +28,27 @@
       "name": "wps_summary",
       "display_name": "WPS文档总结",
       "command": "scripts/integration/call_wps_summary.bat",
-      "input": ["document_path"],
+      "input": [
+        "document_path"
+      ],
       "output": "results/summary.txt",
       "need_admin": false,
       "log": "logs/wps_summary.log",
       "experimental": true,
-      "status_note": "2026-07-07: 当前为占位实现。需要 Python 3.7+ + python-docx + 本地 LLM 服务才能实装。详见 release_note.md 第七节。",
-      "status_note_v133": "2026-07-08: 仍为占位实现。在 Python + LLM 部署就绪前始终为 experimental。所有输入均通过，输出诚实占位消息。"
+      "status_note": "V1.4.1: 上游来源为 xuemzhan/Kaiwu；上游要求 Windows 10/11 与 WPS 12.1.0.26375+，本套件目标 Win7 SP1 尚未完成兼容验证。脚本明确返回退出码2，不生成占位结果。",
+      "status_note_v133": null,
+      "upstream_source": "https://github.com/xuemzhan/Kaiwu",
+      "win7_compatibility": "blocked_pending_validation"
     },
     {
       "name": "obsidian_note",
       "display_name": "Obsidian笔记创建",
       "command": "scripts/integration/call_obsidian_note.bat",
-      "input": ["title", "content", "tags"],
+      "input": [
+        "title",
+        "content",
+        "tags"
+      ],
       "output": "results/note_path.txt",
       "need_admin": false,
       "log": "logs/obsidian_note.log"
@@ -43,7 +57,10 @@
       "name": "xmind_outline",
       "display_name": "XMind大纲生成",
       "command": "scripts/integration/call_xmind_outline.bat",
-      "input": ["topic", "subtopics"],
+      "input": [
+        "topic",
+        "subtopics"
+      ],
       "output": "results/outline.txt",
       "need_admin": false,
       "log": "logs/xmind_outline.log"
@@ -52,7 +69,9 @@
       "name": "git_status",
       "display_name": "Git状态检查",
       "command": "scripts/integration/call_git_status.bat",
-      "input": ["repo_path"],
+      "input": [
+        "repo_path"
+      ],
       "output": "results/git_status.txt",
       "need_admin": false,
       "log": "logs/git_status.log"
@@ -61,7 +80,9 @@
       "name": "open_project_folder",
       "display_name": "打开项目文件夹",
       "command": "scripts/integration/open_project_folder.bat",
-      "input": ["folder_path"],
+      "input": [
+        "folder_path"
+      ],
       "output": "",
       "need_admin": false,
       "log": "logs/open_folder.log"
@@ -70,7 +91,9 @@
       "name": "collect_context",
       "display_name": "收集上下文信息",
       "command": "scripts/integration/collect_context.bat",
-      "input": ["context_type"],
+      "input": [
+        "context_type"
+      ],
       "output": "results/context.json",
       "need_admin": false,
       "log": "logs/collect_context.log"
@@ -79,7 +102,10 @@
       "name": "ocr_to_markdown",
       "display_name": "OCR转Markdown",
       "command": "scripts/integration/ocr_to_markdown.bat",
-      "input": ["image_path", "language"],
+      "input": [
+        "image_path",
+        "language"
+      ],
       "output": "results/ocr_result.md",
       "need_admin": false,
       "log": "logs/ocr_to_markdown.log"
@@ -88,10 +114,30 @@
       "name": "ocr_to_obsidian",
       "display_name": "OCR转Obsidian笔记",
       "command": "scripts/integration/ocr_to_obsidian.bat",
-      "input": ["image_path", "language"],
+      "input": [
+        "image_path",
+        "language"
+      ],
       "output": "results/note_path.txt",
       "need_admin": false,
       "log": "logs/ocr_to_obsidian.log"
+    },
+    {
+      "name": "ppt_workflow",
+      "display_name": "PPT生成流水线",
+      "command": "scripts/integration/call_ppt_workflow.bat",
+      "input": [
+        "topic_or_input_dir",
+        "output_dir"
+      ],
+      "output": "results/ppt_workflow_status.txt",
+      "need_admin": false,
+      "log": "logs/ppt_workflow.log",
+      "experimental": true,
+      "shipped": false,
+      "upstream_source": "https://github.com/xuemzhan/ppt-workflow",
+      "verified_head": "a155b4696ed0871bd15b32c7a807c8fd4d921e38",
+      "status_note": "仅作为PPT能力参考源登记；上游要求Python 3.12+、python-pptx>=1.0.0、Pillow>=10，尚未完成Windows 7 SP1移植和兼容验证。脚本明确返回退出码2。"
     }
   ]
 }

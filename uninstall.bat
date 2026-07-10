@@ -1,5 +1,5 @@
 @echo off
-REM KaiWu Office Suite V1.0 - One-click uninstall
+REM KaiWu Office Suite V1.4.1 - One-click uninstall
 REM Target: Windows 7 SP1 64-bit
 REM Generated 2026-06-17, real commands implemented 2026-07-07
 REM
@@ -12,14 +12,15 @@ REM   - .NET / WebView2 / VC++ / Git are base runtime, NOT uninstalled
 
 setlocal enabledelayedexpansion
 chcp 936 >nul 2>&1
+cd /d "%~dp0"
 
 REM Ensure log dir
 if not exist "logs" mkdir "logs"
 set "LOG_FILE=logs\uninstall_%date:~0,4%%date:~5,2%%date:~8,2%_%time:~0,2%%time:~3,2%.log"
-echo [%date% %time%] === KaiWu Office Suite V1.0 uninstall started === > "%LOG_FILE%"
+echo [%date% %time%] === KaiWu Office Suite V1.4.1 uninstall started === > "%LOG_FILE%"
 
 echo ========================================
-echo  KaiWu Office Suite V1.0 Uninstall
+echo  KaiWu Office Suite V1.4.1 Uninstall
 echo  Target: Windows 7 SP1 64-bit
 echo ========================================
 echo.
@@ -94,7 +95,7 @@ if %errorLevel% equ 0 (
 goto :eof
 
 :try_wmic_uninst
-REM wmic uninstall by product name (P3-4: exact match first, then wildcard)
+REM WMIC uninstall by exact product name only; wildcard removal is unsafe.
 REM Try exact match first
 wmic product where "name='%~1'" call uninstall /nointeractive >nul 2>&1
 if %errorLevel% equ 0 (
@@ -102,15 +103,8 @@ if %errorLevel% equ 0 (
     echo [%date% %time%] OK WMIC %~1 removed (exact) >> "%LOG_FILE%"
     goto :eof
 )
-REM Fallback: wildcard match
-wmic product where "name like '%%%~1%%%'" call uninstall /nointeractive >nul 2>&1
-if %errorLevel% equ 0 (
-    echo [OK] WMIC: %~1 removed (wildcard)
-    echo [%date% %time%] OK WMIC %~1 removed (wildcard) >> "%LOG_FILE%"
-) else (
-    echo [INFO] WMIC: %~1 not found or already removed
-    echo [%date% %time%] INFO WMIC %~1 not found >> "%LOG_FILE%"
-)
+echo [INFO] WMIC exact product not found: %~1
+echo [%date% %time%] INFO WMIC exact product not found: %~1 >> "%LOG_FILE%"
 goto :eof
 
 REM ==========================================
@@ -210,10 +204,10 @@ echo.
 echo [7/8] Desktop and Start Menu shortcuts
 call :uninstall_yn "shortcuts (Desktop + Start Menu)"
 if /i "!answer!"=="Y" (
-    set "STARTMENU_DIR=%APPDATA%\Microsoft\Windows\Start Menu\Programs\开悟办公套件"
+    set "STARTMENU_DIR=%APPDATA%\Microsoft\Windows\Start Menu\Programs\开悟个体增智办公套件"
     if exist "%STARTMENU_DIR%" rd /S /Q "%STARTMENU_DIR%" 2>nul
     REM Generic: remove any .lnk with "Kaiwu" or "kaiwu" on desktop
-    if exist "%USERPROFILE%\Desktop\开悟办公套件.lnk" del /F /Q "%USERPROFILE%\Desktop\开悟办公套件.lnk" 2>nul
+    if exist "%USERPROFILE%\Desktop\开悟个体增智办公套件.lnk" del /F /Q "%USERPROFILE%\Desktop\开悟个体增智办公套件.lnk" 2>nul
     echo [OK] shortcuts removed
     echo [%date% %time%] OK shortcuts removed >> "%LOG_FILE%"
 )

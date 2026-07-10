@@ -1,4 +1,4 @@
-# 避免发包被上传
+﻿# 避免发包被上传
 installers/
 packages/raw/
 
@@ -42,3 +42,11 @@ tests/TEST_REPORT.md
 tests/test_*/stdout.txt
 tests/test_*/stderr.txt
 tests/test_git/temprepo/fix_p0_1.py
+
+# Release artifacts
+kaiwu-office-suite-v*.zip
+kaiwu-office-suite-v*.zip.sha256
+
+# Upstream audit scratch space
+.upstream-audit/
+upstream-audit/

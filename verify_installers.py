@@ -29,7 +29,10 @@ def parse_sums(p: Path) -> dict[str, str]:
             continue
         parts = line.split()
         if len(parts) >= 2 and not parts[0].startswith("#") and len(parts[0]) == 64:
-            out[parts[1]] = parts[0]
+            name = parts[1].lstrip("*")
+            if Path(name).name != name or name in out:
+                raise ValueError(f"invalid or duplicate manifest entry: {name}")
+            out[name] = parts[0]
     return out
 
 
@@ -77,7 +80,7 @@ def main() -> int:
     print("", file=sys.stderr)
     print(f"Total: {total}  OK: {ok}  Mismatch: {mismatch}  Missing: {missing}", file=sys.stderr)
 
-    return 0 if mismatch == 0 else 1
+    return 0 if mismatch == 0 and missing == 0 and ok == total else 1
 
 
 if __name__ == "__main__":

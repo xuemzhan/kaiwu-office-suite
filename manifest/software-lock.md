@@ -1,11 +1,12 @@
-# 开悟个体增智智能办公套件 V1.0 版本锁定清单
+﻿# 开悟个体增智智能办公套件 V1.4.1 版本锁定清单
 
-**生成时间：** 2026-06-17  
-**目标环境：** Windows 7 SP1 64位  
+**生成时间：** 2026-07-10
+**目标环境：** Windows 7 SP1 64位
 
 ---
 
 **修订记录:**
+- 2026-07-10: V1.4.1 标记 Kaiwu/PPT 上游来源风险，PPT 仅保留 unsupported 门禁，KexStepup 仍为发布阻断
 - 2026-07-07: 14 个 SHA256 从实测 packages/raw/ 填入(KexStepup / XMind 未下载,标 NOT DOWNLOADED)
   - 实测脚本: `manifest/../fix_verify_sha256_20260707.py`
   - 新 SHA256SUMS.txt: `manifest/SHA256SUMS.txt`(旧版备份在 `.bak`)
@@ -25,7 +26,7 @@
 
 | 软件名称 | 推荐版本 | Win7兼容性 | 下载来源 | 文件名 | 文件大小 | SHA256 | 静默安装参数 | 必装 | 可选 | 需重启 | 自动升级 | 备注 |
 |----------|----------|------------|----------|--------|----------|--------|--------------|------|------|--------|----------|------|
-| Git for Windows | 2.46.2 | 已验证 | GitHub | Git-2.46.2-64-bit.exe | 约60MB | eac009616605ec7207fbe1990627f453b826a1f23a33d54d9b0be8f4b0cb2094 | /VERYSILELS /NORESTART | 是 | 否 | 否 | 否 | 固定2.46.2版本 |
+| Git for Windows | 2.46.2 | 已验证 | GitHub | Git-2.46.2-64-bit.exe | 约60MB | eac009616605ec7207fbe1990627f453b826a1f23a33d54d9b0be8f4b0cb2094 | /VERYSILENT /NORESTART | 是 | 否 | 否 | 否 | 固定2.46.2版本 |
 
 ---
 
@@ -59,8 +60,16 @@
 
 | 软件名称 | 推荐版本 | Win7兼容性 | 下载来源 | 文件名 | 文件大小 | SHA256 | 静默安装参数 | 必装 | 可选 | 需重启 | 自动升级 | 备注 |
 |----------|----------|------------|----------|--------|----------|--------|--------------|------|------|--------|----------|------|
-| wps-kaiyu-addon | 内部发布版 | 待验证 | 内部制品库 | wps-kaiyu-addon-setup.exe | 待确定 | b75a8bc8cc13967215726fa99a21e591ad32f45ad2fcfaf55087eed593cf5efd | /S | 是 | 否 | 否 | 否 | 内部发布版本 |
+| wps-kaiyu-addon | Kaiwu upstream HEAD 83207ab683a7e18615f79b8318f23cb43a4f1881 | 阻断待验证 | https://github.com/xuemzhan/Kaiwu | wps-kaiyu-addon-setup.exe | 约1MB | b75a8bc8cc13967215726fa99a21e591ad32f45ad2fcfaf55087eed593cf5efd | 运行install.bat | 是 | 否 | 否 | 否 | 上游标注 Windows 10/11 与 WPS 12.1.0.26375+；本套件目标 Win7 SP1，须回移植或实机验证后才能启用 |
 | KexStepup | 内部或可信来源版本 | 待验证 | 内部制品库 | KexStepup-setup.exe | 待确定 | NOT DOWNLOADED | /S | 是 | 否 | 否 | 否 | 建议必装 |
+
+---
+
+## PPT能力参考源（未交付）
+
+| 软件名称 | 推荐版本 | Win7兼容性 | 下载来源 | 文件名 | 文件大小 | SHA256 | 静默安装参数 | 必装 | 可选 | 需重启 | 自动升级 | 备注 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| ppt-workflow-reference | upstream HEAD a155b4696ed0871bd15b32c7a807c8fd4d921e38 | 已审查源码/待Win7移植 | https://github.com/xuemzhan/ppt-workflow | 未随包交付 | 不适用 | 不适用 | scripts/integration/call_ppt_workflow.bat 返回 unsupported | 否 | 是 | 否 | 否 | 仅登记为 PPT 能力参考源；当前只有门禁脚本，不能作为 V1.4.1 已交付能力宣传 |
 
 ---
 
@@ -115,6 +124,6 @@
 
 ---
 
-**文件生成时间：** 2026-06-17  
-**文件路径：** `/manifest/software-lock.md`  
+**文件生成时间：** 2026-07-10
+**文件路径：** `/manifest/software-lock.md`
 **相关文件：** `/manifest/software-lock.yaml`

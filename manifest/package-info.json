@@ -1,13 +1,13 @@
 {
   "package_info": {
     "name": "开悟个体增智智能办公套件",
-    "version": "V1.3.3",
-    "release_date": "2026-07-08",
+    "version": "V1.4.1",
+    "release_date": "2026-07-10",
     "target_environment": "Windows 7 SP1 64位",
     "description": "面向Windows 7 SP1 64位办公环境的智能办公解决方案",
     "publisher": "OpenCode",
     "license": "内部使用",
-    "previous_version": "V1.1",
+    "previous_version": "V1.3.3",
     "changelog_v1_1": [
       "fix: 8 integration + 7 test .bat 加 mkdir logs results + 去重 16 个 setlocal",
       "fix: install.bat 32 处路径从 installers/XX/ 改 packages/raw/",
@@ -29,7 +29,7 @@
       "test: 改用直接 cmd /c 命令字符串 + chcp 65001 + UTF-8 encoding",
       "fix: call_git_status.bat cd /d errorlevel bug 修 (改用 if not exist 显式检查)",
       "test: 4 处测试期望调整 (wps / tesseract / 3 lifecycle bat log / check.bat)",
-      "test: 39/39 = 100% PASS (从 27% 基线 + 88% V1.1)"
+      "test: 当时脚本输出 39/39 PASS；当前基准以后续 V1.4.1 tests/run_tests.ps1 为准"
     ],
     "changelog_v1_3_1": [
       "fix: install.bat 14 个 install 步骤加 errorlevel 检查 (INSTALL_FAILED/MISSING 计数)",
@@ -48,6 +48,28 @@
       "fix: 注释 kaiwu_0.2.0_installer.exe 与 wps-kaiyu-addon-setup.exe 同 SHA256 (历史冗余)",
       "chore: installers/02_office/ 减 1.9MB (kaiwu_0.2.0_installer.exe 1MB + kaiwu_0.2.0.7z 884KB)",
       "保留 installers/02_office/kaiwu_0.2.0/ (3.74MB, WPS 插件运行时必需)"
+    ],
+    "release_status": "candidate_pending_win7_acceptance",
+    "changelog_v1_4_1": [
+      "fix: missing installer or hash mismatch now fails verification",
+      "fix: install no longer writes installed state before final verification",
+      "fix: collect_context and git_status output generation",
+      "fix: WPS summary returns explicit unsupported status instead of fake success",
+      "ci: correct repository paths and fail-closed release",
+      "build: package binaries once and exclude transient artifacts",
+      "docs: replace corrupted files and remove unverified claims",
+      "docs: record Kaiwu upstream as WPS AI plugin source with Win10/11 upstream requirement risk",
+      "docs: record ppt-workflow as PPT capability reference source pending content audit, not shipped capability",
+      "feat: add PPT workflow unsupported gate to prevent false capability invocation",
+      "docs: add upstream source audit report for Kaiwu and ppt-workflow",
+      "fix: rewrite check.bat as ASCII Win7-compatible health check with WPS/PPT capability gates",
+      "test: regression suite covers 28 non-destructive checks after WPS/PPT gate additions",
+      "docs: release note updated with upstream audit and current blockers",
+      "docs: add delivery blocker checklist for release handoff",
+      "feat: add read-only release_preflight.bat for handoff blocker checks",
+      "test: regression suite now covers 31 non-destructive checks including release preflight guards",
+      "feat: add report-only KexStepup SHA256 helper for release handoff",
+      "test: regression suite now covers 34 non-destructive checks including KexStepup hash helper guards"
     ]
   },
   "components": {
@@ -154,7 +176,8 @@
     "版本锁定",
     "离线安装",
     "日志记录",
-    "回滚支持"
+    "回滚支持",
+    "发布预检"
   ],
   "installation": {
     "method": "一键安装",
@@ -169,6 +192,41 @@
     "04_场景案例手册.md",
     "05_常见问题FAQ.md",
     "06_版本清单与依赖说明.md",
-    "07_安全与合规说明.md"
-  ]
+    "07_安全与合规说明.md",
+    "09_上游来源审查报告.md",
+    "10_交付前阻断清单.md"
+  ],
+  "upstream_references": {
+    "wps_ai_plugin": {
+      "upstream_wps_requirement": "WPS Office Personal/Professional v12.1.0.26375+",
+      "source_url": "https://github.com/xuemzhan/Kaiwu",
+      "verified_head": "83207ab683a7e18615f79b8318f23cb43a4f1881",
+      "source_name": "xuemzhan/Kaiwu",
+      "observed_latest_release": "v0.4.0 (GitHub page, 2026-06-20)",
+      "win7_risk": "P0: target suite is Windows 7 SP1, but upstream README requires Windows 10/11; do not mark compatible until real-machine validation passes.",
+      "suite_status": "source_identified_pending_win7_backport_or_validation",
+      "upstream_os_requirement": "Windows 10 / Windows 11"
+    },
+    "ppt_workflow_reference": {
+      "verified_head": "a155b4696ed0871bd15b32c7a807c8fd4d921e38",
+      "suite_status": "unsupported_gate_only_pending_win7_port",
+      "source_name": "xuemzhan/ppt-workflow",
+      "source_url": "https://github.com/xuemzhan/ppt-workflow",
+      "win7_risk": "Unknown until source content and runtime dependencies are audited against Windows 7 SP1.",
+      "shipped_in_v1_4_1": false,
+      "upstream_runtime": {
+        "required_dependencies": [
+          "python-pptx>=1.0.0",
+          "Pillow>=10.0"
+        ],
+        "python": ">=3.12",
+        "optional_dependencies": [
+          "markitdown",
+          "playwright",
+          "LibreOffice/soffice",
+          "Poppler/pdftoppm"
+        ]
+      }
+    }
+  }
 }

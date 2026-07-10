@@ -1,23 +1,28 @@
-{
+﻿{
   "suite_name": "开悟个体增智智能办公套件",
-  "version": "1.3.3",
-  "version_prefix": "V1.3.3",
-  "release_date": "2026-07-08",
+  "version": "1.4.1",
+  "version_prefix": "V1.4.1",
+  "release_date": "2026-07-10",
   "codename": "Kaiwu Office Suite",
   "target_environment": "Windows 7 SP1 64-bit",
-  "previous_version": "1.2",
+  "previous_version": "1.3.3",
   "build_info": {
-    "test_pass_rate": "39/39 = 100%",
+    "test_pass_rate": "以当前 tests/run_tests.ps1 实测为准",
     "sha256_verified": true,
     "total_components": 16,
     "downloaded_components": 14,
-    "missing_components": ["KexStepup", "XMind"]
+    "missing_components": [
+      "KexStepup",
+      "XMind"
+    ]
   },
   "changelog_summary": [
     "V1.0 (2026-06-17): 初始版本发布，测试通过率虚假声明 100%（实际 27%）",
     "V1.1 (2026-07-07): 修复路径/文件名/编码 bug，实装 uninstall/repair，SHA256 校验",
-    "V1.2 (2026-07-07): 修复 run_tests.ps1 自身 bug + git_status cd/d bug，39/39 = 100% PASS",
+    "V1.2 (2026-07-07): 修复 run_tests.ps1 自身 bug + git_status cd/d bug；当时脚本输出 39/39 PASS，当前基准以 V1.4.1 回归为准",
     "V1.3 (2026-07-08): 删死代码目录，README 5场景/5 FAQ 更正，4个真实模板保留",
-    "V1.3.3 (2026-07-08): SHA256SUMS.txt 清理，BUILD.md 文档，PATH 遮蔽 bug 修复，交付 ZIP 生成"
-  ]
+    "V1.3.3 (2026-07-08): SHA256SUMS.txt 清理，BUILD.md 文档，PATH 遮蔽 bug 修复，交付 ZIP 生成",
+    "V1.4.1 (2026-07-10): fail-closed校验、安装/检测脚本、WPS/PPT门禁、上游实审、CI、打包、文档和安全口径修复"
+  ],
+  "release_status": "candidate_pending_win7_acceptance"
 }

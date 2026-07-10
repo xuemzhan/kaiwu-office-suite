@@ -1,5 +1,5 @@
-# 开悟个体增智智能办公套件 V1.0 版本锁定清单
-# 生成时间: 2026-06-17
+﻿# 开悟个体增智智能办公套件 V1.4.1 版本锁定清单
+# 修订时间: 2026-07-09
 # 目标环境: Windows 7 SP1 64位
 
 software:
@@ -147,7 +147,7 @@ software:
   - name: "wps-kaiyu-addon"
     category: "办公插件"
     recommended_version: "0.2.0"
-    win7_compatibility: "待验证(要求WPS 12.1.0.26375+)"
+    win7_compatibility: "阻断待验证(上游要求Windows 10/11与WPS 12.1.0.26375+)"
     download_source: "https://github.com/xuemzhan/Kaiwu"
     filename: "wps-kaiyu-addon-setup.exe"
     file_size: "约1MB"
@@ -157,13 +157,12 @@ software:
     optional: false
     need_reboot: false
     auto_upgrade: false
-    notes: "Kaiwu(开悟) AI写作助手: 对话/润色/翻译/续写/思维导图, 基于wpsjs框架"
+    notes: "Kaiwu(开悟) AI写作助手来源; 上游HEAD 83207ab683a7e18615f79b8318f23cb43a4f1881; 上游README标注Windows 10/11和WPS 12.1.0.26375+, 与本套件Win7 SP1目标冲突, 不得标记为已兼容"
 
   - name: "KexStepup (VxKex)"
     category: "办公插件"
     recommended_version: "1.1.5.1679"
-    win7_compatibility: "已验证(兼容Win7 x64)"
-    download_source: "https://github.com/i486/VxKex/releases/tag/Version1.1.5.1679"
+    win7_compatibility: "安装包缺失/待审批；VxKex 1.1.5.1679 声称支持 Win7 x64，未随本包实测"`r`n    download_source: "https://github.com/i486/VxKex/releases/tag/Version1.1.5.1679"
     filename: "KexStepup-setup.exe"
     file_size: "约6MB"
     sha256: "待计算(Windows Defender误报,需手动下载后计算)"
@@ -173,6 +172,23 @@ software:
     need_reboot: false
     auto_upgrade: false
     notes: "原名KexStepup实为VxKex(https://github.com/i486/VxKex), Win7兼容性shim, Defender误报需手动处理"
+
+
+  # PPT能力参考源（未随V1.4.1交付）
+  - name: "ppt-workflow-reference"
+    category: "PPT能力参考"
+    recommended_version: "upstream HEAD a155b4696ed0871bd15b32c7a807c8fd4d921e38"
+    win7_compatibility: "源码已初审/待Win7 SP1移植验证"
+    download_source: "https://github.com/xuemzhan/ppt-workflow"
+    filename: "未随包交付"
+    file_size: "不适用"
+    sha256: "不适用"
+    silent_install: "不适用"
+    required: false
+    optional: true
+    need_reboot: false
+    auto_upgrade: false
+    notes: "仅作为PPT能力设计参考源登记; 已完成源码层面初审, 当前只有scripts/integration/call_ppt_workflow.bat门禁脚本返回unsupported, 未声明PPT自动生成/排版能力"
 
   # Agent组件
   - name: "AionUI"

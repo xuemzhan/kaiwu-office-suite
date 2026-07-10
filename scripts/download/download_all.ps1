@@ -4,7 +4,7 @@
 #   - 校验逻辑不再跳过 '待计算' 字符串
 #   - 真实下载若 SHA256 不匹配, 自动删除并报错
 
-# 开悟个体增智智能办公套件 V1.0 下载脚本
+# 开悟个体增智智能办公套件 V1.4.1 下载脚本
 # 功能: 下载所有软件安装包并进行校验
 # 目标环境: Windows 7 SP1 64位
 # 生成时间: 2026-06-17
@@ -127,7 +127,7 @@ function Download-File {
 }
 
 # 主程序
-Write-Log "开始下载开悟个体增智智能办公套件 V1.0 组件"
+Write-Log "开始下载开悟个体增智智能办公套件 V1.4.1 组件"
 Write-Log "目标环境: Windows 7 SP1 64位"
 Write-Log "清单文件: $ManifestPath"
 Write-Log "输出目录: $OutputDir"

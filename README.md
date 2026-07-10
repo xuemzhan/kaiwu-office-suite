@@ -1,157 +1,60 @@
-# 开悟个体增智智能办公套件 V1.3.3
+﻿# 开悟个体增智智能办公套件 V1.4.1
 
-> 面向 Windows 7 SP1 64 位的智能办公解决方案
+面向 Windows 7 SP1 64 位的离线办公工具集成工程。V1.4.1 是修复审查问题后的工程候选版，尚需通过 Win7 实机验收后才能标记为正式发布。
 
-版本：**V1.3.3** | 发布日期：**2026-07-08** | 测试通过率：**39/39 = 100%**
+## 当前状态
 
-GitHub：https://github.com/xuemzhan/kaiwu-office-suite.git
+- 已具备：离线安装框架、SHA256 强制校验、检测/修复/卸载脚本、Everything 搜索、Tesseract OCR、Obsidian 笔记、Git 状态、模板和静态 Web 导航页。
+- 当前缺失：必装的 `KexStepup-setup.exe`、可选的 XMind 安装包。
+- 未实装：WPS 文档智能总结；调用会明确返回“不支持”，不会生成假结果。
+- 未实装：PPT 自动生成/排版；`scripts/integration/call_ppt_workflow.bat` 是门禁脚本，缺参数返回 1，有参数返回 2。
+- 来源边界：WPS AI 插件参考 [xuemzhan/Kaiwu](https://github.com/xuemzhan/Kaiwu)，上游要求 Windows 10/11 与 WPS 12.1.0.26375+，本套件 Win7 SP1 兼容性为阻断待验证；PPT 能力参考 [xuemzhan/ppt-workflow](https://github.com/xuemzhan/ppt-workflow)，当前仅登记为参考源，未随 V1.4.1 交付。
+- 待验收：AionUI、Hermes、OpenCode、WPS 插件及完整安装链在 Windows 7 SP1 实机上的兼容性。
 
 ## 系统要求
 
-- 操作系统：Windows 7 SP1 64 位
-- 内存：至少 4 GB
-- 磁盘：至少 10 GB 可用空间
-- 权限：管理员权限
+- Windows 7 SP1 64 位
+- 管理员权限
+- 至少 4 GB 内存、10 GB 可用磁盘
+- 系统自带 `certutil`
+- 集成脚本建议使用 PowerShell 5.1；安装包校验不依赖 Python
 
-## 快速开始
+## 安装
 
-1. **校验安装包**：以管理员身份运行 `verify_installers.bat`，确认 SHA256 全部通过
-2. **一键安装**：右键 `install.bat`，选择"以管理员身份运行"
-3. **重启计算机**（建议）
-4. **启动 Web 入口**：进入 `web-app/`，运行 `python -m http.server 8080`，浏览器打开 `http://localhost:8080`
-5. **开始使用**：通过桌面快捷方式或 Web 入口启动各组件
+1. 核对 ZIP 旁车 `.sha256`。
+2. 解压到不含特殊权限限制的本地目录。
+3. 运行 `release_preflight.bat` 查看交付阻断项。
+4. 以管理员身份运行 `verify_installers.bat`。
+5. 只有所有清单文件均存在且哈希一致时，才运行 `install.bat`。
+6. 安装结束后重启，再运行 `check.bat`。
 
-## 组件列表
+> 当前工作目录缺少必装 KexStepup，因此 `install.bat` 会主动终止。这是安全保护，不是安装故障。取得安装包后，先运行 `scripts/admin/compute_kexstepup_hash.bat` 生成哈希报告，再按审批结果更新清单。
 
-**运行环境：** .NET 4.8 · WebView2 109.0.1518.46 · VC++ 14.38.33135 · Git 2.46.2
-
-**智能助理：** AionUI (Win7验证版) · Hermes Desktop (Win7验证版) · OpenCode (内网版)
-
-**办公组件：** WPS Office 11.8.2.12068 · wps-kaiyu-addon (内部版) · KexStepup (内部版，**缺失**)
-
-**工具：** Everything 1.4.1.1024 · Tesseract-OCR 5.3.1
-
-**知识库：** Obsidian 1.4.16 · XMind 23.11 (**缺失**)
-
-共 16 个组件，14 个已下载；KexStepup 和 XMind 安装包暂缺。
-
-## 功能特性
-
-- **一键安装**：全自动安装所有组件，无需手动干预
-- **一键检测**：`check.bat` 检测组件安装状态与路径可用性
-- **一键修复**：`repair.bat` 修复环境变量、快捷方式等 9 类问题
-- **一键卸载**：`uninstall.bat` 安全卸载，保留基础运行环境
-- **版本锁定**：`manifest/` 记录所有组件精确版本号与 SHA256 哈希
-- **离线安装**：所有安装包随套件分发，无需联网
-- **日志记录**：安装、检测、修复过程自动生成日志
-- **回滚支持**：安装失败自动回滚
-
-## 目录结构
-
-```
-kaiwu-office-suite-v1.0/
-├── install.bat              # 一键安装
-├── uninstall.bat            # 一键卸载
-├── repair.bat               # 一键修复
-├── check.bat                # 一键检测
-├── verify_installers.bat    # SHA256 校验
-├── verify_installers.py     # SHA256 校验后端
-├── build_zip.bat            # 交付 ZIP 生成
-├── README.md                # 本文件
-├── web-app/                 # Web 入口应用
-├── manifest/                # 版本锁定清单
-├── packages/raw/            # 安装包 (1.4 GB)
-├── scripts/                 # 集成、检测、修复、安装、下载脚本
-├── config/                  # 配置文件
-├── templates/               # 模板目录
-├── examples/                # 4 个真实模板
-├── docs/                    # 文档目录 (10 份)
-├── tests/                   # 回归测试 (39/39)
-└── logs/                    # 日志目录
-```
-
-## 集成脚本
-
-`scripts/integration/` 包含 10 个 .bat 集成脚本和 1 个工具注册表：
-
-| 脚本 | 用途 |
-|------|------|
-| `call_everything_search.bat` | Everything 文件搜索 |
-| `call_git_status.bat` | Git 仓库状态检查 |
-| `call_obsidian_note.bat` | Obsidian 笔记创建 |
-| `call_tesseract_ocr.bat` | Tesseract OCR 文字识别 |
-| `call_wps_summary.bat` | WPS 文档总结（占位） |
-| `call_xmind_outline.bat` | XMind 思维导图大纲生成 |
-| `collect_context.bat` | 上下文信息收集 |
-| `open_project_folder.bat` | 打开项目文件夹 |
-| `ocr_to_markdown.bat` | OCR 图片转 Markdown |
-| `ocr_to_obsidian.bat` | OCR 图片转 Obsidian 笔记 |
-| `tool_registry.json` | 工具注册表配置 |
-
-`ocr_to_markdown.bat` 和 `ocr_to_obsidian.bat` 为 V1.3.3 新增。
-
-## 测试
-
-运行回归测试：
+## 验证
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tests\run_tests.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File tests\run_tests.ps1
 ```
 
-通过率：**39/39 = 100%**。安装前请运行 `verify_installers.bat` 校验 SHA256。
+测试报告以本次实际运行输出为准。项目不再在 README 固定声明“39/39”或“100%”。回归测试是脚本级验证，不能替代 Win7 实机安装与功能验收。
 
-## 维护
+## 目录
 
-| 命令 | 用途 |
-|------|------|
-| `check.bat` | 检测组件的安装状态、路径可用性、环境变量 |
-| `repair.bat` | 修复环境变量、快捷方式、工具注册等，修复后自动调用 check.bat 验证 |
-| `uninstall.bat` | 安全移除套件组件，保留 .NET/VC++ 等运行环境 |
+- `packages/raw/`：唯一安装制品目录
+- `manifest/`：版本与 SHA256 清单
+- `scripts/integration/`：本地工具调用脚本
+- `docs/`：安装、使用、维护、安全、上游来源审查、阻断清单和验收文档
+- `tests/`：非破坏性回归测试
+- `web-app/`：静态说明与路径导航，不具备浏览器直接启动本地程序的权限
 
-## Web 入口应用
+## 已知限制
 
-基于 HTML/CSS/JavaScript 的可视化入口。启动方式：
+- KexStepup 缺失时禁止正式打包和安装。
+- XMind 为可选组件，当前未随包交付。
+- WPS 总结、PPT 自动生成/排版、MCP/A2A 服务、端到端加密、自动备份和等保认证不属于当前已验证能力。
+- 上游实审记录见 `docs/09_上游来源审查报告.md`；交付前阻断项见 `docs/10_交付前阻断清单.md`。
+- 三个内部制品缺少 Authenticode 签名，正式发布前须补充来源审批和恶意代码扫描记录。
 
-```bash
-cd web-app
-python -m http.server 8080
-# 浏览器打开 http://localhost:8080
-```
+## 版本
 
-模块：首页概览 · 6 大功能介绍 · 5 个场景案例 · 4 步使用指南 · 8 个快捷入口 · 5 个 FAQ · 8 份文档链接
-
-## 文档列表
-
-`docs/` 目录包含 10 份文档：
-
-- `docs/00_ZIP包使用说明.md` - ZIP 包使用说明
-- `docs/00_环境检查报告.md` - 环境检查报告
-- `docs/01_安装手册.md` - 安装手册
-- `docs/02_用户使用手册.md` - 用户使用手册
-- `docs/03_管理员维护手册.md` - 管理员维护手册
-- `docs/04_场景案例手册.md` - 场景案例手册
-- `docs/05_常见问题FAQ.md` - 常见问题
-- `docs/06_版本清单与依赖说明.md` - 版本清单与依赖
-- `docs/07_安全与合规说明.md` - 安全与合规
-- `docs/08_Win7验证清单.md` - Win7 验证清单
-
-## 版本历史
-
-### V1.3.3 (2026-07-08)
-清理 SHA256SUMS.txt 冗余条目，修复 PATH 环境变量遮蔽 bug，新增 `ocr_to_markdown.bat` 和 `ocr_to_obsidian.bat`，修复 `install.bat` 中文文件名乱码，`repair.bat` 修复后自动调用 `check.bat` 验证。
-
-### V1.3 (2026-07-07)
-清理 6 个空示例目录，web-app 改用 `data.js` 静态数据源，修复 README 与实际数据不一致的问题（场景案例 6->5，FAQ 7->5）。
-
-### V1.2 (2026-07-07)
-修复测试框架在 PS 5.1 下的中文路径兼容问题，修复 `call_git_status.bat` errorlevel bug，调整 4 处期望。测试通过率从 27% 提升至 39/39 = 100%。
-
-### V1.1 (2026-07-07)
-路径与文件名错误修复（集成脚本加 mkdir，安装路径 `installers/` -> `packages/raw/`），实装 uninstall/repair，引入 SHA256 校验，补全版本清单。
-
-### V1.0 (2026-06-17)
-初始版本发布，包含全部核心组件。
-
-## 许可证
-
-本套件仅供内部使用。
+V1.4.1（2026-07-10）：修复完整性校验假成功、安装状态假成功、集成脚本故障、测试失真、CI 路径、发布包重复、文档乱码及能力表述问题。

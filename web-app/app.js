@@ -1,5 +1,5 @@
 // ============================================
-// 开悟个体增智智能办公套件 V1.0 - 交互逻辑
+// 开悟个体增智智能办公套件 V1.4.1 - 交互逻辑
 // ============================================
 
 // Particle System
@@ -283,7 +283,7 @@ function renderEntry() {
         html += '<div class="entry-icon ' + e.color + '">' + getIcon(e.icon) + '</div>';
         html += '<h3>' + e.title + '</h3>';
         html += '<p>' + e.desc + '</p>';
-        html += '<button class="entry-btn"><svg viewBox="0 0 14 14" fill="currentColor" width="14" height="14"><path d="M1 1h5v1H2v10h10V8h1v5H1V1zm6 0h6v6h-1V3.41L4.71 8.7 4 8l4.3-4.3H7V1z"/></svg>启动</button>';
+        html += '<button class="entry-btn"><svg viewBox="0 0 14 14" fill="currentColor" width="14" height="14"><path d="M1 1h5v1H2v10h10V8h1v5H1V1zm6 0h6v6h-1V3.41L4.71 8.7 4 8l4.3-4.3H7V1z"/></svg>查看路径</button>';
         html += '</div>';
     }
     grid.innerHTML = html;
@@ -337,7 +337,7 @@ function openApp(app) {
         'everything': '../packages/raw/Everything-1.4.1.1024.x64-Setup.exe',
         'ocr': '../packages/raw/tesseract-ocr-w64-setup-5.3.1.20230401.exe',
         'obsidian': '../packages/raw/Obsidian.1.4.16.exe',
-        'xmind': '../packages/raw/',
+        'xmind': null,
         'aionui': '../packages/raw/AionUI-setup.exe',
         'check': '../check.bat',
         'repair': '../repair.bat'
@@ -348,8 +348,8 @@ function openApp(app) {
         'check': '系统检测', 'repair': '系统修复'
     };
     var path = paths[app], name = names[app] || app;
-    if (!path) { alert('组件路径未配置'); return; }
-    alert('即将打开：' + name + '\n\n路径：' + path + '\n\n说明：需要在已安装套件的 Windows 7 环境下使用。');
+    if (!path) { alert('该组件未随当前候选版交付。'); return; }
+    alert('组件：' + name + '\n\n路径：' + path + '\n\n浏览器不会直接执行本地程序，请从资源管理器或开始菜单启动。');
 }
 
 // Data Stream Effect

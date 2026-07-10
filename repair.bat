@@ -1,231 +1,95 @@
 @echo off
-REM KaiWu Office Suite V1.0 - One-click repair
-REM Target: Windows 7 SP1 64-bit
-REM Generated 2026-06-17, real commands implemented 2026-07-07
-
-setlocal enabledelayedexpansion
+REM KaiWu Office Suite V1.4.1 - repair
+REM Windows 7 SP1 compatible; no user data is deleted.
+setlocal EnableExtensions EnableDelayedExpansion
 chcp 936 >nul 2>&1
-
+cd /d "%~dp0"
 if not exist "logs" mkdir "logs"
-set "LOG_FILE=logs\repair_%date:~0,4%%date:~5,2%%date:~8,2%_%time:~0,2%%time:~3,2%.log"
-echo [%date% %time%] === KaiWu Office Suite V1.0 repair started === > "%LOG_FILE%"
+set "LOG_FILE=logs\repair_%RANDOM%.log"
+set "FAIL_COUNT=0"
 
-echo ========================================
-echo  KaiWu Office Suite V1.0 Repair Menu
-echo ========================================
-echo.
-echo  1. Fix environment variables (PATH)
-echo  2. Rebuild desktop / start menu shortcuts
-echo  3. Verify / rebuild tool registry
-echo  4. Rebuild Obsidian vault template (folders only, no data loss)
-echo  5. Re-register WPS plugins (verify registry entries)
-echo  6. Rebuild Everything index service
-echo  7. Rewrite Agent config files (aionui / hermes / opencode)
-echo  8. Fix log directory permissions
-echo  9. Run all (1-8)
-echo.
-set /p choice="Select option (1-9): "
-
-if "%choice%"=="1" goto fix_env
-if "%choice%"=="2" goto fix_shortcuts
-if "%choice%"=="3" goto fix_registry
-if "%choice%"=="4" goto fix_obsidian
-if "%choice%"=="5" goto fix_wps
-if "%choice%"=="6" goto fix_everything
-if "%choice%"=="7" goto fix_agent
-if "%choice%"=="8" goto fix_logs
-if "%choice%"=="9" goto fix_all
-
-echo Invalid choice: %choice%
+echo 1. Repair user PATH
+echo 2. Rebuild Start Menu shortcuts
+echo 3. Validate tool registry
+echo 4. Ensure Obsidian Vault folders
+echo 5. Check WPS registration
+echo 6. Start Everything service
+echo 7. Validate agent configuration
+echo 8. Check log directory permissions
+echo 9. Run all
+set /p "CHOICE=Select option (1-9): "
+if "%CHOICE%"=="1" (call :fix_path & goto finish)
+if "%CHOICE%"=="2" (call :fix_shortcuts & goto finish)
+if "%CHOICE%"=="3" (call :validate_registry & goto finish)
+if "%CHOICE%"=="4" (call :fix_vault & goto finish)
+if "%CHOICE%"=="5" (call :check_wps & goto finish)
+if "%CHOICE%"=="6" (call :start_everything & goto finish)
+if "%CHOICE%"=="7" (call :validate_configs & goto finish)
+if "%CHOICE%"=="8" (call :check_logs & goto finish)
+if "%CHOICE%"=="9" goto all
+echo [FAIL] Invalid choice
 exit /b 1
 
-:fix_env
-echo.
-echo [1/8] Fix environment variables
-echo [%date% %time%] Fix env >> "%LOG_FILE%"
-
-REM Add Git to PATH if missing
-echo %PATH% | findstr /I "Git\cmd" >nul
-if %errorLevel% neq 0 (
-    setx PATH "%PATH%;C:\Program Files\Git\cmd" >nul 2>&1
-    echo [OK] Added Git to PATH
-    echo [%date% %time%] OK added Git to PATH >> "%LOG_FILE%"
-) else (
-    echo [SKIP] Git already in PATH
-)
-
-REM Add Tesseract to PATH if missing
-echo %PATH% | findstr /I "Tesseract-OCR" >nul
-if %errorLevel% neq 0 (
-    setx PATH "%PATH%;C:\Program Files\Tesseract-OCR" >nul 2>&1
-    echo [OK] Added Tesseract to PATH
-    echo [%date% %time%] OK added Tesseract to PATH >> "%LOG_FILE%"
-) else (
-    echo [SKIP] Tesseract already in PATH
-)
-goto end
+:fix_path
+powershell -NoProfile -ExecutionPolicy Bypass -Command "$p=[Environment]::GetEnvironmentVariable('Path','User'); $items=@($p -split ';'|Where-Object {$_}); foreach($x in @('C:\Program Files\Git\cmd','C:\Program Files\Tesseract-OCR')) {if((Test-Path $x) -and -not ($items -contains $x)) {$items += $x}}; [Environment]::SetEnvironmentVariable('Path',($items -join ';'),'User')"
+if errorlevel 1 (set /a FAIL_COUNT+=1&echo [FAIL] PATH repair) else echo [PASS] User PATH checked
+exit /b 0
 
 :fix_shortcuts
-echo.
-echo [2/8] Rebuild shortcuts
-echo [%date% %time%] Fix shortcuts >> "%LOG_FILE%"
+set "MENU=%APPDATA%\Microsoft\Windows\Start Menu\Programs\¿ªÎò¸öÌåÔöÖÇ°ì¹«Ì×¼þ"
+if not exist "%MENU%" mkdir "%MENU%"
+set "KAIWU_MENU=%MENU%"
+set "KAIWU_HOME=%CD%"
+powershell -NoProfile -ExecutionPolicy Bypass -Command "$w=New-Object -ComObject WScript.Shell; foreach($n in @('ÏµÍ³¼ì²â','ÏµÍ³ÐÞ¸´')) {$s=$w.CreateShortcut((Join-Path $env:KAIWU_MENU ($n+'.lnk'))); if($n -eq 'ÏµÍ³¼ì²â') {$s.TargetPath=(Join-Path $env:KAIWU_HOME 'check.bat')} else {$s.TargetPath=(Join-Path $env:KAIWU_HOME 'repair.bat')}; $s.WorkingDirectory=$env:KAIWU_HOME; $s.Save()}"
+if errorlevel 1 (set /a FAIL_COUNT+=1&echo [FAIL] Shortcut repair) else echo [PASS] Shortcuts rebuilt
+exit /b 0
 
-set "STARTMENU_DIR=%APPDATA%\Microsoft\Windows\Start Menu\Programs\ï¿½ï¿½ï¿½ï¿½ì¹«ï¿½×¼ï¿?
-if not exist "%STARTMENU_DIR%" mkdir "%STARTMENU_DIR%"
+:validate_registry
+powershell -NoProfile -ExecutionPolicy Bypass -Command "$ErrorActionPreference='Stop'; Add-Type -AssemblyName System.Web.Extensions; $s=New-Object System.Web.Script.Serialization.JavaScriptSerializer; $null=$s.DeserializeObject([IO.File]::ReadAllText((Join-Path $PWD 'scripts\integration\tool_registry.json')))"
+if errorlevel 1 (set /a FAIL_COUNT+=1&echo [FAIL] Tool registry invalid) else echo [PASS] Tool registry valid
+exit /b 0
 
-REM Ð´Ê¹ï¿½ï¿½Ëµï¿½ï¿½ URL
-> "%STARTMENU_DIR%\Ê¹ï¿½ï¿½Ëµï¿½ï¿½.url" echo [InternetShortcut]
->> "%STARTMENU_DIR%\Ê¹ï¿½ï¿½Ëµï¿½ï¿½.url" echo URL=file:///%~dp0docs\02_ï¿½Ã»ï¿½Ê¹ï¿½ï¿½ï¿½Ö²ï¿½.md
-echo [OK] Start menu shortcut created: %STARTMENU_DIR%
-echo [%date% %time%] OK start menu shortcut >> "%LOG_FILE%"
-goto end
+:fix_vault
+set "VAULT=%USERPROFILE%\Documents\KaiwuVault"
+for %%D in (00_Inbox 01_ÏîÄ¿×ÊÁÏ 02_»áÒé¼ÍÒª 03_OCRÊ¶±ð 04_¸öÈËÖªÊ¶ 05_Ä£°å¿â 99_¹éµµ) do if not exist "%VAULT%\%%D" mkdir "%VAULT%\%%D"
+echo [PASS] Vault folders ensured
+exit /b 0
 
-:fix_registry
-echo.
-echo [3/8] Verify / rebuild tool registry
-echo [%date% %time%] Fix tool registry >> "%LOG_FILE%"
-
-if not exist "scripts\integration" mkdir "scripts\integration"
-if not exist "scripts\integration\tool_registry.json" (
-    REM ï¿½ï¿½Ä£ï¿½ï¿½ï¿½Ø½ï¿½(8 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿)
-    echo [WARN] tool_registry.json missing, creating template
-    echo [%date% %time%] WARN tool_registry missing >> "%LOG_FILE%"
-)
-if exist "scripts\integration\tool_registry.json" (
-    REM ï¿½ï¿½Ö¤ JSON ï¿½Ï·ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½: ï¿½ï¿½ï¿?{} ï¿½ï¿½ï¿?
-    powershell -command "try { $j = Get-Content 'scripts\integration\tool_registry.json' -Raw | ConvertFrom-Json; Write-Host '[OK] tool_registry.json is valid JSON' } catch { Write-Host '[WARN] tool_registry.json is invalid JSON: ' + $_.Exception.Message; exit 1 }"
-    if %errorLevel% neq 0 (
-        echo [%date% %time%] WARN tool_registry invalid JSON >> "%LOG_FILE%"
-    ) else (
-        echo [%date% %time%] OK tool_registry valid JSON >> "%LOG_FILE%"
-    )
-)
-goto end
-
-:fix_obsidian
-echo.
-echo [4/8] Rebuild Obsidian vault template (folders only)
-echo [%date% %time%] Fix Obsidian vault >> "%LOG_FILE%"
-
-set "VAULT_PATH=%USERPROFILE%\Documents\KaiwuVault"
-if not exist "%VAULT_PATH%" mkdir "%VAULT_PATH%"
-for %%d in ("00_Inbox" "01_ï¿½ï¿½Ä¿ï¿½ï¿½Â¼" "02_ï¿½ï¿½ï¿½ï¿½ï¿½Ò? "03_OCRÊ¶ï¿½ï¿½" "04_Í¨ï¿½ï¿½ÖªÊ¶" "05_Ä£ï¿½ï¿½ï¿? "99_ï¿½éµµ") do (
-    if not exist "%VAULT_PATH%\%%~d" mkdir "%VAULT_PATH%\%%~d" 2>nul
-)
-echo [OK] Vault folders ensured at %VAULT_PATH%
-echo [%date% %time%] OK vault folders >> "%LOG_FILE%"
-echo [!] Note: existing notes are NEVER touched
-goto end
-
-:fix_wps
-echo.
-echo [5/8] Re-register WPS plugins (verify registry)
-echo [%date% %time%] Fix WPS plugins >> "%LOG_FILE%"
-
+:check_wps
 reg query "HKLM\SOFTWARE\Kingsoft\Office" >nul 2>&1
-if %errorLevel% equ 0 (
-    echo [OK] WPS Office installed
-    echo [%date% %time%] OK WPS Office installed >> "%LOG_FILE%"
-    REM Verify kaiwu plugin path
-    if exist "packages\raw\wps-kaiyu-addon-setup.exe" (
-        echo [INFO] kaiwu addon installer present at packages\raw\
-        echo [%date% %time%] INFO kaiwu installer present >> "%LOG_FILE%"
-    ) else (
-        echo [WARN] kaiwu addon installer missing
-        echo [%date% %time%] WARN kaiwu installer missing >> "%LOG_FILE%"
-    )
-) else (
-    echo [WARN] WPS Office not installed (registry key missing)
-    echo [%date% %time%] WARN WPS Office not installed >> "%LOG_FILE%"
-)
-goto end
+if errorlevel 1 reg query "HKLM\SOFTWARE\WOW6432Node\Kingsoft\Office" >nul 2>&1
+if errorlevel 1 (set /a FAIL_COUNT+=1&echo [FAIL] WPS registration not found) else echo [PASS] WPS registration found
+exit /b 0
 
-:fix_everything
-echo.
-echo [6/8] Rebuild Everything index service
-echo [%date% %time%] Fix Everything service >> "%LOG_FILE%"
-
+:start_everything
 sc query "Everything" >nul 2>&1
-if %errorLevel% neq 0 (
-    if exist "C:\Program Files\Everything\Everything.exe" (
-        REM Service not registered, but exe present - start the app (not service) once to register
-        echo [INFO] Everything installed but service not registered
-        echo [%date% %time%] INFO Everything service not registered >> "%LOG_FILE%"
-        echo [HINT] Run Everything.exe once as admin to register the service
-    ) else (
-        echo [WARN] Everything not installed at C:\Program Files\Everything
-        echo [%date% %time%] WARN Everything not installed >> "%LOG_FILE%"
-    )
-) else (
-    echo [OK] Everything service registered
-    echo [%date% %time%] OK Everything service registered >> "%LOG_FILE%"
-    sc start "Everything" >nul 2>&1
-)
-goto end
+if errorlevel 1 (set /a FAIL_COUNT+=1&echo [FAIL] Everything service not installed&exit /b 0)
+sc start "Everything" >nul 2>&1
+sc query "Everything" | find "RUNNING" >nul
+if errorlevel 1 (set /a FAIL_COUNT+=1&echo [FAIL] Everything service not running) else echo [PASS] Everything service running
+exit /b 0
 
-:fix_agent
-echo.
-echo [7/8] Rewrite Agent config files (verify presence)
-echo [%date% %time%] Fix Agent config >> "%LOG_FILE%"
+:validate_configs
+for %%F in (config\version.json config\aionui\aionui.json config\hermes\hermes.json config\opencode\opencode.json) do if not exist "%%F" (set /a FAIL_COUNT+=1&echo [FAIL] Missing %%F) else echo [PASS] %%F
+exit /b 0
 
-set "AGENT_CONFIGS=config\aionui\aionui.json config\hermes\hermes.json config\opencode\opencode.json"
-for %%f in (%AGENT_CONFIGS%) do (
-    if exist "%%f" (
-        echo [OK] %%f present
-        echo [%date% %time%] OK %%f present >> "%LOG_FILE%"
-    ) else (
-        echo [WARN] %%f missing
-        echo [%date% %time%] WARN %%f missing >> "%LOG_FILE%"
-    )
-)
-goto end
+:check_logs
+>"logs\.write_test_%RANDOM%" echo test
+if errorlevel 1 (set /a FAIL_COUNT+=1&echo [FAIL] logs is not writable) else (del /q "logs\.write_test_*" >nul 2>&1&echo [PASS] logs is writable)
+exit /b 0
 
-:fix_logs
-echo.
-echo [8/8] Fix log directory permissions
-echo [%date% %time%] Fix log dir >> "%LOG_FILE%"
-
-if not exist "logs" mkdir "logs"
-icacls "logs" /grant Everyone:F >nul 2>&1
-if %errorLevel% equ 0 (
-    echo [OK] logs/ permission granted
-    echo [%date% %time%] OK logs/ perms >> "%LOG_FILE%"
-) else (
-    echo [WARN] icacls not available or failed; try running as admin
-    echo [%date% %time%] WARN icacls failed >> "%LOG_FILE%"
-)
-goto end
-
-:fix_all
-echo.
-echo [Running all 1-8]
-echo [%date% %time%] Run all >> "%LOG_FILE%"
-call :fix_env
+:all
+call :fix_path
 call :fix_shortcuts
-call :fix_registry
-call :fix_obsidian
-call :fix_wps
-call :fix_everything
-call :fix_agent
-call :fix_logs
-goto end
+call :validate_registry
+call :fix_vault
+call :check_wps
+call :start_everything
+call :validate_configs
+call :check_logs
 
-:end
-echo.
-echo ========================================
-echo  Repair Complete
-echo ========================================
-echo.
-echo Log: %LOG_FILE%
-echo.
-
-REM Auto-run check.bat to verify repairs (P3-9)
-if exist "check.bat" (
-    echo Running system check...
-    call check.bat
-) else (
-    echo [WARN] check.bat not found, skipping auto-check
-)
-
-pause
+:finish
+echo [%date% %time%] failures=!FAIL_COUNT!>"!LOG_FILE!"
+if not "!FAIL_COUNT!"=="0" exit /b 1
+echo [PASS] Repair completed
 exit /b 0

@@ -1,8 +1,8 @@
 {
   "wps_addon": {
-    "version": "内部版",
+    "version": "source:xuemzhan/Kaiwu pending Win7 validation",
     "name": "开悟插件",
-    "description": "WPS智能办公插件",
+    "description": "WPS AI 插件配置占位；来源参考 xuemzhan/Kaiwu，因上游标注 Windows 10/11 与 WPS 12.1.0.26375+，本套件 Win7 SP1 兼容性待验证。",
     "log_path": "logs\\wps_addon.log",
     "features": [
       "帮我写",
@@ -17,7 +17,15 @@
     "settings": {
       "auto_start": true,
       "show_in_menu": true,
-      "enable_ai": true
-    }
+      "enable_ai": false
+    },
+    "upstream_source": "https://github.com/xuemzhan/Kaiwu",
+    "upstream_head": "83207ab683a7e18615f79b8318f23cb43a4f1881",
+    "upstream_requirements": {
+      "wps": "WPS Office v12.1.0.26375+",
+      "network": "Outbound HTTPS to configured AI provider",
+      "os": "Windows 10 / Windows 11"
+    },
+    "suite_win7_status": "blocked_pending_backport_or_real_machine_validation"
   }
 }

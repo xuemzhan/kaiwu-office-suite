@@ -1,52 +1,59 @@
 @echo off
-REM KaiWu Office Suite V1.0 - Installer SHA256 verification
-REM Generated 2026-07-07
-REM Purpose: Verify integrity of all files in packages\raw\ before install
-
-setlocal enabledelayedexpansion
+REM KaiWu Office Suite V1.4.1 - native SHA256 verification
+REM Windows 7 SP1 compatible: uses built-in certutil, no Python dependency.
+setlocal EnableExtensions EnableDelayedExpansion
 chcp 936 >nul 2>&1
-
+cd /d "%~dp0"
 if not exist "logs" mkdir "logs"
-set "LOG_FILE=logs\verify_installers_%date:~0,4%%date:~5,2%%date:~8,2%_%time:~0,2%%time:~3,2%.log"
-echo [%date% %time%] === verify_installers started === > "%LOG_FILE%"
+set "LOG_FILE=logs\verify_installers_%RANDOM%.log"
+set /a TOTAL=0, OK=0, FAILED=0
 
-echo ========================================
-echo  KaiWu Office Suite V1.0 - Installer Verification
-echo  Target: Windows 7 SP1 64-bit
-echo ========================================
-echo.
+if not exist "manifest\SHA256SUMS.txt" (
+  echo [FAIL] Missing manifest\SHA256SUMS.txt
+  exit /b 1
+)
+if not exist "packages\raw" (
+  echo [FAIL] Missing packages\raw directory
+  exit /b 1
+)
+where certutil >nul 2>&1
+if errorlevel 1 (
+  echo [FAIL] certutil is unavailable
+  exit /b 1
+)
 
-REM Find Python (优先 Python 3.14, 退回 py)
-where python >nul 2>&1
-if %errorLevel% equ 0 (
-    set "PY=python"
-) else (
-    where py >nul 2>&1
-    if %errorLevel% equ 0 (
-        set "PY=py -3"
+for /f "usebackq tokens=1,2" %%A in ("manifest\SHA256SUMS.txt") do (
+  set "EXPECTED=%%A"
+  set "NAME=%%B"
+  if not "!EXPECTED:~0,1!"=="#" if not "!EXPECTED!"=="" (
+    set /a TOTAL+=1
+    if not exist "packages\raw\!NAME!" (
+      echo [MISSING] !NAME!
+      echo [MISSING] !NAME!>>"!LOG_FILE!"
+      set /a FAILED+=1
     ) else (
-        echo [FAIL] Python not found in PATH
-        echo [%date% %time%] FAIL: Python missing >> "%LOG_FILE%"
-        exit /b 1
+      set "ACTUAL="
+      for /f "skip=1 tokens=* delims=" %%H in ('certutil -hashfile "packages\raw\!NAME!" SHA256 2^>nul') do if not defined ACTUAL set "ACTUAL=%%H"
+      set "ACTUAL=!ACTUAL: =!"
+      if /i "!ACTUAL!"=="!EXPECTED!" (
+        echo [OK] !NAME!
+        set /a OK+=1
+      ) else (
+        echo [FAIL] !NAME!
+        echo   expected: !EXPECTED!
+        echo   actual:   !ACTUAL!
+        echo [FAIL] !NAME! expected=!EXPECTED! actual=!ACTUAL!>>"!LOG_FILE!"
+        set /a FAILED+=1
+      )
     )
+  )
 )
 
-REM 调 Python 跑校验
-%PY% "%~dp0verify_installers.py" 2> "%LOG_FILE%.stderr"
-set "RC=%errorLevel%"
-
-REM 把 stderr 显示到控制台
-if exist "%LOG_FILE%.stderr" (
-    type "%LOG_FILE%.stderr"
-    del "%LOG_FILE%.stderr"
+echo Total: !TOTAL!  OK: !OK!  Failed: !FAILED!
+if !TOTAL! EQU 0 (
+  echo [FAIL] Manifest has no active entries
+  exit /b 1
 )
-
-echo.
-if %RC% neq 0 (
-    echo [FAIL] SHA256 verification FAILED - some installers corrupted or missing
-    echo [%date% %time%] FAIL: rc=%RC% >> "%LOG_FILE%"
-    exit /b 1
-)
-echo [PASS] All installers verified - SHA256 matches manifest
-echo [%date% %time%] PASS: all verified >> "%LOG_FILE%"
+if !FAILED! NEQ 0 exit /b 1
+echo [PASS] All manifest entries exist and match SHA256
 exit /b 0
