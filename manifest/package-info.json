@@ -69,7 +69,8 @@
       "feat: add read-only release_preflight.bat for handoff blocker checks",
       "test: regression suite now covers 31 non-destructive checks including release preflight guards",
       "feat: add report-only KexStepup SHA256 helper for release handoff",
-      "test: regression suite now covers 34 non-destructive checks including KexStepup hash helper guards"
+      "test: regression suite now covers 34 non-destructive checks including KexStepup hash helper guards",
+      "refactor: move runtime outputs under runtime directory and keep root Win7 entrypoints"
     ]
   },
   "components": {
@@ -102,13 +103,13 @@
     "agent": [
       {
         "name": "AionUI",
-        "version": "Win7验证版",
+        "version": "Win7待验证版",
         "required": true,
         "win7_compatible": "待验证"
       },
       {
         "name": "Hermes Desktop",
-        "version": "Win7验证版",
+        "version": "Win7待验证版",
         "required": true,
         "win7_compatible": "待验证"
       },

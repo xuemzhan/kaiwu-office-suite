@@ -3,7 +3,7 @@
     "version": "source:xuemzhan/Kaiwu pending Win7 validation",
     "name": "开悟插件",
     "description": "WPS AI 插件配置占位；来源参考 xuemzhan/Kaiwu，因上游标注 Windows 10/11 与 WPS 12.1.0.26375+，本套件 Win7 SP1 兼容性待验证。",
-    "log_path": "logs\\wps_addon.log",
+    "log_path": "runtime/logs/wps_addon.log",
     "features": [
       "帮我写",
       "帮我改",

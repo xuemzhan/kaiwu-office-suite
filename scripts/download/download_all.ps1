@@ -12,7 +12,7 @@
 param(
     [string]$ManifestPath = "manifest/software-lock.yaml",
     [string]$OutputDir = "packages/raw",
-    [string]$LogDir = "logs",
+    [string]$LogDir = "runtime\logs",
     [switch]$Force,
     [switch]$DryRun
 )

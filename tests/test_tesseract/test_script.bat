@@ -4,9 +4,9 @@ REM Purpose: Test Tesseract OCR functionality
 REM Platform: Windows 7 SP1 64-bit
 
 setlocal enabledelayedexpansion
-REM È·±£ÈÕÖ¾ÓëÊä³öÄ¿Â¼´æÔÚ(2026-07-07 ÐÞ¸´: ´ËÇ°È±Ê§ mkdir µ¼ÖÂ 14 ¸ö log ¶ÏÑÔÈ« FAIL)
-if not exist "logs" mkdir "logs"
-if not exist "results" mkdir "results"
+REM È·ï¿½ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿Â¼ï¿½ï¿½ï¿½ï¿½(2026-07-07 ï¿½Þ¸ï¿½: ï¿½ï¿½Ç°È±Ê§ mkdir ï¿½ï¿½ï¿½ï¿½ 14 ï¿½ï¿½ log ï¿½ï¿½ï¿½ï¿½È« FAIL)
+if not exist "runtime\logs" mkdir "runtime\logs"
+if not exist "runtime\results" mkdir "runtime\results"
 set "IMAGE_PATH=%~1"
 set "LANGUAGE=%~2"
 set "OUTPUT_FORMAT=%~3"
@@ -22,11 +22,11 @@ if "%IMAGE_PATH%"=="" (
 
 if "%LANGUAGE%"=="" set "LANGUAGE=chi_sim+eng"
 if "%OUTPUT_FORMAT%"=="" set "OUTPUT_FORMAT=txt"
-if "%OUTPUT_FILE%"=="" set "OUTPUT_FILE=results\ocr_result.%OUTPUT_FORMAT%"
+if "%OUTPUT_FILE%"=="" set "OUTPUT_FILE=runtime\results\ocr_result.%OUTPUT_FORMAT%"
 
-if not exist "results" mkdir "results"
+if not exist "runtime\results" mkdir "runtime\results"
 
-echo [%date% %time%] Starting OCR: image=%IMAGE_PATH% lang=%LANGUAGE% >> "logs\tesseract_ocr.log"
+echo [%date% %time%] Starting OCR: image=%IMAGE_PATH% lang=%LANGUAGE% >> "runtime\logs\tesseract_ocr.log"
 
 REM Check Tesseract
 if not exist "C:\Program Files\Tesseract-OCR\tesseract.exe" (
@@ -37,17 +37,17 @@ if not exist "C:\Program Files\Tesseract-OCR\tesseract.exe" (
 
 REM Run OCR
 echo Running OCR...
-"C:\Program Files\Tesseract-OCR\tesseract.exe" "%IMAGE_PATH%" "results\temp_ocr" -l "%LANGUAGE%"
+"C:\Program Files\Tesseract-OCR\tesseract.exe" "%IMAGE_PATH%" "runtime\results\temp_ocr" -l "%LANGUAGE%"
 
 REM Check output
-if not exist "results\temp_ocr.txt" (
+if not exist "runtime\results\temp_ocr.txt" (
     echo [ERROR] OCR failed
     exit /b 1
 )
 
 REM Format output
 if "%OUTPUT_FORMAT%"=="txt" (
-    copy "results\temp_ocr.txt" "%OUTPUT_FILE%" >nul
+    copy "runtime\results\temp_ocr.txt" "%OUTPUT_FILE%" >nul
 ) else if "%OUTPUT_FORMAT%"=="md" (
     echo # OCR Result > "%OUTPUT_FILE%"
     echo. >> "%OUTPUT_FILE%"
@@ -57,7 +57,7 @@ if "%OUTPUT_FORMAT%"=="txt" (
     echo. >> "%OUTPUT_FILE%"
     echo ## Extracted Text >> "%OUTPUT_FILE%"
     echo. >> "%OUTPUT_FILE%"
-    type "results\temp_ocr.txt" >> "%OUTPUT_FILE%"
+    type "runtime\results\temp_ocr.txt" >> "%OUTPUT_FILE%"
 ) else if "%OUTPUT_FORMAT%"=="json" (
     echo { > "%OUTPUT_FILE%"
     echo   "ocr_info": { >> "%OUTPUT_FILE%"
@@ -67,17 +67,17 @@ if "%OUTPUT_FORMAT%"=="txt" (
     echo     "output_format": "%OUTPUT_FORMAT%" >> "%OUTPUT_FILE%"
     echo   }, >> "%OUTPUT_FILE%"
     echo   "content": " >> "%OUTPUT_FILE%"
-    powershell -Command "$content = Get-Content 'results\temp_ocr.txt' -Raw; $content = $content.Replace('\', '\\').Replace('"', '\"').Replace([char]13, '\r').Replace([char]10, '\n'); Write-Output $content" >> "%OUTPUT_FILE%"
+    powershell -Command "$content = Get-Content 'runtime\results\temp_ocr.txt' -Raw; $content = $content.Replace('\', '\\').Replace('"', '\"').Replace([char]13, '\r').Replace([char]10, '\n'); Write-Output $content" >> "%OUTPUT_FILE%"
     echo " >> "%OUTPUT_FILE%"
     echo } >> "%OUTPUT_FILE%"
 )
 
 REM Cleanup
-del "results\temp_ocr.txt" 2>nul
-del "results\temp_ocr.tsv" 2>nul
+del "runtime\results\temp_ocr.txt" 2>nul
+del "runtime\results\temp_ocr.tsv" 2>nul
 
 echo OCR result saved to: %OUTPUT_FILE%
 
-echo [%date% %time%] OCR complete: output=%OUTPUT_FILE% >> "logs\tesseract_ocr.log"
+echo [%date% %time%] OCR complete: output=%OUTPUT_FILE% >> "runtime\logs\tesseract_ocr.log"
 
 exit /b 0

@@ -1,4 +1,4 @@
-﻿# 开悟个体增智智能办公套件 V1.4.1
+# 开悟个体增智智能办公套件 V1.4.1
 
 面向 Windows 7 SP1 64 位的离线办公工具集成工程。V1.4.1 是修复审查问题后的工程候选版，尚需通过 Win7 实机验收后才能标记为正式发布。
 
@@ -45,6 +45,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tests\run_tests.ps1
 - `scripts/integration/`：本地工具调用脚本
 - `docs/`：安装、使用、维护、安全、上游来源审查、阻断清单和验收文档
 - `tests/`：非破坏性回归测试
+- `runtime/`：运行时生成目录，统一承载日志、报告、结果和状态；不进入 Git/正式 ZIP
 - `web-app/`：静态说明与路径导航，不具备浏览器直接启动本地程序的权限
 
 ## 已知限制
@@ -52,7 +53,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tests\run_tests.ps1
 - KexStepup 缺失时禁止正式打包和安装。
 - XMind 为可选组件，当前未随包交付。
 - WPS 总结、PPT 自动生成/排版、MCP/A2A 服务、端到端加密、自动备份和等保认证不属于当前已验证能力。
-- 上游实审记录见 `docs/09_上游来源审查报告.md`；交付前阻断项见 `docs/10_交付前阻断清单.md`。
+- 上游实审记录见 `docs/09_上游来源审查报告.md`；交付前阻断项见 `docs/10_交付前阻断清单.md`；目录规范见 `docs/11_工程目录规范.md`。
 - 三个内部制品缺少 Authenticode 签名，正式发布前须补充来源审批和恶意代码扫描记录。
 
 ## 版本

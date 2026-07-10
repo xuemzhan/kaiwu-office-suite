@@ -4,9 +4,9 @@ REM Purpose: Test Everything file search functionality
 REM Platform: Windows 7 SP1 64-bit
 
 setlocal enabledelayedexpansion
-REM È·±£ÈÕÖ¾ÓëÊä³öÄ¿Â¼´æÔÚ(2026-07-07 ÐÞ¸´: ´ËÇ°È±Ê§ mkdir µ¼ÖÂ 14 ¸ö log ¶ÏÑÔÈ« FAIL)
-if not exist "logs" mkdir "logs"
-if not exist "results" mkdir "results"
+REM È·ï¿½ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿Â¼ï¿½ï¿½ï¿½ï¿½(2026-07-07 ï¿½Þ¸ï¿½: ï¿½ï¿½Ç°È±Ê§ mkdir ï¿½ï¿½ï¿½ï¿½ 14 ï¿½ï¿½ log ï¿½ï¿½ï¿½ï¿½È« FAIL)
+if not exist "runtime\logs" mkdir "runtime\logs"
+if not exist "runtime\results" mkdir "runtime\results"
 set "KEYWORD=%~1"
 set "SEARCH_PATH=%~2"
 set "OUTPUT_FILE=%~3"
@@ -17,11 +17,11 @@ if "%KEYWORD%"=="" (
     exit /b 1
 )
 
-if "%OUTPUT_FILE%"=="" set "OUTPUT_FILE=results\file_search_result.json"
+if "%OUTPUT_FILE%"=="" set "OUTPUT_FILE=runtime\results\file_search_result.json"
 
-if not exist "results" mkdir "results"
+if not exist "runtime\results" mkdir "runtime\results"
 
-echo [%date% %time%] Starting search: keyword=%KEYWORD% path=%SEARCH_PATH% >> "logs\everything_search.log"
+echo [%date% %time%] Starting search: keyword=%KEYWORD% path=%SEARCH_PATH% >> "runtime\logs\everything_search.log"
 
 REM Check Everything service
 sc query "Everything" >nul 2>&1
@@ -33,10 +33,10 @@ if %errorLevel% neq 0 (
 REM Try es.exe first, fallback to PowerShell
 if exist "C:\Program Files\Everything\es.exe" (
     echo Using es.exe for search...
-    "C:\Program Files\Everything\es.exe" "%KEYWORD%" > "results\temp_search.txt"
+    "C:\Program Files\Everything\es.exe" "%KEYWORD%" > "runtime\results\temp_search.txt"
 ) else (
     echo [WARN] es.exe not found, using PowerShell
-    powershell -Command "Get-ChildItem -Path '%SEARCH_PATH%' -Recurse -Filter '*%KEYWORD%*' | Select-Object FullName, Length, LastWriteTime | ForEach-Object { '{0},{1},{2}' -f $_.FullName, $_.Length, $_.LastWriteTime }" > "results\temp_search.txt"
+    powershell -Command "Get-ChildItem -Path '%SEARCH_PATH%' -Recurse -Filter '*%KEYWORD%*' | Select-Object FullName, Length, LastWriteTime | ForEach-Object { '{0},{1},{2}' -f $_.FullName, $_.Length, $_.LastWriteTime }" > "runtime\results\temp_search.txt"
 )
 
 REM Generate JSON output
@@ -47,11 +47,11 @@ echo     "path": "%SEARCH_PATH%", >> "%OUTPUT_FILE%"
 echo     "timestamp": "%date% %time%", >> "%OUTPUT_FILE%"
 echo     "result_count": "%count%" >> "%OUTPUT_FILE%"
 echo   }, >> "%OUTPUT_FILE%"
-echo   "results": [ >> "%OUTPUT_FILE%"
+echo   "runtime\results": [ >> "%OUTPUT_FILE%"
 
 REM Process results
 set "count=0"
-for /f "tokens=*" %%i in ('type "results\temp_search.txt"') do (
+for /f "tokens=*" %%i in ('type "runtime\results\temp_search.txt"') do (
     if !count! gtr 0 echo , >> "%OUTPUT_FILE%"
     echo     { >> "%OUTPUT_FILE%"
     echo       "path": "%%i" >> "%OUTPUT_FILE%"
@@ -63,11 +63,11 @@ echo   ] >> "%OUTPUT_FILE%"
 echo } >> "%OUTPUT_FILE%"
 
 REM Cleanup
-del "results\temp_search.txt" 2>nul
+del "runtime\results\temp_search.txt" 2>nul
 
 echo Search results saved to: %OUTPUT_FILE%
 echo Total results: %count%
 
-echo [%date% %time%] Search complete: results_count=%count% >> "logs\everything_search.log"
+echo [%date% %time%] Search complete: results_count=%count% >> "runtime\logs\everything_search.log"
 
 exit /b 0

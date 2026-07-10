@@ -11,12 +11,12 @@ echo Platform: Windows 7 SP1 64-bit
 echo ========================================
 echo.
 
-if not exist "logs" mkdir "logs"
-if not exist "reports" mkdir "reports"
+if not exist "runtime\logs" mkdir "runtime\logs"
+if not exist "runtime\reports" mkdir "runtime\reports"
 REM Locale-stable ISO timestamp via wmic
 for /f "tokens=2 delims==" %%i in ('wmic os get localdatetime /value 2^>nul') do set "_DT=%%i"
-set "LOG_FILE=logs\check_%_DT:~0,8%_%_DT:~8,6%.log"
-set "REPORT_FILE=reports\check_report_%_DT:~0,8%_%_DT:~8,6%.md"
+set "LOG_FILE=runtime\logs\check_%_DT:~0,8%_%_DT:~8,6%.log"
+set "REPORT_FILE=runtime\reports\check_report_%_DT:~0,8%_%_DT:~8,6%.md"
 
 echo Log file: %LOG_FILE%
 echo Report: %REPORT_FILE%
@@ -122,7 +122,7 @@ if exist "scripts\integration\tool_registry.json" (
 )
 
 echo [14/14] Checking log directory...
-if exist "logs" (
+if exist "runtime\logs" (
     echo [PASS] Log directory exists
     echo [PASS] Log directory exists >> "%REPORT_FILE%"
 ) else (

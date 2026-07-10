@@ -1,127 +1,127 @@
 @echo off
-REM Agent×é¼þÐ¶ÔØ½Å±¾
-REM ¹¦ÄÜ: Ð¶ÔØAionUI¡¢Hermes Desktop¡¢OpenCode
-REM Ä¿±ê»·¾³: Windows 7 SP1 64Î»
-REM Éú³ÉÊ±¼ä: 2026-06-17
+REM Agentï¿½ï¿½ï¿½Ð¶ï¿½Ø½Å±ï¿½
+REM ï¿½ï¿½ï¿½ï¿½: Ð¶ï¿½ï¿½AionUIï¿½ï¿½Hermes Desktopï¿½ï¿½OpenCode
+REM Ä¿ï¿½ê»·ï¿½ï¿½: Windows 7 SP1 64Î»
+REM ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½: 2026-06-17
 
 setlocal enabledelayedexpansion
 
-REM ÉèÖÃÈÕÖ¾ÎÄ¼þ
-set "LOG_FILE=logs\uninstall_agent_%date:~0,4%%date:~5,2%%date:~8,2%_%time:~0,2%%time:~3,2%.log"
-if not exist "logs" mkdir "logs"
+REM ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾ï¿½Ä¼ï¿½
+set "LOG_FILE=runtime\logs\uninstall_agent_%date:~0,4%%date:~5,2%%date:~8,2%_%time:~0,2%%time:~3,2%.log"
+if not exist "runtime\logs" mkdir "runtime\logs"
 
-echo [%date% %time%] ¿ªÊ¼Ð¶ÔØAgent×é¼þ >> "%LOG_FILE%"
+echo [%date% %time%] ï¿½ï¿½Ê¼Ð¶ï¿½ï¿½Agentï¿½ï¿½ï¿½ >> "%LOG_FILE%"
 
-REM ¼ì²é¹ÜÀíÔ±È¨ÏÞ
+REM ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô±È¨ï¿½ï¿½
 net session >nul 2>&1
 if %errorLevel% neq 0 (
-    echo [´íÎó] ÐèÒª¹ÜÀíÔ±È¨ÏÞÔËÐÐ´Ë½Å±¾
-    echo [´íÎó] ÇëÓÒ¼üµã»÷"ÒÔ¹ÜÀíÔ±Éí·ÝÔËÐÐ"
-    echo [%date% %time%] ´íÎó: È±ÉÙ¹ÜÀíÔ±È¨ÏÞ >> "%LOG_FILE%"
+    echo [ï¿½ï¿½ï¿½ï¿½] ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½Ô±È¨ï¿½ï¿½ï¿½ï¿½ï¿½Ð´Ë½Å±ï¿½
+    echo [ï¿½ï¿½ï¿½ï¿½] ï¿½ï¿½ï¿½Ò¼ï¿½ï¿½ï¿½ï¿½"ï¿½Ô¹ï¿½ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"
+    echo [%date% %time%] ï¿½ï¿½ï¿½ï¿½: È±ï¿½Ù¹ï¿½ï¿½ï¿½Ô±È¨ï¿½ï¿½ >> "%LOG_FILE%"
     exit /b 1
 )
 
-echo [ÐÅÏ¢] ¼ì²éµ½¹ÜÀíÔ±È¨ÏÞ >> "%LOG_FILE%"
+echo [ï¿½ï¿½Ï¢] ï¿½ï¿½éµ½ï¿½ï¿½ï¿½ï¿½Ô±È¨ï¿½ï¿½ >> "%LOG_FILE%"
 
-REM ÉèÖÃÐ¶ÔØÄ¿Â¼
+REM ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½ï¿½Ä¿Â¼
 set "INSTALL_DIR=%~dp0..\.."
 
-REM 1. Ð¶ÔØ AionUI
-echo [ÐÅÏ¢] Ð¶ÔØ AionUI...
-echo [%date% %time%] Ð¶ÔØ AionUI >> "%LOG_FILE%"
+REM 1. Ð¶ï¿½ï¿½ AionUI
+echo [ï¿½ï¿½Ï¢] Ð¶ï¿½ï¿½ AionUI...
+echo [%date% %time%] Ð¶ï¿½ï¿½ AionUI >> "%LOG_FILE%"
 
 set "AIONUI_EXE=%INSTALL_DIR%\packages\raw\01_agent\AionUI.exe"
 if exist "%AIONUI_EXE%" (
-    echo [ÐÅÏ¢] ÕÒµ½AionUI: %AIONUI_EXE%
-    echo [%date% %time%] ÕÒµ½AionUI: %AIONUI_EXE% >> "%LOG_FILE%"
+    echo [ï¿½ï¿½Ï¢] ï¿½Òµï¿½AionUI: %AIONUI_EXE%
+    echo [%date% %time%] ï¿½Òµï¿½AionUI: %AIONUI_EXE% >> "%LOG_FILE%"
     
-    REM É¾³ýAionUI¿ÉÖ´ÐÐÎÄ¼þ
+    REM É¾ï¿½ï¿½AionUIï¿½ï¿½Ö´ï¿½ï¿½ï¿½Ä¼ï¿½
     del /f "%AIONUI_EXE%" >nul 2>&1
     if %errorLevel% equ 0 (
-        echo [³É¹¦] AionUI Ð¶ÔØÍê³É
-        echo [%date% %time%] AionUI Ð¶ÔØÍê³É >> "%LOG_FILE%"
+        echo [ï¿½É¹ï¿½] AionUI Ð¶ï¿½ï¿½ï¿½ï¿½ï¿½
+        echo [%date% %time%] AionUI Ð¶ï¿½ï¿½ï¿½ï¿½ï¿½ >> "%LOG_FILE%"
     ) else (
-        echo [´íÎó] AionUI Ð¶ÔØÊ§°Ü
-        echo [%date% %time%] AionUI Ð¶ÔØÊ§°Ü >> "%LOG_FILE%"
+        echo [ï¿½ï¿½ï¿½ï¿½] AionUI Ð¶ï¿½ï¿½Ê§ï¿½ï¿½
+        echo [%date% %time%] AionUI Ð¶ï¿½ï¿½Ê§ï¿½ï¿½ >> "%LOG_FILE%"
     )
 ) else (
-    echo [¾¯¸æ] Î´ÕÒµ½AionUI
-    echo [%date% %time%] ¾¯¸æ: Î´ÕÒµ½AionUI >> "%LOG_FILE%"
+    echo [ï¿½ï¿½ï¿½ï¿½] Î´ï¿½Òµï¿½AionUI
+    echo [%date% %time%] ï¿½ï¿½ï¿½ï¿½: Î´ï¿½Òµï¿½AionUI >> "%LOG_FILE%"
 )
 
-REM 2. Ð¶ÔØ Hermes Desktop
-echo [ÐÅÏ¢] Ð¶ÔØ Hermes Desktop...
-echo [%date% %time%] Ð¶ÔØ Hermes Desktop >> "%LOG_FILE%"
+REM 2. Ð¶ï¿½ï¿½ Hermes Desktop
+echo [ï¿½ï¿½Ï¢] Ð¶ï¿½ï¿½ Hermes Desktop...
+echo [%date% %time%] Ð¶ï¿½ï¿½ Hermes Desktop >> "%LOG_FILE%"
 
 set "HERMES_EXE=%INSTALL_DIR%\packages\raw\01_agent\HermesDesktop.exe"
 if exist "%HERMES_EXE%" (
-    echo [ÐÅÏ¢] ÕÒµ½Hermes Desktop: %HERMES_EXE%
-    echo [%date% %time%] ÕÒµ½Hermes Desktop: %HERMES_EXE% >> "%LOG_FILE%"
+    echo [ï¿½ï¿½Ï¢] ï¿½Òµï¿½Hermes Desktop: %HERMES_EXE%
+    echo [%date% %time%] ï¿½Òµï¿½Hermes Desktop: %HERMES_EXE% >> "%LOG_FILE%"
     
-    REM É¾³ýHermes Desktop¿ÉÖ´ÐÐÎÄ¼þ
+    REM É¾ï¿½ï¿½Hermes Desktopï¿½ï¿½Ö´ï¿½ï¿½ï¿½Ä¼ï¿½
     del /f "%HERMES_EXE%" >nul 2>&1
     if %errorLevel% equ 0 (
-        echo [³É¹¦] Hermes Desktop Ð¶ÔØÍê³É
-        echo [%date% %time%] Hermes Desktop Ð¶ÔØÍê³É >> "%LOG_FILE%"
+        echo [ï¿½É¹ï¿½] Hermes Desktop Ð¶ï¿½ï¿½ï¿½ï¿½ï¿½
+        echo [%date% %time%] Hermes Desktop Ð¶ï¿½ï¿½ï¿½ï¿½ï¿½ >> "%LOG_FILE%"
     ) else (
-        echo [´íÎó] Hermes Desktop Ð¶ÔØÊ§°Ü
-        echo [%date% %time%] Hermes Desktop Ð¶ÔØÊ§°Ü >> "%LOG_FILE%"
+        echo [ï¿½ï¿½ï¿½ï¿½] Hermes Desktop Ð¶ï¿½ï¿½Ê§ï¿½ï¿½
+        echo [%date% %time%] Hermes Desktop Ð¶ï¿½ï¿½Ê§ï¿½ï¿½ >> "%LOG_FILE%"
     )
 ) else (
-    echo [¾¯¸æ] Î´ÕÒµ½Hermes Desktop
-    echo [%date% %time%] ¾¯¸æ: Î´ÕÒµ½Hermes Desktop >> "%LOG_FILE%"
+    echo [ï¿½ï¿½ï¿½ï¿½] Î´ï¿½Òµï¿½Hermes Desktop
+    echo [%date% %time%] ï¿½ï¿½ï¿½ï¿½: Î´ï¿½Òµï¿½Hermes Desktop >> "%LOG_FILE%"
 )
 
-REM 3. Ð¶ÔØ OpenCode
-echo [ÐÅÏ¢] Ð¶ÔØ OpenCode...
-echo [%date% %time%] Ð¶ÔØ OpenCode >> "%LOG_FILE%"
+REM 3. Ð¶ï¿½ï¿½ OpenCode
+echo [ï¿½ï¿½Ï¢] Ð¶ï¿½ï¿½ OpenCode...
+echo [%date% %time%] Ð¶ï¿½ï¿½ OpenCode >> "%LOG_FILE%"
 
 set "OPENCODE_EXE=%INSTALL_DIR%\packages\raw\01_agent\OpenCode.exe"
 if exist "%OPENCODE_EXE%" (
-    echo [ÐÅÏ¢] ÕÒµ½OpenCode: %OPENCODE_EXE%
-    echo [%date% %time%] ÕÒµ½OpenCode: %OPENCODE_EXE% >> "%LOG_FILE%"
+    echo [ï¿½ï¿½Ï¢] ï¿½Òµï¿½OpenCode: %OPENCODE_EXE%
+    echo [%date% %time%] ï¿½Òµï¿½OpenCode: %OPENCODE_EXE% >> "%LOG_FILE%"
     
-    REM É¾³ýOpenCode¿ÉÖ´ÐÐÎÄ¼þ
+    REM É¾ï¿½ï¿½OpenCodeï¿½ï¿½Ö´ï¿½ï¿½ï¿½Ä¼ï¿½
     del /f "%OPENCODE_EXE%" >nul 2>&1
     if %errorLevel% equ 0 (
-        echo [³É¹¦] OpenCode Ð¶ÔØÍê³É
-        echo [%date% %time%] OpenCode Ð¶ÔØÍê³É >> "%LOG_FILE%"
+        echo [ï¿½É¹ï¿½] OpenCode Ð¶ï¿½ï¿½ï¿½ï¿½ï¿½
+        echo [%date% %time%] OpenCode Ð¶ï¿½ï¿½ï¿½ï¿½ï¿½ >> "%LOG_FILE%"
     ) else (
-        echo [´íÎó] OpenCode Ð¶ÔØÊ§°Ü
-        echo [%date% %time%] OpenCode Ð¶ÔØÊ§°Ü >> "%LOG_FILE%"
+        echo [ï¿½ï¿½ï¿½ï¿½] OpenCode Ð¶ï¿½ï¿½Ê§ï¿½ï¿½
+        echo [%date% %time%] OpenCode Ð¶ï¿½ï¿½Ê§ï¿½ï¿½ >> "%LOG_FILE%"
     )
 ) else (
-    echo [¾¯¸æ] Î´ÕÒµ½OpenCode
-    echo [%date% %time%] ¾¯¸æ: Î´ÕÒµ½OpenCode >> "%LOG_FILE%"
+    echo [ï¿½ï¿½ï¿½ï¿½] Î´ï¿½Òµï¿½OpenCode
+    echo [%date% %time%] ï¿½ï¿½ï¿½ï¿½: Î´ï¿½Òµï¿½OpenCode >> "%LOG_FILE%"
 )
 
-REM 4. ÇåÀíÅäÖÃÎÄ¼þ
-echo [ÐÅÏ¢] ÇåÀíÅäÖÃÎÄ¼þ...
-echo [%date% %time%] ÇåÀíÅäÖÃÎÄ¼þ >> "%LOG_FILE%"
+REM 4. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½
+echo [ï¿½ï¿½Ï¢] ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½...
+echo [%date% %time%] ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ >> "%LOG_FILE%"
 
 set "CONFIG_DIRS=config\aionui config\hermes config\opencode"
 for %%d in (%CONFIG_DIRS%) do (
     if exist "%INSTALL_DIR%\%%d" (
         rmdir /s /q "%INSTALL_DIR%\%%d" >nul 2>&1
-        echo [ÐÅÏ¢] ÒÑÇåÀí: %%d
-        echo [%date% %time%] ÒÑÇåÀí: %%d >> "%LOG_FILE%"
+        echo [ï¿½ï¿½Ï¢] ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: %%d
+        echo [%date% %time%] ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: %%d >> "%LOG_FILE%"
     )
 )
 
-REM 5. ÇåÀíÈÕÖ¾ÎÄ¼þ
-echo [ÐÅÏ¢] ÇåÀíÈÕÖ¾ÎÄ¼þ...
-echo [%date% %time%] ÇåÀíÈÕÖ¾ÎÄ¼þ >> "%LOG_FILE%"
+REM 5. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾ï¿½Ä¼ï¿½
+echo [ï¿½ï¿½Ï¢] ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾ï¿½Ä¼ï¿½...
+echo [%date% %time%] ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾ï¿½Ä¼ï¿½ >> "%LOG_FILE%"
 
-set "LOG_DIRS=logs\aionui logs\hermes logs\opencode"
+set "LOG_DIRS=runtime\logs\aionui runtime\logs\hermes runtime\logs\opencode"
 for %%d in (%LOG_DIRS%) do (
     if exist "%INSTALL_DIR%\%%d" (
         rmdir /s /q "%INSTALL_DIR%\%%d" >nul 2>&1
-        echo [ÐÅÏ¢] ÒÑÇåÀí: %%d
-        echo [%date% %time%] ÒÑÇåÀí: %%d >> "%LOG_FILE%"
+        echo [ï¿½ï¿½Ï¢] ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: %%d
+        echo [%date% %time%] ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: %%d >> "%LOG_FILE%"
     )
 )
 
-echo [%date% %time%] Agent×é¼þÐ¶ÔØÍê³É >> "%LOG_FILE%"
-echo [ÐÅÏ¢] Ð¶ÔØÍê³É£¬Çë²é¿´ÈÕÖ¾ÎÄ¼þ: %LOG_FILE%
+echo [%date% %time%] Agentï¿½ï¿½ï¿½Ð¶ï¿½ï¿½ï¿½ï¿½ï¿½ >> "%LOG_FILE%"
+echo [ï¿½ï¿½Ï¢] Ð¶ï¿½ï¿½ï¿½ï¿½É£ï¿½ï¿½ï¿½é¿´ï¿½ï¿½Ö¾ï¿½Ä¼ï¿½: %LOG_FILE%
 
 exit /b 0

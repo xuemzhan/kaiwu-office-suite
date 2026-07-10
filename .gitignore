@@ -1,4 +1,4 @@
-﻿# 避免发包被上传
+# 避免发包被上传
 installers/
 packages/raw/
 
@@ -50,3 +50,5 @@ kaiwu-office-suite-v*.zip.sha256
 # Upstream audit scratch space
 .upstream-audit/
 upstream-audit/
+# Runtime output
+runtime/

@@ -4,8 +4,8 @@ REM Windows 7 SP1 compatible: uses built-in certutil, no Python dependency.
 setlocal EnableExtensions EnableDelayedExpansion
 chcp 936 >nul 2>&1
 cd /d "%~dp0"
-if not exist "logs" mkdir "logs"
-set "LOG_FILE=logs\verify_installers_%RANDOM%.log"
+if not exist "runtime\logs" mkdir "runtime\logs"
+set "LOG_FILE=runtime\logs\verify_installers_%RANDOM%.log"
 set /a TOTAL=0, OK=0, FAILED=0
 
 if not exist "manifest\SHA256SUMS.txt" (

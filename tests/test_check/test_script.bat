@@ -7,8 +7,8 @@ setlocal enabledelayedexpansion
 
 REM Locale-stable ISO timestamp via wmic (avoid 12h " AM/PM" and locale-dependent %date% formats)
 for /f "tokens=2 delims==" %%i in ('wmic os get localdatetime /value 2^>nul') do set "_DT=%%i"
-set "LOG_FILE=logs\check_agent_%_DT:~0,8%_%_DT:~8,6%.log"
-if not exist "logs" mkdir "logs"
+set "LOG_FILE=runtime\logs\check_agent_%_DT:~0,8%_%_DT:~8,6%.log"
+if not exist "runtime\logs" mkdir "runtime\logs"
 
 echo [%date% %time%] Starting Agent component check >> "%LOG_FILE%"
 

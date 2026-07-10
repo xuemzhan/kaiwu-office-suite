@@ -22,7 +22,7 @@ if (-not (Test-Path $OutputDir)) {
 }
 
 # 日志文件
-$LogFile = "logs/download_one_$(Get-Date -Format 'yyyyMMdd_HHmmss').log"
+$LogFile = "runtime/logs/download_one_$(Get-Date -Format 'yyyyMMdd_HHmmss').log"
 
 function Write-Log {
     param([string]$Message, [string]$Level = "INFO")

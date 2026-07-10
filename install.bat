@@ -38,16 +38,16 @@ if %errorLevel% equ 0 (
 )
 
 REM Create log directory
-if not exist "logs" mkdir "logs"
-set "LOG_FILE=logs\install_%date:~0,4%%date:~5,2%%date:~8,2%_%time:~0,2%%time:~3,2%.log"
+if not exist "runtime\logs" mkdir "runtime\logs"
+set "LOG_FILE=runtime\logs\install_%date:~0,4%%date:~5,2%%date:~8,2%_%time:~0,2%%time:~3,2%.log"
 echo Install log: %LOG_FILE%
 echo [%date% %time%] install started > "%LOG_FILE%"
 
 REM Create state directory
-if not exist "state" mkdir "state"
-echo {"status": "installing", "start_time": "%date% %time%"} > "state\install_state.json"
+if not exist "runtime\state" mkdir "runtime\state"
+echo {"status": "installing", "start_time": "%date% %time%"} > "runtime\state\install_state.json"
 
-REM V1.4.1: install Æô¶¯Ê§°Ü¼ÆÊý + missing ¼ÆÊý
+REM V1.4.1: install ï¿½ï¿½ï¿½ï¿½Ê§ï¿½Ü¼ï¿½ï¿½ï¿½ + missing ï¿½ï¿½ï¿½ï¿½
 set "INSTALL_FAILED=0"
 set "INSTALL_MISSING=0"
 
@@ -57,7 +57,7 @@ call verify_installers.bat
 set "STEP_RC=!errorLevel!"
     if not "!STEP_RC!"=="0" if not "!STEP_RC!"=="3010" (
     echo [FAIL] SHA256 verification failed - install aborted
-    echo See logs\verify_installers_*.log for details
+    echo See runtime\logs\verify_installers_*.log for details
     pause
     exit /b 1
 )
@@ -308,13 +308,13 @@ if exist "packages\raw\XMind-23.11.exe" (
 
 echo [16/19] Initializing directories...
 if not exist "config" mkdir "config"
-if not exist "logs" mkdir "logs"
-if not exist "state" mkdir "state"
+if not exist "runtime\logs" mkdir "runtime\logs"
+if not exist "runtime\state" mkdir "runtime\state"
 REM installed state is written only after final verification
 echo Directories initialized
 
 echo [17/19] Creating desktop shortcuts...
-set "STARTMENU_DIR=%APPDATA%\Microsoft\Windows\Start Menu\Programs\¿ªÎò¸öÌåÔöÖÇ°ì¹«Ì×¼þ"
+set "STARTMENU_DIR=%APPDATA%\Microsoft\Windows\Start Menu\Programs\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç°ì¹«ï¿½×¼ï¿½"
 if not exist "%STARTMENU_DIR%" mkdir "%STARTMENU_DIR%"
 
 if exist "packages\raw\WPS_Setup_26895.exe" (
@@ -327,7 +327,7 @@ if exist "packages\raw\WPS_Setup_26895.exe" (
 )
 
 if exist "check.bat" (
-    powershell -command "$WS = New-Object -ComObject WScript.Shell; $SC = $WS.CreateShortcut('%STARTMENU_DIR%\ÏµÍ³¼ì²â.lnk'); $SC.TargetPath = '%~dp0check.bat'; $SC.Save()"
+    powershell -command "$WS = New-Object -ComObject WScript.Shell; $SC = $WS.CreateShortcut('%STARTMENU_DIR%\ÏµÍ³ï¿½ï¿½ï¿½.lnk'); $SC.TargetPath = '%~dp0check.bat'; $SC.Save()"
     echo [PASS] check.bat shortcut created
     set /a PASS_COUNT+=1
 ) else (
@@ -336,7 +336,7 @@ if exist "check.bat" (
 )
 
 if exist "repair.bat" (
-    powershell -command "$WS = New-Object -ComObject WScript.Shell; $SC = $WS.CreateShortcut('%STARTMENU_DIR%\ÏµÍ³ÐÞ¸´.lnk'); $SC.TargetPath = '%~dp0repair.bat'; $SC.Save()"
+    powershell -command "$WS = New-Object -ComObject WScript.Shell; $SC = $WS.CreateShortcut('%STARTMENU_DIR%\ÏµÍ³ï¿½Þ¸ï¿½.lnk'); $SC.TargetPath = '%~dp0repair.bat'; $SC.Save()"
     echo [PASS] repair.bat shortcut created
     set /a PASS_COUNT+=1
 ) else (
@@ -346,10 +346,10 @@ if exist "repair.bat" (
 
 echo Shortcuts created
 echo [18/19] Creating start menu entry...
-set "STARTMENU_DIR=%APPDATA%\Microsoft\Windows\Start Menu\Programs\¿ªÎò¸öÌåÔöÖÇ°ì¹«Ì×¼þ"
+set "STARTMENU_DIR=%APPDATA%\Microsoft\Windows\Start Menu\Programs\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç°ì¹«ï¿½×¼ï¿½"
 if not exist "%STARTMENU_DIR%" mkdir "%STARTMENU_DIR%"
-echo # ¿ªÎò¸öÌåÔöÖÇ°ì¹«Ì×¼þ V1.4.1 > "%STARTMENU_DIR%\Ê¹ÓÃËµÃ÷.url"
-echo URL=file:///%~dp0docs\02_ÓÃ»§Ê¹ÓÃÊÖ²á.md >> "%STARTMENU_DIR%\Ê¹ÓÃËµÃ÷.url"
+echo # ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç°ì¹«ï¿½×¼ï¿½ V1.4.1 > "%STARTMENU_DIR%\Ê¹ï¿½ï¿½Ëµï¿½ï¿½.url"
+echo URL=file:///%~dp0docs\02_ï¿½Ã»ï¿½Ê¹ï¿½ï¿½ï¿½Ö²ï¿½.md >> "%STARTMENU_DIR%\Ê¹ï¿½ï¿½Ëµï¿½ï¿½.url"
 echo Start menu entry created
 
 echo [19/19] Verifying installation...
@@ -386,18 +386,18 @@ echo   INSTALL_FAILED: %INSTALL_FAILED% (launch failed)
 echo   INSTALL_MISSING: %INSTALL_MISSING% (not found)
 echo   VERIFY_FAILED: %VERIFY_FAILED% (verify failed)
 if "%INSTALL_FAILED%" neq "0" (
-    echo [WARN] %INSTALL_FAILED% installers failed to launch - check logs\install_*.log
+    echo [WARN] %INSTALL_FAILED% installers failed to launch - check runtime\logs\install_*.log
 )
 if not "%INSTALL_FAILED%"=="0" set "VERIFY_FAILED=1"
 if "%VERIFY_FAILED%"=="1" (
     echo [FAIL] Installation verification failed - check log
-    echo {"status":"failed","end_time":"%date% %time%","failed":%INSTALL_FAILED%,"missing":%INSTALL_MISSING%} > "state\install_state.json"
+    echo {"status":"failed","end_time":"%date% %time%","failed":%INSTALL_FAILED%,"missing":%INSTALL_MISSING%} > "runtime\state\install_state.json"
     echo [%date% %time%] FAIL failed=%INSTALL_FAILED% missing=%INSTALL_MISSING% >> "%LOG_FILE%"
     pause
     exit /b 1
 ) else (
     echo [PASS] Installation verification passed
-    echo {"status":"installed","end_time":"%date% %time%","failed":0,"missing_optional":%INSTALL_MISSING%} > "state\install_state.json"
+    echo {"status":"installed","end_time":"%date% %time%","failed":0,"missing_optional":%INSTALL_MISSING%} > "runtime\state\install_state.json"
     echo [%date% %time%] PASS missing_optional=%INSTALL_MISSING% >> "%LOG_FILE%"
 )
 
@@ -407,6 +407,6 @@ echo  KaiWu Office Suite V1.4.1 Install Complete
 echo ========================================
 echo.
 echo Install log: %LOG_FILE%
-echo User manual: see docs\02_ÓÃ»§Ê¹ÓÃÊÖ²á.md
+echo User manual: see docs\02_ï¿½Ã»ï¿½Ê¹ï¿½ï¿½ï¿½Ö²ï¿½.md
 echo.
 pause

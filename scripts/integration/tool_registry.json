@@ -8,9 +8,9 @@
         "keyword",
         "path"
       ],
-      "output": "results/file_search_result.json",
+      "output": "runtime/results/file_search_result.json",
       "need_admin": false,
-      "log": "logs/everything_search.log"
+      "log": "runtime/logs/everything_search.log"
     },
     {
       "name": "tesseract_ocr",
@@ -20,9 +20,9 @@
         "image_path",
         "language"
       ],
-      "output": "results/ocr_result.txt",
+      "output": "runtime/results/ocr_result.txt",
       "need_admin": false,
-      "log": "logs/tesseract_ocr.log"
+      "log": "runtime/logs/tesseract_ocr.log"
     },
     {
       "name": "wps_summary",
@@ -31,9 +31,9 @@
       "input": [
         "document_path"
       ],
-      "output": "results/summary.txt",
+      "output": "runtime/results/summary.txt",
       "need_admin": false,
-      "log": "logs/wps_summary.log",
+      "log": "runtime/logs/wps_summary.log",
       "experimental": true,
       "status_note": "V1.4.1: 上游来源为 xuemzhan/Kaiwu；上游要求 Windows 10/11 与 WPS 12.1.0.26375+，本套件目标 Win7 SP1 尚未完成兼容验证。脚本明确返回退出码2，不生成占位结果。",
       "status_note_v133": null,
@@ -49,9 +49,9 @@
         "content",
         "tags"
       ],
-      "output": "results/note_path.txt",
+      "output": "runtime/results/note_path.txt",
       "need_admin": false,
-      "log": "logs/obsidian_note.log"
+      "log": "runtime/logs/obsidian_note.log"
     },
     {
       "name": "xmind_outline",
@@ -61,9 +61,9 @@
         "topic",
         "subtopics"
       ],
-      "output": "results/outline.txt",
+      "output": "runtime/results/outline.txt",
       "need_admin": false,
-      "log": "logs/xmind_outline.log"
+      "log": "runtime/logs/xmind_outline.log"
     },
     {
       "name": "git_status",
@@ -72,9 +72,9 @@
       "input": [
         "repo_path"
       ],
-      "output": "results/git_status.txt",
+      "output": "runtime/results/git_status.txt",
       "need_admin": false,
-      "log": "logs/git_status.log"
+      "log": "runtime/logs/git_status.log"
     },
     {
       "name": "open_project_folder",
@@ -85,7 +85,7 @@
       ],
       "output": "",
       "need_admin": false,
-      "log": "logs/open_folder.log"
+      "log": "runtime/logs/open_folder.log"
     },
     {
       "name": "collect_context",
@@ -94,9 +94,9 @@
       "input": [
         "context_type"
       ],
-      "output": "results/context.json",
+      "output": "runtime/results/context.json",
       "need_admin": false,
-      "log": "logs/collect_context.log"
+      "log": "runtime/logs/collect_context.log"
     },
     {
       "name": "ocr_to_markdown",
@@ -106,9 +106,9 @@
         "image_path",
         "language"
       ],
-      "output": "results/ocr_result.md",
+      "output": "runtime/results/ocr_result.md",
       "need_admin": false,
-      "log": "logs/ocr_to_markdown.log"
+      "log": "runtime/logs/ocr_to_markdown.log"
     },
     {
       "name": "ocr_to_obsidian",
@@ -118,9 +118,9 @@
         "image_path",
         "language"
       ],
-      "output": "results/note_path.txt",
+      "output": "runtime/results/note_path.txt",
       "need_admin": false,
-      "log": "logs/ocr_to_obsidian.log"
+      "log": "runtime/logs/ocr_to_obsidian.log"
     },
     {
       "name": "ppt_workflow",
@@ -130,9 +130,9 @@
         "topic_or_input_dir",
         "output_dir"
       ],
-      "output": "results/ppt_workflow_status.txt",
+      "output": "runtime/results/ppt_workflow_status.txt",
       "need_admin": false,
-      "log": "logs/ppt_workflow.log",
+      "log": "runtime/logs/ppt_workflow.log",
       "experimental": true,
       "shipped": false,
       "upstream_source": "https://github.com/xuemzhan/ppt-workflow",

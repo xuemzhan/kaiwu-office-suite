@@ -5,7 +5,7 @@
     "tessdata_path": "C:\\Program Files\\Tesseract-OCR\\tessdata",
     "languages": ["chi_sim", "eng"],
     "default_language": "chi_sim+eng",
-    "log_path": "logs\\tesseract.log",
+    "log_path": "runtime/logs/tesseract.log",
     "output_formats": ["txt", "md", "json"],
     "ocr_settings": {
       "page_segmentation_mode": 3,

@@ -1,4 +1,4 @@
-﻿# KaiWu Office Suite V1.4.1 non-destructive regression tests
+# KaiWu Office Suite V1.4.1 non-destructive regression tests
 # Compatible with Windows PowerShell 2.0+ on Windows 7 SP1.
 $ErrorActionPreference = 'Continue'
 $base = if ($env:KAIWU_BASE) { $env:KAIWU_BASE } else { (Get-Location).Path }
@@ -51,25 +51,25 @@ function Assert-Json([string]$name, [string]$path) {
 }
 
 foreach ($f in @('context.json','outline.txt','note_path.txt','git_status.txt','file_search_result.json')) {
-    Remove-Item (Join-Path $base ('results\' + $f)) -Force -ErrorAction SilentlyContinue
+    Remove-Item (Join-Path $base ('runtime\results\' + $f)) -Force -ErrorAction SilentlyContinue
 }
 
 $r = Run-Bat 'scripts\integration\collect_context.bat' ''
 Assert-Exit 'collect_context exits 0' $r 0
-Assert-File 'collect_context creates output' (Join-Path $base 'results\context.json')
-Assert-Json 'collect_context JSON' (Join-Path $base 'results\context.json')
+Assert-File 'collect_context creates output' (Join-Path $base 'runtime\results\context.json')
+Assert-Json 'collect_context JSON' (Join-Path $base 'runtime\results\context.json')
 
 $r = Run-Bat 'scripts\integration\call_xmind_outline.bat' ''
 Assert-Exit 'xmind rejects missing topic' $r 1
 $r = Run-Bat 'scripts\integration\call_xmind_outline.bat' '"TestTopic" "Sub1,Sub2"'
 Assert-Exit 'xmind creates outline' $r 0
-Assert-File 'xmind output exists' (Join-Path $base 'results\outline.txt')
+Assert-File 'xmind output exists' (Join-Path $base 'runtime\results\outline.txt')
 
 $r = Run-Bat 'scripts\integration\call_obsidian_note.bat' ''
 Assert-Exit 'obsidian rejects missing title' $r 1
 $r = Run-Bat 'scripts\integration\call_obsidian_note.bat' '"TestNote"'
 Assert-Exit 'obsidian creates note' $r 0
-Assert-File 'obsidian output path exists' (Join-Path $base 'results\note_path.txt')
+Assert-File 'obsidian output path exists' (Join-Path $base 'runtime\results\note_path.txt')
 
 $r = Run-Bat 'scripts\integration\call_wps_summary.bat' ''
 Assert-Exit 'WPS summary rejects missing input' $r 1
@@ -86,13 +86,13 @@ New-Item -ItemType Directory -Path $gitRepo -Force | Out-Null
 & git -C $gitRepo init | Out-Null
 $r = Run-Bat 'scripts\integration\call_git_status.bat' ('"' + $gitRepo + '"')
 Assert-Exit 'git status accepts repository' $r 0
-Assert-File 'git status output exists' (Join-Path $base 'results\git_status.txt')
+Assert-File 'git status output exists' (Join-Path $base 'runtime\results\git_status.txt')
 
 $r = Run-Bat 'scripts\integration\call_everything_search.bat' ''
 Assert-Exit 'search rejects missing keyword' $r 1
 $r = Run-Bat 'scripts\integration\call_everything_search.bat' ('"README" "' + $base + '"')
 Assert-Exit 'search fallback succeeds' $r 0
-Assert-Json 'search JSON' (Join-Path $base 'results\file_search_result.json')
+Assert-Json 'search JSON' (Join-Path $base 'runtime\results\file_search_result.json')
 
 $r = Run-Bat 'scripts\integration\call_tesseract_ocr.bat' ''
 Assert-Exit 'OCR rejects missing input' $r 1
@@ -116,6 +116,18 @@ $kexHelperText = [IO.File]::ReadAllText((Join-Path $base 'scripts\admin\compute_
 Add-Result 'KexStepup helper uses certutil' ($kexHelperText -match 'certutil -hashfile') 'certutil SHA256 helper is present'
 Add-Result 'KexStepup helper is report-only' ($kexHelperText -match 'It does not edit manifests') 'helper is documented as report-only'
 
+
+# Static architecture gates
+$toolRegistryText = [IO.File]::ReadAllText((Join-Path $base 'scripts\integration\tool_registry.json'))
+Add-Result 'tool registry uses runtime results' ($toolRegistryText -match 'runtime/results/') 'outputs are under runtime/results'
+Add-Result 'tool registry uses runtime logs' ($toolRegistryText -match 'runtime/logs/') 'logs are under runtime/logs'
+$manifestText = [IO.File]::ReadAllText((Join-Path $base 'manifest\software-lock.yaml'))
+Add-Result 'manifest has no literal PowerShell newline token' (-not $manifestText.Contains('`r`n    download_source:')) 'no embedded `r`n before YAML key'
+$softwareLockMd = [IO.File]::ReadAllText((Join-Path $base 'manifest\software-lock.md'))
+Add-Result 'manifest avoids false Win7 verified labels' (-not ($manifestText -match 'Win7验证版|Win7验证通过') -and -not ($softwareLockMd -match 'Win7验证版|Win7验证通过')) 'unverified components are not labelled verified'
+$readmeText = [IO.File]::ReadAllText((Join-Path $base 'README.md'))
+Add-Result 'README documents runtime directory' ($readmeText -match 'runtime/') 'runtime output policy is documented'
+Add-Result 'directory standard exists' (Test-Path (Join-Path $base 'docs\11_*.md')) 'docs/11_*.md exists'
 $total = $passed + $failed
 $rate = if ($total) { [Math]::Round(100 * $passed / $total, 1) } else { 0 }
 Write-Host ("Total={0} Passed={1} Failed={2} Rate={3}%" -f $total,$passed,$failed,$rate)

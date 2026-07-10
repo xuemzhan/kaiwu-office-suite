@@ -8,8 +8,8 @@ REM Read-only helper: computes SHA256 and writes a report. It does not edit mani
 REM Windows 7 SP1 compatible: uses certutil.
 
 set "TARGET=packages\raw\KexStepup-setup.exe"
-set "REPORT=reports\kexstepup_hash_report.txt"
-if not exist reports mkdir reports >nul 2>nul
+set "REPORT=runtime\reports\kexstepup_hash_report.txt"
+if not exist "runtime\reports" mkdir "runtime\reports" >nul 2>nul
 
 if not exist "%TARGET%" (
   echo [MISSING] %TARGET%

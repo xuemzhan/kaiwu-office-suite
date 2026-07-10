@@ -7,8 +7,8 @@ setlocal enabledelayedexpansion
 
 REM Locale-stable ISO timestamp via wmic
 for /f "tokens=2 delims==" %%i in ('wmic os get localdatetime /value 2^>nul') do set "_DT=%%i"
-set "LOG_FILE=logs\install_runtime_%_DT:~0,8%_%_DT:~8,6%.log"
-if not exist "logs" mkdir "logs"
+set "LOG_FILE=runtime\logs\install_runtime_%_DT:~0,8%_%_DT:~8,6%.log"
+if not exist "runtime\logs" mkdir "runtime\logs"
 
 echo [%date% %time%] Starting runtime installation test >> "%LOG_FILE%"
 
@@ -36,7 +36,7 @@ if exist "%DOTNET_INSTALLER%" (
     echo [INFO] Found installer: %DOTNET_INSTALLER%
     echo [%date% %time%] Found installer: %DOTNET_INSTALLER% >> "%LOG_FILE%"
     
-    "%DOTNET_INSTALLER%" /quiet /norestart /log "%INSTALL_DIR%\logs\dotnet_install.log"
+    "%DOTNET_INSTALLER%" /quiet /norestart /log "%INSTALL_DIR%\runtime\logs\dotnet_install.log"
     
     if %errorLevel% equ 0 (
         echo [PASS] .NET Framework 4.8 installed

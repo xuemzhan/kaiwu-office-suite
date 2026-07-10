@@ -6,8 +6,8 @@ REM Created: 2026-07-09
 
 setlocal enabledelayedexpansion
 REM Ensure log and output directories exist
-if not exist "logs" mkdir "logs"
-if not exist "results" mkdir "results"
+if not exist "runtime\logs" mkdir "runtime\logs"
+if not exist "runtime\results" mkdir "runtime\results"
 
 REM Parse arguments
 set "IMAGE_PATH=%~1"
@@ -43,7 +43,7 @@ REM Build output file path
 set "OUTPUT_FILE=%VAULT_PATH%\03_OCR\%NOTE_TITLE%.md"
 
 REM Log start
-echo [%date% %time%] Start OCR to Obsidian: image=%IMAGE_PATH% lang=%LANGUAGE% title=%NOTE_TITLE% >> "logs\ocr_to_obsidian.log"
+echo [%date% %time%] Start OCR to Obsidian: image=%IMAGE_PATH% lang=%LANGUAGE% title=%NOTE_TITLE% >> "runtime\logs\ocr_to_obsidian.log"
 
 REM Check Tesseract is installed
 if not exist "C:\Program Files\Tesseract-OCR\tesseract.exe" (
@@ -54,10 +54,10 @@ if not exist "C:\Program Files\Tesseract-OCR\tesseract.exe" (
 
 REM Run OCR to temp file
 echo Recognizing image...
-"C:\Program Files\Tesseract-OCR\tesseract.exe" "%IMAGE_PATH%" "results\temp_ocr_obs" -l "%LANGUAGE%"
+"C:\Program Files\Tesseract-OCR\tesseract.exe" "%IMAGE_PATH%" "runtime\results\temp_ocr_obs" -l "%LANGUAGE%"
 
 REM Check OCR result
-if not exist "results\temp_ocr_obs.txt" (
+if not exist "runtime\results\temp_ocr_obs.txt" (
     echo [ERROR] OCR recognition failed
     exit /b 1
 )
@@ -85,7 +85,7 @@ REM Build Obsidian note with YAML frontmatter
     echo.
     echo ## Content
     echo.
-    type "results\temp_ocr_obs.txt"
+    type "runtime\results\temp_ocr_obs.txt"
     echo.
     echo.
     echo ## Actions
@@ -96,12 +96,12 @@ REM Build Obsidian note with YAML frontmatter
 ) > "%OUTPUT_FILE%"
 
 REM Cleanup temp files
-del "results\temp_ocr_obs.txt" 2>nul
-del "results\temp_ocr_obs.tsv" 2>nul
+del "runtime\results\temp_ocr_obs.txt" 2>nul
+del "runtime\results\temp_ocr_obs.tsv" 2>nul
 
 echo OCR to Obsidian complete. Note saved to: %OUTPUT_FILE%
 
 REM Log completion
-echo [%date% %time%] OCR to Obsidian complete: output=%OUTPUT_FILE% >> "logs\ocr_to_obsidian.log"
+echo [%date% %time%] OCR to Obsidian complete: output=%OUTPUT_FILE% >> "runtime\logs\ocr_to_obsidian.log"
 
 exit /b 0

@@ -11,11 +11,11 @@ set "PASS_COUNT=0"
 set "FAIL_COUNT=0"
 set "WARN_COUNT=0"
 
-if not exist logs mkdir logs >nul 2>nul
-if not exist reports mkdir reports >nul 2>nul
+if not exist "runtime\logs" mkdir "runtime\logs" >nul 2>nul
+if not exist "runtime\reports" mkdir "runtime\reports" >nul 2>nul
 set "STAMP=%RANDOM%_%RANDOM%"
-set "LOG_FILE=logs\check_%STAMP%.log"
-set "REPORT_FILE=reports\check_report_%STAMP%.md"
+set "LOG_FILE=runtime\logs\check_%STAMP%.log"
+set "REPORT_FILE=runtime\reports\check_report_%STAMP%.md"
 
 call :line "========================================"
 call :line "KaiWu Office Suite V1.4.1 health check"
@@ -118,7 +118,7 @@ call :line "[19/20] Checking KexStepup release blocker..."
 if exist "packages\raw\KexStepup-setup.exe" (call :pass "KexStepup" "installer exists") else (call :fail "KexStepup" "required installer missing; release/install must stay blocked")
 
 call :line "[20/20] Checking log/report directories..."
-if exist logs (if exist reports (call :pass "Logs and reports" "directories exist") else (call :fail "Logs and reports" "reports directory missing")) else (call :fail "Logs and reports" "logs directory missing")
+if exist "runtime\logs" (if exist "runtime\reports" (call :pass "Logs and reports" "directories exist") else (call :fail "Logs and reports" "reports directory missing")) else (call :fail "Logs and reports" "logs directory missing")
 
 call :line ""
 call :line "========================================"

@@ -3,7 +3,7 @@
     "version": "内网版",
     "name": "OpenCode",
     "description": "Agent能力",
-    "log_path": "logs\\opencode.log",
+    "log_path": "runtime/logs/opencode.log",
     "settings": {
       "auto_start": true,
       "enable_local_tools": true,

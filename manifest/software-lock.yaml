@@ -1,4 +1,4 @@
-﻿# 开悟个体增智智能办公套件 V1.4.1 版本锁定清单
+# 开悟个体增智智能办公套件 V1.4.1 版本锁定清单
 # 修订时间: 2026-07-09
 # 目标环境: Windows 7 SP1 64位
 
@@ -162,7 +162,8 @@ software:
   - name: "KexStepup (VxKex)"
     category: "办公插件"
     recommended_version: "1.1.5.1679"
-    win7_compatibility: "安装包缺失/待审批；VxKex 1.1.5.1679 声称支持 Win7 x64，未随本包实测"`r`n    download_source: "https://github.com/i486/VxKex/releases/tag/Version1.1.5.1679"
+    win7_compatibility: "安装包缺失/待审批；VxKex 1.1.5.1679 声称支持 Win7 x64，未随本包实测"
+    download_source: "https://github.com/i486/VxKex/releases/tag/Version1.1.5.1679"
     filename: "KexStepup-setup.exe"
     file_size: "约6MB"
     sha256: "待计算(Windows Defender误报,需手动下载后计算)"
@@ -208,7 +209,7 @@ software:
 
   - name: "Hermes Desktop"
     category: "Agent底座"
-    recommended_version: "Win7验证通过版本"
+    recommended_version: "Win7待验证版本"
     win7_compatibility: "待验证"
     download_source: "内部制品库"
     filename: "HermesDesktop-setup.exe"

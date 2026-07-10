@@ -1,4 +1,4 @@
-﻿# KaiWu Office Suite V1.4.1 构建说明
+# KaiWu Office Suite V1.4.1 构建说明
 
 ## 原则
 
@@ -36,5 +36,5 @@ build_zip.bat 1.4.1
 
 - 版本号、README、package-info、ZIP 文件名一致。
 - SHA256 清单无缺失、无重复、无占位哈希。
-- ZIP 中无重复制品、无 `.bak`、无 `reports/`、无 `results/`。
+- ZIP 中无重复制品、无 `.bak`、无 `runtime/`、无旧版 `logs/`、`reports/`、`results/`、`state/` 运行产物。
 - Win7 安装、重启、检测、修复、卸载均有实测记录。

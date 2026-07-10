@@ -1,9 +1,9 @@
 {
   "aionui": {
-    "version": "Win7验证版",
+    "version": "Win7待验证版",
     "name": "AionUI",
     "description": "Agent入口界面",
-    "log_path": "logs\\aionui.log",
+    "log_path": "runtime/logs/aionui.log",
     "settings": {
       "auto_start": true,
       "show_in_tray": true,

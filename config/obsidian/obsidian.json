@@ -12,7 +12,7 @@
       "05_模板库",
       "99_归档"
     ],
-    "log_path": "logs\\obsidian.log",
+    "log_path": "runtime/logs/obsidian.log",
     "auto_start": false,
     "templates": {
       "path": "05_模板库",

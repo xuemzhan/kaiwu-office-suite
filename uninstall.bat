@@ -15,8 +15,8 @@ chcp 936 >nul 2>&1
 cd /d "%~dp0"
 
 REM Ensure log dir
-if not exist "logs" mkdir "logs"
-set "LOG_FILE=logs\uninstall_%date:~0,4%%date:~5,2%%date:~8,2%_%time:~0,2%%time:~3,2%.log"
+if not exist "runtime\logs" mkdir "runtime\logs"
+set "LOG_FILE=runtime\logs\uninstall_%date:~0,4%%date:~5,2%%date:~8,2%_%time:~0,2%%time:~3,2%.log"
 echo [%date% %time%] === KaiWu Office Suite V1.4.1 uninstall started === > "%LOG_FILE%"
 
 echo ========================================
@@ -204,10 +204,10 @@ echo.
 echo [7/8] Desktop and Start Menu shortcuts
 call :uninstall_yn "shortcuts (Desktop + Start Menu)"
 if /i "!answer!"=="Y" (
-    set "STARTMENU_DIR=%APPDATA%\Microsoft\Windows\Start Menu\Programs\¿ªÎò¸öÌåÔöÖÇ°ì¹«Ì×¼þ"
+    set "STARTMENU_DIR=%APPDATA%\Microsoft\Windows\Start Menu\Programs\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç°ì¹«ï¿½×¼ï¿½"
     if exist "%STARTMENU_DIR%" rd /S /Q "%STARTMENU_DIR%" 2>nul
     REM Generic: remove any .lnk with "Kaiwu" or "kaiwu" on desktop
-    if exist "%USERPROFILE%\Desktop\¿ªÎò¸öÌåÔöÖÇ°ì¹«Ì×¼þ.lnk" del /F /Q "%USERPROFILE%\Desktop\¿ªÎò¸öÌåÔöÖÇ°ì¹«Ì×¼þ.lnk" 2>nul
+    if exist "%USERPROFILE%\Desktop\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç°ì¹«ï¿½×¼ï¿½.lnk" del /F /Q "%USERPROFILE%\Desktop\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç°ì¹«ï¿½×¼ï¿½.lnk" 2>nul
     echo [OK] shortcuts removed
     echo [%date% %time%] OK shortcuts removed >> "%LOG_FILE%"
 )
@@ -221,10 +221,10 @@ echo [8/8] Config files (in current dir)
 call :uninstall_yn "config files in this directory"
 if /i "!answer!"=="Y" (
     if exist "config" rd /S /Q "config" 2>nul
-    if exist "state" rd /S /Q "state" 2>nul
-    REM logs/ is kept (audit trail); results/ is kept
+    if exist "runtime\state" rd /S /Q "runtime\state" 2>nul
+    REM runtime/logs/ is kept (audit trail); runtime/results/ is kept
     REM Kaiwu Vault is personal data, NEVER removed here
-    echo [OK] config + state removed (logs/ and results/ kept)
+    echo [OK] config + state removed (runtime/logs/ and runtime/results/ kept)
     echo [%date% %time%] OK config + state removed >> "%LOG_FILE%"
 )
 
