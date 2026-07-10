@@ -37,7 +37,7 @@ jobs:
       - name: Build clean package
         shell: cmd
         run: build_zip.bat ${{ inputs.version }}
-      - uses: softprops/action-gh-release@v2
+      - uses: softprops/action-gh-release@v3
         with:
           tag_name: v${{ inputs.version }}
           name: KaiWu Office Suite V${{ inputs.version }}
